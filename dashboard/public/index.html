@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resultados de tecnologia</title>
+<meta name="description" content="Resultados do último trimestre das big techs dos EUA e de Hong Kong: EPS, receita, margens, valuation e destaques.">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="page.css">
+</head>
+<body>
+<div class="lx">
+  <header>
+    <div class="lx-top">
+      <p class="lx-eyebrow" data-i18n="eyebrow">Big techs dos EUA e de Hong Kong · último trimestre divulgado</p>
+      <div class="lx-lang" role="group" data-i18n-aria="lang.aria" aria-label="Idioma">
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang="pt" aria-pressed="true">PT-BR</button>
+      </div>
+    </div>
+    <h1 data-i18n="h1">Resultados de tecnologia</h1>
+    <p class="lx-take" data-draw="take" data-source="summary">—</p>
+  </header>
+
+  <nav class="lx-tabs" role="tablist" data-i18n-aria="tabs.aria" aria-label="Seções">
+    <button type="button" role="tab" id="tab-btn-results" aria-controls="tab-results" aria-selected="true" data-tab="results" data-i18n="tab.results">Resultados</button>
+    <button type="button" role="tab" id="tab-btn-explore" aria-controls="tab-explore" aria-selected="false" data-tab="explore" data-i18n="tab.explore">Explorar</button>
+    <button type="button" role="tab" id="tab-btn-calendar" aria-controls="tab-calendar" aria-selected="false" data-tab="calendar" data-i18n="tab.calendar">Calendário</button>
+    <button type="button" role="tab" id="tab-btn-news" aria-controls="tab-news" aria-selected="false" data-tab="news" data-i18n="tab.news">Novidades de produtos</button>
+  </nav>
+
+  <!-- ===== Resultados ===== -->
+  <div id="tab-results" role="tabpanel" aria-labelledby="tab-btn-results" class="lx-panel">
+  <section class="lx-tiles" data-i18n-aria="k.aria" aria-label="Indicadores gerais">
+    <div class="lx-tile">
+      <span class="lbl" data-i18n="k.beats">Superaram o EPS esperado</span>
+      <span class="val"><span data-draw="k-beats" data-source="summary" data-field="beats">—</span> <small><span data-i18n="k.of">de</span> <span data-draw="k-with" data-source="summary" data-field="withEps">—</span></small></span>
+      <span class="sub"><span data-i18n="k.below">Abaixo:</span> <b data-draw="k-misses" data-source="summary" data-field="misses">—</b> · <span data-i18n="k.inline">em linha:</span> <b data-draw="k-inline" data-source="summary" data-field="inLine">—</b></span>
+    </div>
+    <div class="lx-tile">
+      <span class="lbl" data-i18n="k.rev">Receita a/a (mediana)</span>
+      <span class="val" data-draw="k-rev" data-source="summary" data-field="medRevYoY">—</span>
+      <span class="sub"><span data-i18n="k.us">EUA</span> <b data-draw="k-rev-us" data-source="summary" data-field="usMedRevYoY">—</b> · <span data-i18n="k.hk">HK</span> <b data-draw="k-rev-hk" data-source="summary" data-field="hkMedRevYoY">—</b></span>
+    </div>
+    <div class="lx-tile">
+      <span class="lbl" data-i18n="k.mar">Margem líquida (mediana)</span>
+      <span class="val" data-draw="k-mar" data-source="summary" data-field="medNetMargin">—</span>
+      <span class="sub"><span data-i18n="k.us">EUA</span> <b data-draw="k-mar-us" data-source="summary" data-field="usMedMargin">—</b> · <span data-i18n="k.hk">HK</span> <b data-draw="k-mar-hk" data-source="summary" data-field="hkMedMargin">—</b></span>
+    </div>
+    <div class="lx-tile">
+      <span class="lbl" data-i18n="k.top">Maior crescimento de receita</span>
+      <span class="val" data-draw="k-top" data-source="summary" data-field="topGrowthValue">—</span>
+      <span class="sub" data-draw="k-top-name" data-source="summary" data-field="topGrowthName">—</span>
+    </div>
+  </section>
+
+  <section class="lx-card" id="cmp-sec" aria-labelledby="cmp-h" hidden>
+    <div class="lx-bar">
+      <h2 id="cmp-h" style="margin:0;font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium)" data-i18n="cmp.h">Comparação lado a lado</h2>
+      <button type="button" class="lx-btn" id="cmp-clear" data-i18n="cmp.clear" style="margin-left:auto">Limpar seleção</button>
+    </div>
+    <p class="lx-note" id="cmp-msg" role="status" hidden></p>
+    <div data-draw="cmp"></div>
+  </section>
+
+  <section class="lx-card" aria-labelledby="tbl-h">
+    <h2 id="tbl-h" data-i18n="tbl.h">Comparação do último trimestre</h2>
+    <p class="note" data-i18n="tbl.note">Valores na moeda de cada empresa.</p>
+    <div class="lx-bar">
+      <input id="lx-q" type="search" data-i18n-ph="tbl.search" data-i18n-aria="tbl.search" placeholder="Buscar empresa ou símbolo" aria-label="Buscar empresa ou símbolo">
+      <select id="lx-mkt" data-i18n-aria="mkt.aria" aria-label="Mercado">
+        <option value="" data-i18n="mkt.all">Todos os mercados</option>
+        <option value="EUA" data-i18n="mkt.us">EUA</option>
+        <option value="Hong Kong" data-i18n="mkt.hk">Hong Kong</option>
+      </select>
+      <div class="lx-seg" role="group" data-kind="grp" data-i18n-aria="grp.aria" aria-label="Colunas exibidas">
+        <button type="button" data-g="res" aria-pressed="true" data-i18n="grp.res">Resultado</button>
+        <button type="button" data-g="rent" aria-pressed="false" data-i18n="grp.rent">Rentabilidade</button>
+        <button type="button" data-g="desp" aria-pressed="false" data-i18n="grp.desp">Despesas</button>
+        <button type="button" data-g="caixa" aria-pressed="false" data-i18n="grp.caixa">Caixa e balanço</button>
+        <button type="button" data-g="val" aria-pressed="false" data-i18n="grp.val">Valuation</button>
+        <button type="button" data-g="all" aria-pressed="false" data-i18n="grp.all">Tudo</button>
+      </div>
+      <div class="lx-seg" role="group" data-kind="cur" data-i18n-aria="cur.aria" aria-label="Moeda">
+        <button type="button" data-cur="orig" aria-pressed="true" data-i18n="cur.orig">Moeda original</button>
+        <button type="button" data-cur="usd" aria-pressed="false" data-i18n="cur.usd">USD</button>
+      </div>
+      <span class="count"><span data-draw="count">—</span> <span data-i18n="count">empresas</span></span>
+    </div>
+    <p class="lx-note" data-draw="cur-note" hidden></p>
+    <div class="lx-scroll">
+      <table data-source="earnings" data-row-key="symbol">
+        <thead><tr id="lx-head"></tr></thead>
+        <tbody data-draw="rows"></tbody>
+      </table>
+    </div>
+    <p class="lx-note" style="margin:var(--cds-gap-md) 0 0" data-i18n="tbl.foot">* Empresa que reporta só SG&amp;A numa linha.</p>
+  </section>
+
+  <section aria-labelledby="ch-h">
+    <div class="lx-bar">
+      <h2 id="ch-h" style="margin:0;font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium)" data-i18n="ch.h">Comparação visual</h2>
+      <div class="lx-legend" style="margin-left:auto"><span><span class="sw" data-swatch="0"></span><span data-i18n="mkt.us">EUA</span></span><span><span class="sw" data-swatch="1"></span>Hong Kong</span></div>
+    </div>
+    <div class="lx-charts">
+      <div class="lx-card"><h2 data-i18n="ch.rev">Crescimento da receita a/a</h2><p class="note" data-i18n="ch.rev.n"></p><div class="lx-chart dash-skeleton" data-draw="chart-rev" data-source="earnings"></div></div>
+      <div class="lx-card"><h2 data-i18n="ch.mar">Margem líquida</h2><p class="note" data-i18n="ch.mar.n"></p><div class="lx-chart dash-skeleton" data-draw="chart-mar" data-source="earnings"></div></div>
+      <div class="lx-card"><h2 data-i18n="ch.eps">EPS realizado vs esperado</h2><p class="note" data-i18n="ch.eps.n"></p><div class="lx-chart dash-skeleton" data-draw="chart-eps" data-source="earnings"></div></div>
+      <div class="lx-card"><h2 data-i18n="ch.react">Reação do preço</h2><p class="note" data-i18n="ch.react.n"></p><div class="lx-chart dash-skeleton" data-draw="chart-react" data-source="earnings"></div></div>
+    </div>
+  </section>
+
+  <footer class="lx-foot">
+    <p data-i18n="foot.main"></p>
+    <p data-i18n="foot.note"></p>
+    <p data-draw="updated"></p>
+  </footer>
+  </div>
+
+  <!-- ===== Explorar ===== -->
+  <div id="tab-explore" role="tabpanel" aria-labelledby="tab-btn-explore" class="lx-panel" hidden>
+    <section class="lx-card" aria-labelledby="sc-h">
+      <h2 id="sc-h" data-i18n="ex2.h">Explore os dados</h2>
+      <p class="note" data-i18n="ex2.note"></p>
+      <div class="lx-bar">
+        <label class="lx-f"><span data-i18n="ex2.x">Eixo X</span> <select id="sc-x"></select></label>
+        <label class="lx-f"><span data-i18n="ex2.y">Eixo Y</span> <select id="sc-y"></select></label>
+        <label class="lx-f"><span data-i18n="ex2.size">Tamanho</span> <select id="sc-s"></select></label>
+        <label class="lx-f chk"><input type="checkbox" id="sc-med"> <span data-i18n="ex2.med">Mostrar medianas</span></label>
+        <label class="lx-f chk"><input type="checkbox" id="sc-lab"> <span data-i18n="ex2.labels">Mostrar nomes</span></label>
+      </div>
+      <div class="lx-chart lx-scatter lx-static dash-skeleton" data-draw="scatter" data-source="earnings"></div>
+      <div class="lx-legend" style="margin-top:8px"><span><span class="sw" data-swatch="0"></span><span data-i18n="mkt.us">EUA</span></span><span><span class="sw" data-swatch="1"></span>Hong Kong</span></div>
+    </section>
+    <section class="lx-card" aria-labelledby="tr-h">
+      <h2 id="tr-h" data-i18n="tr.h">Evolução trimestral</h2>
+      <p class="note" data-i18n="tr.note"></p>
+      <div class="lx-bar">
+        <label class="lx-f"><span data-i18n="tr.metric">Indicador</span> <select id="tr-m"></select></label>
+        <span class="lx-note" id="tr-msg" role="status"></span>
+      </div>
+      <div class="chips" id="tr-pick" role="group" data-i18n-aria="tr.pick" aria-label="Empresas"></div>
+      <div class="lx-chart lx-trend lx-static dash-skeleton" data-draw="trend" data-source="earnings"></div>
+    </section>
+  </div>
+
+  <!-- ===== Calendário ===== -->
+  <div id="tab-calendar" role="tabpanel" aria-labelledby="tab-btn-calendar" class="lx-panel" hidden>
+    <section class="lx-card" aria-labelledby="cal-h">
+      <h2 id="cal-h" data-i18n="cal.h">Próximos resultados</h2>
+      <p class="note" data-i18n="cal.note"></p>
+      <div data-draw="cal" data-source="earnings"></div>
+    </section>
+    <section class="lx-card" aria-labelledby="calr-h">
+      <h2 id="calr-h" data-i18n="cal.react.h">Reação do preço aos últimos resultados</h2>
+      <p class="note" data-i18n="cal.react.note"></p>
+      <div data-draw="cal-react" data-source="earnings"></div>
+    </section>
+  </div>
+
+  <!-- ===== Novidades ===== -->
+  <div id="tab-news" role="tabpanel" aria-labelledby="tab-btn-news" class="lx-panel" hidden>
+    <section class="lx-card" aria-labelledby="nw-h">
+      <h2 id="nw-h" data-i18n="nw.h">Novidades e insights de produtos</h2>
+      <p class="note" data-i18n="nw.note"></p>
+      <div class="lx-bar">
+        <input id="nw-q" type="search" data-i18n-ph="nw.search" data-i18n-aria="nw.search" placeholder="Buscar empresa ou produto" aria-label="Buscar empresa ou produto">
+        <select id="nw-mkt" data-i18n-aria="mkt.aria" aria-label="Mercado">
+          <option value="" data-i18n="mkt.all">Todos os mercados</option>
+          <option value="EUA" data-i18n="mkt.us">EUA</option>
+          <option value="Hong Kong" data-i18n="mkt.hk">Hong Kong</option>
+        </select>
+        <select id="nw-cat" data-i18n-aria="nw.cat.aria" aria-label="Categoria"></select>
+        <span class="count"><span data-draw="nw-count">—</span> <span data-i18n="count">empresas</span></span>
+      </div>
+      <div class="nw-list" data-draw="nw-list"></div>
+    </section>
+    <footer class="lx-foot">
+      <p data-i18n="nw.foot"></p>
+    </footer>
+  </div>
+</div>
+
+<script src="/vendor/d3.min.js"></script>
+<script src="dash-shim.js"></script>
+</body>
+</html>

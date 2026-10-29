@@ -1,0 +1,17 @@
+{
+  "name": "earnings-dashboard",
+  "version": "1.0.0",
+  "description": "Dashboard dos resultados do último trimestre das big techs (EUA e Hong Kong)",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "refresh": "node pipeline/refresh.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "d3": "^7.9.0",
+    "yahoo-finance2": "^3.15.4"
+  }
+}

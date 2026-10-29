@@ -147,6 +147,24 @@
           "name": "沃尔玛",
           "sector": "consumer",
           "industry": "零售"
+        },
+        {
+          "symbol": "SHOP",
+          "name": "Shopify",
+          "sector": "tech",
+          "industry": "电商软件"
+        },
+        {
+          "symbol": "INTU",
+          "name": "Intuit",
+          "sector": "tech",
+          "industry": "财税软件/AI"
+        },
+        {
+          "symbol": "SPCX",
+          "name": "SpaceX",
+          "sector": "tech",
+          "industry": "航天/卫星互联网"
         }
       ]
     },

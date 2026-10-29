@@ -50,3 +50,6 @@ iteration-*/
 tmp/
 temp/
 *.tmp
+
+# Dashboard: cache gerado pela atualização automática
+dashboard/data/cache/

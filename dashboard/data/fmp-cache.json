@@ -1,0 +1,634 @@
+{
+ "NVDA": {
+  "quarters": [
+   {
+    "date": "2025-07-27",
+    "src": "FMP",
+    "rev": 46743000000,
+    "ni": 26422000000,
+    "gp": null,
+    "oi": null,
+    "sm": null,
+    "sga": 1122000000,
+    "ga": null,
+    "rd": 4291000000,
+    "opex": 5413000000,
+    "ebitda": 31937000000,
+    "tax": 4784000000,
+    "pretax": 31206000000,
+    "eps": null,
+    "ocf": 15365000000,
+    "capex": 1895000000,
+    "sbc": 1625000000,
+    "cash": 56791000000,
+    "debt": 8466000000
+   },
+   {
+    "date": "2026-07-26",
+    "src": "FMP",
+    "rev": 96221000000,
+    "ni": 59688000000,
+    "gp": 72142000000,
+    "oi": 63734000000,
+    "sm": null,
+    "sga": 1354000000,
+    "ga": null,
+    "rd": 7054000000,
+    "opex": 8408000000,
+    "ebitda": 72861000000,
+    "tax": 11819000000,
+    "pretax": 71507000000,
+    "eps": null,
+    "ocf": 24077000000,
+    "capex": 2677000000,
+    "sbc": 2027000000,
+    "cash": 99369000000,
+    "debt": 33366000000
+   }
+  ],
+  "quartersAt": "2026-10-29T17:44:03.881Z",
+  "earnings": [
+   {
+    "symbol": "NVDA",
+    "date": "2026-08-26",
+    "epsActual": 2.22,
+    "epsEstimated": 2.09,
+    "revenueActual": 96221000000,
+    "revenueEstimated": 92270940000
+   },
+   {
+    "symbol": "NVDA",
+    "date": "2026-11-17",
+    "epsActual": null,
+    "epsEstimated": null,
+    "revenueActual": null,
+    "revenueEstimated": null
+   }
+  ],
+  "earningsAt": "2026-10-29T17:44:03.881Z",
+  "emp": [
+   {
+    "periodOfReport": "2026-01-25",
+    "employeeCount": 42000
+   },
+   {
+    "periodOfReport": "2025-01-26",
+    "employeeCount": 36000
+   }
+  ],
+  "empAt": "2026-10-29T17:44:03.881Z"
+ },
+ "MSFT": {
+  "quarters": [
+   {
+    "date": "2025-09-30",
+    "src": "FMP",
+    "rev": 77673000000,
+    "ni": 27747000000,
+    "gp": null,
+    "oi": null,
+    "sm": 5717000000,
+    "sga": null,
+    "ga": 1806000000,
+    "rd": 8146000000,
+    "opex": 15669000000,
+    "ebitda": 48060000000,
+    "tax": 6554000000,
+    "pretax": 34301000000,
+    "eps": null,
+    "ocf": 45057000000,
+    "capex": 19394000000,
+    "sbc": 2983000000,
+    "cash": 102005000000,
+    "debt": 43208000000
+   },
+   {
+    "date": "2026-09-30",
+    "src": "FMP",
+    "rev": 92279000000,
+    "ni": 36629000000,
+    "gp": 62559000000,
+    "oi": 45915000000,
+    "sm": 5716000000,
+    "sga": null,
+    "ga": 1881000000,
+    "rd": 9047000000,
+    "opex": 16644000000,
+    "ebitda": 58567000000,
+    "tax": 9324000000,
+    "pretax": 45953000000,
+    "eps": null,
+    "ocf": 58000000000,
+    "capex": 39367000000,
+    "sbc": 3134000000,
+    "cash": 64643000000,
+    "debt": 35481000000
+   }
+  ],
+  "quartersAt": "2026-10-29T17:44:03.881Z",
+  "earnings": [
+   {
+    "symbol": "MSFT",
+    "date": "2026-10-28",
+    "epsActual": 4.89,
+    "epsEstimated": 4.72,
+    "revenueActual": 92279000000,
+    "revenueEstimated": 90616650000
+   },
+   {
+    "symbol": "MSFT",
+    "date": "2027-01-26",
+    "epsActual": null,
+    "epsEstimated": null,
+    "revenueActual": null,
+    "revenueEstimated": null
+   }
+  ],
+  "earningsAt": "2026-10-29T17:44:03.881Z",
+  "emp": [
+   {
+    "periodOfReport": "2026-06-30",
+    "employeeCount": 223000
+   },
+   {
+    "periodOfReport": "2025-06-30",
+    "employeeCount": 228000
+   }
+  ],
+  "empAt": "2026-10-29T17:44:03.881Z"
+ },
+ "GOOGL": {
+  "quarters": [
+   {
+    "date": "2025-09-30",
+    "src": "FMP",
+    "rev": 102346000000,
+    "ni": 34979000000,
+    "gp": null,
+    "oi": null,
+    "sm": 7205000000,
+    "sga": null,
+    "ga": 7393000000,
+    "rd": 15151000000,
+    "opex": 29749000000,
+    "ebitda": 49741000000,
+    "tax": 9008000000,
+    "pretax": 43987000000,
+    "eps": null,
+    "ocf": 48414000000,
+    "capex": 23953000000,
+    "sbc": 6368000000,
+    "cash": 98496000000,
+    "debt": 21607000000
+   },
+   {
+    "date": "2026-09-30",
+    "src": "FMP",
+    "rev": 127577000000,
+    "ni": 26468000000,
+    "gp": 76158000000,
+    "oi": 40576000000,
+    "sm": 8804000000,
+    "sga": null,
+    "ga": 6138000000,
+    "rd": 20640000000,
+    "opex": 35582000000,
+    "ebitda": 41691000000,
+    "tax": 5887000000,
+    "pretax": 32355000000,
+    "eps": null,
+    "ocf": 42290000000,
+    "capex": 51355000000,
+    "sbc": 8630000000,
+    "cash": 265098000000,
+    "debt": 125102000000
+   }
+  ],
+  "quartersAt": "2026-10-29T17:44:03.881Z",
+  "earnings": [
+   {
+    "symbol": "GOOGL",
+    "date": "2026-10-28",
+    "epsActual": 2.12,
+    "epsEstimated": 3.02,
+    "revenueActual": 127577000000,
+    "revenueEstimated": 127962300000
+   },
+   {
+    "symbol": "GOOGL",
+    "date": "2027-02-03",
+    "epsActual": null,
+    "epsEstimated": null,
+    "revenueActual": null,
+    "revenueEstimated": null
+   }
+  ],
+  "earningsAt": "2026-10-29T17:44:03.881Z",
+  "emp": [
+   {
+    "periodOfReport": "2025-12-31",
+    "employeeCount": 190820
+   },
+   {
+    "periodOfReport": "2024-12-31",
+    "employeeCount": 183323
+   }
+  ],
+  "empAt": "2026-10-29T17:44:03.881Z"
+ },
+ "META": {
+  "quarters": [
+   {
+    "date": "2025-09-30",
+    "src": "FMP",
+    "rev": 51242000000,
+    "ni": 2709000000,
+    "gp": null,
+    "oi": null,
+    "sm": 2845000000,
+    "sga": null,
+    "ga": 3512000000,
+    "rd": 15144000000,
+    "opex": 21501000000,
+    "ebitda": 26853000000,
+    "tax": 18954000000,
+    "pretax": 21663000000,
+    "eps": null,
+    "ocf": 29999000000,
+    "capex": 18829000000,
+    "sbc": 5556000000,
+    "cash": 44448000000,
+    "debt": 28834000000
+   },
+   {
+    "date": "2026-09-30",
+    "src": "FMP",
+    "rev": 64601000000,
+    "ni": 9860000000,
+    "gp": 51232000000,
+    "oi": 12988000000,
+    "sm": 3333000000,
+    "sga": null,
+    "ga": 14857000000,
+    "rd": 20054000000,
+    "opex": 38244000000,
+    "ebitda": 20155000000,
+    "tax": 3141000000,
+    "pretax": 13001000000,
+    "eps": null,
+    "ocf": 32786000000,
+    "capex": 33942000000,
+    "sbc": 7363000000,
+    "cash": 82449000000,
+    "debt": 80922000000
+   }
+  ],
+  "quartersAt": "2026-10-29T17:44:03.881Z",
+  "earnings": [
+   {
+    "symbol": "META",
+    "date": "2026-10-21",
+    "epsActual": 7.4,
+    "epsEstimated": 6.54,
+    "revenueActual": 64601000000,
+    "revenueEstimated": 63343010000
+   },
+   {
+    "symbol": "META",
+    "date": "2027-01-27",
+    "epsActual": null,
+    "epsEstimated": null,
+    "revenueActual": null,
+    "revenueEstimated": null
+   }
+  ],
+  "earningsAt": "2026-10-29T17:44:03.881Z",
+  "emp": [
+   {
+    "periodOfReport": "2025-12-31",
+    "employeeCount": 78865
+   },
+   {
+    "periodOfReport": "2024-12-31",
+    "employeeCount": 74067
+   }
+  ],
+  "empAt": "2026-10-29T17:44:03.881Z"
+ },
+ "AMZN": {
+  "quarters": [
+   {
+    "date": "2025-06-30",
+    "src": "FMP",
+    "rev": 167702000000,
+    "ni": 18164000000,
+    "gp": null,
+    "oi": null,
+    "sm": 11416000000,
+    "sga": null,
+    "ga": 2965000000,
+    "rd": 27166000000,
+    "opex": 67722000000,
+    "ebitda": 36600000000,
+    "tax": 2678000000,
+    "pretax": 20842000000,
+    "eps": null,
+    "ocf": 32515000000,
+    "capex": 32183000000,
+    "sbc": 6534000000,
+    "cash": 93180000000,
+    "debt": 50718000000
+   },
+   {
+    "date": "2026-06-30",
+    "src": "FMP",
+    "rev": 200606000000,
+    "ni": 62647000000,
+    "gp": 104828000000,
+    "oi": 27461000000,
+    "sm": 11698000000,
+    "sga": null,
+    "ga": 2788000000,
+    "rd": 33158000000,
+    "opex": 77367000000,
+    "ebitda": 102159000000,
+    "tax": 18199000000,
+    "pretax": 80857000000,
+    "eps": null,
+    "ocf": 45387000000,
+    "capex": 54208000000,
+    "sbc": 6038000000,
+    "cash": 122988000000,
+    "debt": 128894000000
+   }
+  ],
+  "quartersAt": "2026-10-29T17:44:03.881Z",
+  "earnings": [
+   {
+    "symbol": "AMZN",
+    "date": "2026-07-30",
+    "epsActual": 5.75,
+    "epsEstimated": 1.82,
+    "revenueActual": 200606000000,
+    "revenueEstimated": 197034800000
+   },
+   {
+    "symbol": "AMZN",
+    "date": "2026-10-29",
+    "epsActual": null,
+    "epsEstimated": null,
+    "revenueActual": null,
+    "revenueEstimated": null
+   }
+  ],
+  "earningsAt": "2026-10-29T17:44:03.881Z",
+  "emp": [
+   {
+    "periodOfReport": "2025-12-31",
+    "employeeCount": 1576000
+   },
+   {
+    "periodOfReport": "2024-12-31",
+    "employeeCount": 1556000
+   }
+  ],
+  "empAt": "2026-10-29T17:44:03.881Z"
+ },
+ "AMD": {
+  "quarters": [
+   {
+    "date": "2025-06-28",
+    "src": "FMP",
+    "rev": 7685000000,
+    "ni": 872000000,
+    "gp": null,
+    "oi": null,
+    "sm": null,
+    "sga": 991000000,
+    "ga": null,
+    "rd": 1894000000,
+    "opex": 3193000000,
+    "ebitda": 721000000,
+    "tax": -834000000,
+    "pretax": -66000000,
+    "eps": null,
+    "ocf": 2011000000,
+    "capex": 282000000,
+    "sbc": 369000000,
+    "cash": 5867000000,
+    "debt": 3218000000
+   },
+   {
+    "date": "2026-06-27",
+    "src": "FMP",
+    "rev": 11536000000,
+    "ni": 2297000000,
+    "gp": 6203000000,
+    "oi": 1990000000,
+    "sm": null,
+    "sga": 1401000000,
+    "ga": null,
+    "rd": 2528000000,
+    "opex": 4213000000,
+    "ebitda": 3353000000,
+    "tax": 246000000,
+    "pretax": 2551000000,
+    "eps": null,
+    "ocf": 2366000000,
+    "capex": 808000000,
+    "sbc": 503000000,
+    "cash": 13111000000,
+    "debt": 3226000000
+   }
+  ],
+  "quartersAt": "2026-10-29T17:44:03.881Z",
+  "earnings": [
+   {
+    "symbol": "AMD",
+    "date": "2026-08-04",
+    "epsActual": 1.66,
+    "epsEstimated": 1.62,
+    "revenueActual": 11536000000,
+    "revenueEstimated": 11309650000
+   },
+   {
+    "symbol": "AMD",
+    "date": "2026-11-03",
+    "epsActual": null,
+    "epsEstimated": null,
+    "revenueActual": null,
+    "revenueEstimated": null
+   }
+  ],
+  "earningsAt": "2026-10-29T17:44:03.881Z",
+  "emp": [
+   {
+    "periodOfReport": "2025-12-27",
+    "employeeCount": 31000
+   },
+   {
+    "periodOfReport": "2024-12-28",
+    "employeeCount": 28000
+   }
+  ],
+  "empAt": "2026-10-29T17:44:03.881Z"
+ },
+ "AAPL": {
+  "quarters": [
+   {
+    "date": "2025-06-28",
+    "src": "FMP",
+    "rev": 94036000000,
+    "ni": 23434000000,
+    "gp": null,
+    "oi": null,
+    "sm": null,
+    "sga": 6650000000,
+    "ga": null,
+    "rd": 8866000000,
+    "opex": 15516000000,
+    "ebitda": 30861000000,
+    "tax": 4597000000,
+    "pretax": 28031000000,
+    "eps": null,
+    "ocf": 27867000000,
+    "capex": 3462000000,
+    "sbc": 3168000000,
+    "cash": 55372000000,
+    "debt": 101698000000
+   },
+   {
+    "date": "2026-06-27",
+    "src": "FMP",
+    "rev": 109417000000,
+    "ni": 29789000000,
+    "gp": 54770000000,
+    "oi": 35695000000,
+    "sm": null,
+    "sga": 7346000000,
+    "ga": 2312000000,
+    "rd": 11729000000,
+    "opex": 19075000000,
+    "ebitda": 39587000000,
+    "tax": 6478000000,
+    "pretax": 36267000000,
+    "eps": null,
+    "ocf": 34369000000,
+    "capex": 2455000000,
+    "sbc": 3401000000,
+    "cash": 62399000000,
+    "debt": 84307000000
+   }
+  ],
+  "quartersAt": "2026-10-29T17:44:03.881Z",
+  "earnings": [
+   {
+    "symbol": "AAPL",
+    "date": "2026-07-30",
+    "epsActual": 2.02,
+    "epsEstimated": 1.89,
+    "revenueActual": 109417000000,
+    "revenueEstimated": 109038900000
+   },
+   {
+    "symbol": "AAPL",
+    "date": "2026-11-02",
+    "epsActual": null,
+    "epsEstimated": null,
+    "revenueActual": null,
+    "revenueEstimated": null
+   }
+  ],
+  "earningsAt": "2026-10-29T17:44:03.881Z",
+  "emp": [
+   {
+    "periodOfReport": "2025-09-27",
+    "employeeCount": 166000
+   },
+   {
+    "periodOfReport": "2024-09-28",
+    "employeeCount": 164000
+   }
+  ],
+  "empAt": "2026-10-29T17:44:03.881Z"
+ },
+ "SHOP": {
+  "quarters": [
+   {
+    "date": "2025-06-30",
+    "src": "FMP",
+    "rev": 2680000000,
+    "ni": 906000000,
+    "gp": null,
+    "oi": null,
+    "sm": 415000000,
+    "sga": null,
+    "ga": 122000000,
+    "rd": 394000000,
+    "opex": 1011000000,
+    "ebitda": 389000000,
+    "tax": 173000000,
+    "pretax": 1079000000,
+    "eps": null,
+    "ocf": 436076154,
+    "capex": 6134801,
+    "sbc": -7000000,
+    "cash": 5832950954,
+    "debt": 919000000
+   },
+   {
+    "date": "2026-06-30",
+    "src": "FMP",
+    "rev": 3583000000,
+    "ni": 1502000000,
+    "gp": 1708000000,
+    "oi": 488000000,
+    "sm": 498000000,
+    "sga": null,
+    "ga": 136000000,
+    "rd": 445000000,
+    "opex": 1220000000,
+    "ebitda": 636000000,
+    "tax": 273000000,
+    "pretax": 1775000000,
+    "eps": null,
+    "ocf": 658000000,
+    "capex": 4000000,
+    "sbc": 128000000,
+    "cash": 4947000000,
+    "debt": 0
+   }
+  ],
+  "quartersAt": "2026-10-29T17:44:03.881Z",
+  "earnings": [
+   {
+    "symbol": "SHOP",
+    "date": "2026-08-05",
+    "epsActual": 0.42,
+    "epsEstimated": 0.3973,
+    "revenueActual": 3536324000,
+    "revenueEstimated": 3395198000
+   },
+   {
+    "symbol": "SHOP",
+    "date": "2026-11-03",
+    "epsActual": null,
+    "epsEstimated": null,
+    "revenueActual": null,
+    "revenueEstimated": null
+   }
+  ],
+  "earningsAt": "2026-10-29T17:44:03.881Z",
+  "emp": [
+   {
+    "periodOfReport": "2025-12-31",
+    "employeeCount": 7600
+   },
+   {
+    "periodOfReport": "2024-12-31",
+    "employeeCount": 8100
+   }
+  ],
+  "empAt": "2026-10-29T17:44:03.881Z"
+ }
+}

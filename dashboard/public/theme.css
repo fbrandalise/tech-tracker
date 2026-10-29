@@ -1,0 +1,36 @@
+/* Tokens usados por page.css (equivalentes aos do runtime de dashboards do claude.ai) */
+:root {
+  color-scheme: light;
+  --color-fg: #1d2127;
+  --color-fg-muted: #626a75;
+  --color-bg: #f4f6f9;
+  --color-panel: #ffffff;
+  --color-border-line: #dde2e9;
+  --color-ok: #17794a;
+  --color-bad: #b83227;
+  --cds-radius: 8px;
+  --cds-pad-xs: 4px; --cds-pad-sm: 8px; --cds-pad-lg: 16px; --cds-pad-xl: 32px;
+  --cds-gap-sm: 8px; --cds-gap-md: 12px; --cds-gap-lg: 20px;
+  --cds-font-size-caption: 12px; --cds-font-size-body: 14px; --cds-font-size-heading: 15px;
+  --cds-font-weight-medium: 500;
+  --cds-chart-grid: #e8ebf0; --cds-chart-axis: #aab2bd;
+  --cds-surface-popover: #ffffff; --cds-border: #cfd5de; --cds-text-secondary: #626a75;
+  --cds-shadow-popover: 0 4px 14px rgba(20, 30, 45, .14);
+  --font-anthropic-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-anthropic-serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --color-fg: #e8ebf0; --color-fg-muted: #9aa3af; --color-bg: #12161c; --color-panel: #1a2029;
+    --color-border-line: #2b3340; --color-ok: #4cc38a; --color-bad: #ff7a6e;
+    --cds-chart-grid: #262e3a; --cds-chart-axis: #4a5463;
+    --cds-surface-popover: #232b36; --cds-border: #3a4454; --cds-text-secondary: #9aa3af;
+    --cds-shadow-popover: 0 4px 14px rgba(0, 0, 0, .5);
+  }
+}
+html, body { margin: 0; background: var(--color-bg); color: var(--color-fg); }
+body { font-family: var(--font-anthropic-sans); font-size: var(--cds-font-size-body); }
+.dash-skeleton { background: color-mix(in srgb, var(--color-fg) 6%, transparent); border-radius: var(--cds-radius); }
+@media (prefers-reduced-motion: no-preference) { .dash-skeleton { animation: pulse 1.4s ease-in-out infinite; } }
+@keyframes pulse { 50% { opacity: .5; } }

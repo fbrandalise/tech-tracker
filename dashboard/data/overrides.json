@@ -1,0 +1,16 @@
+{
+ "_doc": "Ajustes manuais que valem só para o trimestre indicado em periodEnd. Quando a fonte passa a trazer um trimestre novo, o ajuste deixa de valer sozinho.",
+ "CRM":      {"periodEnd":"2026-07-31","reportDate":"2026-08-26"},
+ "ORCL":     {"periodEnd":"2026-08-31","reportDate":"2026-09-10"},
+ "INTU":     {"periodEnd":"2026-07-31","reportDate":"2026-08-25"},
+ "SPCX":     {"periodEnd":"2026-09-30","reportDate":"2026-10-20","nextEarnings":null,"notes":["spcxEps"]},
+ "00700.HK": {"periodEnd":"2026-06-30","reportDate":"2026-08-12"},
+ "09988.HK": {"periodEnd":"2026-06-30","reportDate":"2026-08-20"},
+ "01810.HK": {"periodEnd":"2026-06-30","reportDate":"2026-08-18"},
+ "09888.HK": {"periodEnd":"2026-06-30","reportDate":"2026-08-18"},
+ "09618.HK": {"periodEnd":"2026-06-30","reportDate":"2026-08-13"},
+ "03690.HK": {"periodEnd":"2026-06-30","reportDate":"2026-08-28","notes":["meituanBase"],
+   "quarter":{
+     "cur": {"rev":104643044000,"ni":2155222000,"gp":35094797000,"oi":2691166000,"sm":24723345000,"rd":7670045000,"ga":3238070000,"opex":35631460000},
+     "prev":{"rev":91490217000,"ni":365296000,"gp":30063740000,"oi":226350000,"sm":22168650000,"rd":6260087000,"ga":2678950000,"opex":31107687000}}}
+}

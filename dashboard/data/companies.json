@@ -1,0 +1,20 @@
+[
+ {"symbol":"NVDA","y":"NVDA","name":"Nvidia","area":"Chips de IA","market":"EUA","fmp":true},
+ {"symbol":"MSFT","y":"MSFT","name":"Microsoft","area":"Nuvem/IA","market":"EUA","fmp":true},
+ {"symbol":"GOOGL","y":"GOOGL","name":"Alphabet","area":"Busca/IA","market":"EUA","fmp":true},
+ {"symbol":"META","y":"META","name":"Meta","area":"Redes sociais/IA","market":"EUA","fmp":true},
+ {"symbol":"AMZN","y":"AMZN","name":"Amazon","area":"E-commerce/nuvem","market":"EUA","fmp":true},
+ {"symbol":"AMD","y":"AMD","name":"AMD","area":"Chips","market":"EUA","fmp":true},
+ {"symbol":"AAPL","y":"AAPL","name":"Apple","area":"Eletrônicos","market":"EUA","fmp":true},
+ {"symbol":"CRM","y":"CRM","name":"Salesforce","area":"SaaS/IA","market":"EUA","fmp":false},
+ {"symbol":"ORCL","y":"ORCL","name":"Oracle","area":"Banco de dados/nuvem","market":"EUA","fmp":false},
+ {"symbol":"SHOP","y":"SHOP","name":"Shopify","area":"E-commerce/software","market":"EUA","fmp":true},
+ {"symbol":"INTU","y":"INTU","name":"Intuit","area":"Software financeiro/IA","market":"EUA","fmp":false},
+ {"symbol":"SPCX","y":"SPCX","name":"SpaceX","area":"Foguetes/satélites","market":"EUA","fmp":false},
+ {"symbol":"00700.HK","y":"0700.HK","name":"Tencent","area":"Internet","market":"Hong Kong","fmp":false},
+ {"symbol":"09988.HK","y":"9988.HK","name":"Alibaba","area":"E-commerce/nuvem","market":"Hong Kong","fmp":false},
+ {"symbol":"03690.HK","y":"3690.HK","name":"Meituan","area":"Serviços locais","market":"Hong Kong","fmp":false},
+ {"symbol":"01810.HK","y":"1810.HK","name":"Xiaomi","area":"Eletrônicos","market":"Hong Kong","fmp":false},
+ {"symbol":"09888.HK","y":"9888.HK","name":"Baidu","area":"Busca/IA","market":"Hong Kong","fmp":false},
+ {"symbol":"09618.HK","y":"9618.HK","name":"JD.com","area":"E-commerce/logística","market":"Hong Kong","fmp":false}
+]
