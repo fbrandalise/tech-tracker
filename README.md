@@ -39,6 +39,7 @@ Earnings Tracker is an AI-powered tool that automatically monitors earnings anno
 - [ ] Node.js 18+ installed (`node --version`)
 - [ ] OpenClaw or compatible agent framework
 - [ ] (Optional) API Key for real data sources
+  - Copy `.env.example` to `.env` and fill in `ALPHA_VANTAGE_API_KEY` / `POLYGON_API_KEY`
 
 ### Installation
 

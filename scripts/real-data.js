@@ -4,7 +4,22 @@
  */
 
 const { execSync } = require('child_process');
+const fs = require('fs');
 const path = require('path');
+const {
+  getActiveDataSource,
+  getEarningsCalendar: providerCalendar,
+  getCompanyInfo: providerInfo,
+  getCompanyEarnings: providerEarnings
+} = require('./data-source-factory');
+
+// 支持真实财报数据的数据源（Sina 只有行情，Mock/WebSearch 不是真实 API）
+const LIVE_PROVIDERS = ['financialModelingPrep', 'yahooFinance', 'alphaVantage', 'polygon'];
+
+const watchlist = JSON.parse(fs.readFileSync(path.join(__dirname, '../.config/watchlist.json'), 'utf8'));
+
+const clean = value => (value === 'N/A' || value === undefined ? null : value);
+const todayISO = () => new Date().toISOString().split('T')[0];
 
 // 加载新浪财经数据源（国内直接访问）
 let sinaDataSource;
@@ -20,6 +35,11 @@ try {
  * @param {string} market - 市场代码（us/hk/cn）
  */
 async function getRealEarningsCalendar(symbol = null, market = 'us') {
+  if (!symbol) {
+    const providerResult = await getProviderCalendar(market);
+    if (providerResult) return providerResult;
+  }
+
   let searchQuery;
   
   if (symbol) {
@@ -47,9 +67,101 @@ async function getRealEarningsCalendar(symbol = null, market = 'us') {
 }
 
 /**
+ * 用当前数据源逐个查询关注列表，返回下周有财报的公司。
+ * 数据源不支持或全部失败时返回 null（调用方回退到其他方式）。
+ */
+async function getProviderCalendar(market) {
+  const { provider } = getActiveDataSource();
+  if (!LIVE_PROVIDERS.includes(provider)) return null;
+
+  const range = getNextWeekISORange();
+  const marketCodes = market ? [market] : Object.keys(watchlist.markets);
+  // FMP 只覆盖美股
+  const supported = marketCodes.filter(m => watchlist.markets[m] && !(provider === 'financialModelingPrep' && m !== 'us'));
+  if (supported.length === 0) return null;
+
+  console.log(`📡 使用 ${provider} 查询 ${range.from} ~ ${range.to} 的财报...`);
+
+  const results = [];
+  let succeeded = 0;
+
+  for (const m of supported) {
+    const marketConfig = watchlist.markets[m];
+    await Promise.all(marketConfig.companies.map(async company => {
+      try {
+        const list = await providerCalendar(company.symbol, m);
+        succeeded++;
+        const entry = (list || [])
+          .filter(item => item.date >= range.from && item.date <= range.to)
+          .sort((a, b) => a.date.localeCompare(b.date))[0];
+        if (entry) {
+          results.push({
+            ...entry,
+            symbol: company.symbol,
+            name: company.name,
+            industry: company.industry,
+            market: m,
+            marketName: marketConfig.name,
+            currency: marketConfig.currency || entry.currency,
+            isRealData: true
+          });
+        }
+      } catch (e) {
+        // 单个公司失败不影响其他公司
+      }
+    }));
+  }
+
+  if (succeeded === 0) return null;
+  results.sort((a, b) => a.date.localeCompare(b.date));
+  results.providerChecked = true; // 即使为空也是真实结果（该周确实没有财报）
+  return results;
+}
+
+/**
+ * 用当前数据源获取公司财报数据
+ */
+async function getProviderCompanyData(symbol, market) {
+  const { provider } = getActiveDataSource();
+  if (!LIVE_PROVIDERS.includes(provider)) return null;
+
+  const [info, earnings] = await Promise.all([
+    providerInfo(symbol, market).catch(() => null),
+    providerEarnings(symbol, market).catch(() => null)
+  ]);
+  if (!info && !earnings) return null;
+
+  const nextDate = clean(info?.nextEarningsDate);
+  const latestEPS = clean(earnings?.actualEPS);
+  // 只有行情/资料、没有财报信息（如 Polygon 免费版）时，交给后续数据源处理
+  if (!latestEPS && !(nextDate && nextDate >= todayISO())) return null;
+
+  return {
+    symbol,
+    name: info?.name || earnings?.name,
+    price: info?.price,
+    market,
+    latestEPS,
+    latestRevenue: clean(earnings?.actualRevenue),
+    nextEarningsDate: nextDate && nextDate >= todayISO() ? nextDate : null,
+    growth: clean(earnings?.yoyGrowth),
+    isRealData: true,
+    source: info?.source || earnings?.source || provider
+  };
+}
+
+/**
  * 获取特定公司的财报数据
  */
 async function getRealCompanyEarnings(symbol, market = 'us') {
+  // 优先使用当前配置的数据源（FMP / Yahoo / Alpha Vantage / Polygon）
+  try {
+    const providerData = await getProviderCompanyData(symbol, market);
+    if (providerData) return providerData;
+  } catch (e) {
+    console.warn('当前数据源获取失败:', e.message);
+  }
+
   // 优先使用新浪财经数据源（国内可用）
   if (sinaDataSource) {
     try {
@@ -63,7 +175,7 @@ async function getRealCompanyEarnings(symbol, market = 'us') {
           market: sinaData.market,
           latestEPS: 'N/A',
           latestRevenue: 'N/A',
-          nextEarningsDate: sinaData.nextEarningsDate,
+          nextEarningsDate: null, // 新浪不提供财报日期（其值仅为占位的 +30 天）
           growth: 'N/A',
           isRealData: true,
           source: '新浪财经'
@@ -183,6 +295,20 @@ function getNextWeekDateRange() {
   
   const formatDate = (d) => `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
   return `${formatDate(start)} to ${formatDate(end)}`;
+}
+
+/**
+ * 下周一至周五的日期范围（YYYY-MM-DD），与 core-v2 的 getNextWeekRange 一致
+ */
+function getNextWeekISORange() {
+  const today = new Date();
+  const daysUntilNextMonday = (8 - today.getDay()) % 7 || 7;
+  const monday = new Date(today);
+  monday.setDate(today.getDate() + daysUntilNextMonday);
+  const friday = new Date(monday);
+  friday.setDate(monday.getDate() + 4);
+  const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  return { from: iso(monday), to: iso(friday) };
 }
 
 /**

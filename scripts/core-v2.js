@@ -54,7 +54,7 @@ async function getWeeklyPreview(options = {}) {
   if (useRealData) {
     console.log('🔍 尝试获取真实财报数据...');
     const realData = await getRealEarningsCalendar(null, market);
-    if (realData && realData.length > 0) {
+    if (realData && (realData.length > 0 || realData.providerChecked)) {
       earningsData = realData;
     } else {
       console.log('⚠️ 真实数据获取失败，使用模拟数据');
@@ -336,7 +336,7 @@ function formatPreviewReport(companies, weekRange, options = {}) {
   
   const marketInfo = market ? ` | ${config.markets[market]?.name || market}` : '';
   const sectorInfo = sector ? ` | ${getSectorName(sector)}板块` : '';
-  const dataType = companies.some(c => c.isRealData) ? '' : ' [模拟数据]';
+  const dataType = companies.length === 0 || companies.some(c => c.isRealData) ? '' : ' [模拟数据]';
   
   const lines = [
     `📊 **下周财报预览 (${weekRange})${marketInfo}${sectorInfo}${dataType}**`,
@@ -357,7 +357,7 @@ function formatPreviewReport(companies, weekRange, options = {}) {
   });
   
   Object.keys(byDate).sort().forEach(date => {
-    const dateObj = new Date(date);
+    const dateObj = new Date(`${date}T12:00:00`); // 避免 UTC 解析导致的日期偏移
     const weekday = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'][dateObj.getDay()];
     lines.push(`📅 ${date} ${weekday}`);
     lines.push('');

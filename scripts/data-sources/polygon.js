@@ -18,7 +18,7 @@ try {
 }
 
 const POLYGON_CONFIG = config.dataSource?.options?.polygon || {};
-const API_KEY = POLYGON_CONFIG.apiKey;
+const API_KEY = process.env.POLYGON_API_KEY || POLYGON_CONFIG.apiKey;
 const BASE_URL = POLYGON_CONFIG.baseUrl || 'https://api.polygon.io/v2';
 
 /**
@@ -55,7 +55,7 @@ async function getCompanyInfo(symbol, market = 'us') {
   
   try {
     // 获取股票详情
-    const url = `${BASE_URL}/reference/tickers/${symbol}?apiKey=${API_KEY}`;
+    const url = `${BASE_URL.replace(/\/v2$/, "/v3")}/reference/tickers/${symbol}?apiKey=${API_KEY}`;
     const response = await fetch(url);
     const data = await response.json();
     

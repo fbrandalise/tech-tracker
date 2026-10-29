@@ -20,9 +20,45 @@ try {
 let yahooFinance;
 try {
   const YahooFinance = require('yahoo-finance2').default;
-  yahooFinance = new YahooFinance();
+  yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
 } catch (e) {
   console.warn('yahoo-finance2 未安装或初始化失败，请运行: npm install yahoo-finance2');
+}
+
+
+/**
+ * 转换为 Yahoo Finance 代码格式
+ * A股: 600519 -> 600519.SS / 000858 -> 000858.SZ；港股: 00700.HK -> 0700.HK
+ */
+function toYahooSymbol(symbol, market = 'us') {
+  const code = String(symbol).trim().toUpperCase();
+  if (/\.(SS|SZ|HK)$/.test(code) && !code.endsWith('.HK')) return code;
+  if (market === 'hk' || code.endsWith('.HK')) {
+    const digits = code.replace(/\.HK$/, '').replace(/^0+(?=\d{4,})/, '');
+    return `${digits.padStart(4, '0')}.HK`;
+  }
+  if (market === 'cn' || /^\d{6}$/.test(code)) {
+    return `${code}.${code.startsWith('6') || code.startsWith('9') ? 'SS' : 'SZ'}`;
+  }
+  return code;
+}
+
+/**
+ * 取下次财报日期（YYYY-MM-DD）。quote 的字段是 earningsTimestamp（旧代码读 earningsDate，始终为空）
+ */
+function getEarningsDate(quote) {
+  const raw = quote.earningsTimestamp || quote.earningsTimestampStart || quote.earningsDate;
+  if (!raw) return null;
+  const date = new Date(raw);
+  return isNaN(date) ? null : date.toISOString().split('T')[0];
+}
+
+async function getQuote(symbol, market) {
+  const quote = await yahooFinance.quote(toYahooSymbol(symbol, market));
+  if (!quote) {
+    throw new Error(`Yahoo Finance 未找到 ${symbol}（${toYahooSymbol(symbol, market)}）`);
+  }
+  return quote;
 }
 
 /**
@@ -36,12 +72,14 @@ async function getEarningsCalendar(symbol = null, market = 'us') {
   try {
     if (symbol) {
       // 获取特定公司的财报日期
-      const quote = await yahooFinance.quote(symbol);
-      
+      const quote = await getQuote(symbol, market);
+      const earningsDate = getEarningsDate(quote);
+      if (!earningsDate) return null;
+
       return [{
         symbol: quote.symbol,
         name: quote.longName || quote.shortName || quote.symbol,
-        date: quote.earningsDate ? new Date(quote.earningsDate).toISOString().split('T')[0] : 'N/A',
+        date: earningsDate,
         time: 'after',
         expectedEPS: quote.epsForward || 'N/A',
         expectedRevenue: 'N/A', // Yahoo Finance 不直接提供预期营收
@@ -52,17 +90,18 @@ async function getEarningsCalendar(symbol = null, market = 'us') {
     } else {
       // Yahoo Finance 不提供批量财报日历，需要逐个查询
       // 返回关注列表中的前5个
-      const usCompanies = config.markets.us?.companies.slice(0, 5) || [];
+      const usCompanies = config.markets[market]?.companies.slice(0, 5) || [];
       const results = [];
       
       for (const company of usCompanies) {
         try {
-          const quote = await yahooFinance.quote(company.symbol);
-          if (quote.earningsDate) {
+          const quote = await getQuote(company.symbol, market);
+          const earningsDate = getEarningsDate(quote);
+          if (earningsDate) {
             results.push({
               symbol: quote.symbol,
               name: quote.longName || quote.shortName || quote.symbol,
-              date: new Date(quote.earningsDate).toISOString().split('T')[0],
+              date: earningsDate,
               time: 'after',
               expectedEPS: quote.epsForward || 'N/A',
               expectedRevenue: 'N/A',
@@ -94,7 +133,7 @@ async function getCompanyEarnings(symbol, market = 'us') {
   
   try {
     // 获取 quote 和基本面数据
-    const quote = await yahooFinance.quote(symbol);
+    const quote = await getQuote(symbol, market);
     
     // 尝试获取财务报表
     let financials = null;
@@ -111,7 +150,7 @@ async function getCompanyEarnings(symbol, market = 'us') {
       symbol: quote.symbol,
       name: quote.longName || quote.shortName || quote.symbol,
       quarter: 'N/A',
-      date: quote.earningsDate ? new Date(quote.earningsDate).toISOString().split('T')[0] : 'N/A',
+      date: getEarningsDate(quote) || 'N/A',
       expectedEPS: quote.epsForward || quote.epsCurrentYear || 'N/A',
       actualEPS: quote.epsTrailingTwelveMonths || 'N/A',
       expectedRevenue: 'N/A',
@@ -144,16 +183,17 @@ async function getCompanyInfo(symbol, market = 'us') {
   }
   
   try {
-    const quote = await yahooFinance.quote(symbol);
+    const quote = await getQuote(symbol, market);
     
     return {
       symbol: quote.symbol,
       name: quote.longName || quote.shortName || quote.symbol,
+      price: quote.regularMarketPrice,
       sector: quote.sector,
       industry: quote.industry,
       market: market,
       marketName: quote.exchange,
-      nextEarningsDate: quote.earningsDate ? new Date(quote.earningsDate).toISOString().split('T')[0] : 'N/A',
+      nextEarningsDate: getEarningsDate(quote) || 'N/A',
       expectedEPS: quote.epsForward || 'N/A',
       expectedRevenue: 'N/A',
       currency: quote.currency || 'USD',

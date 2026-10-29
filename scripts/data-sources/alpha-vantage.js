@@ -1,4 +1,4 @@
-//**
+/**
  * Alpha Vantage Data Source
  * 股票和财报数据 API
  * 文档: https://www.alphavantage.co/documentation/
@@ -18,8 +18,26 @@ try {
 }
 
 const AV_CONFIG = config.dataSource?.options?.alphaVantage || {};
-const API_KEY = AV_CONFIG.apiKey;
+const API_KEY = process.env.ALPHA_VANTAGE_API_KEY || AV_CONFIG.apiKey;
 const BASE_URL = AV_CONFIG.baseUrl || 'https://www.alphavantage.co/query';
+
+// 免费版限制约 1 次/秒，连续请求会返回限流提示，这里统一节流
+let lastRequestAt = 0;
+async function throttledFetch(url) {
+  const wait = lastRequestAt + 1200 - Date.now();
+  if (wait > 0) await new Promise(resolve => setTimeout(resolve, wait));
+  lastRequestAt = Date.now();
+  const response = await fetch(url);
+
+  // 其他进程刚好也请求过时会触发限流提示，等待后重试一次
+  const body = await response.clone().text();
+  if (body.includes('1 request per second')) {
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    lastRequestAt = Date.now();
+    return fetch(url);
+  }
+  return response;
+}
 
 /**
  * 获取财报日历
@@ -46,7 +64,7 @@ async function getCompanyEarnings(symbol, market = 'us') {
   try {
     // 获取收益数据
     const url = `${BASE_URL}?function=EARNINGS&symbol=${symbol}&apikey=${API_KEY}`;
-    const response = await fetch(url);
+    const response = await throttledFetch(url);
     const data = await response.json();
     
     if (!data || !data.quarterlyEarnings || data.quarterlyEarnings.length === 0) {
@@ -94,7 +112,7 @@ async function getCompanyInfo(symbol, market = 'us') {
   try {
     // 获取公司概况
     const url = `${BASE_URL}?function=OVERVIEW&symbol=${symbol}&apikey=${API_KEY}`;
-    const response = await fetch(url);
+    const response = await throttledFetch(url);
     const data = await response.json();
     
     if (!data || !data.Symbol) {

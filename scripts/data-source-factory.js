@@ -3,6 +3,7 @@
  * 支持多种数据源：Mock, FMP, Alpha Vantage, Yahoo Finance, Polygon, Web Search, 新浪财经
  */
 
+require('./load-env');
 const fs = require('fs');
 const path = require('path');
 
@@ -169,8 +170,9 @@ async function testDataSource() {
   console.log(`🔍 测试数据源: ${provider}`);
   
   try {
-    // 使用茅台作为测试（A股）
-    const result = await getCompanyInfo('600519', 'cn');
+    // 使用英伟达作为测试（所有数据源均支持美股）
+    // 部分数据源（如 Alpha Vantage 免费版）只提供财报，不提供公司资料
+    const result = (await getCompanyInfo('NVDA', 'us')) || (await getCompanyEarnings('NVDA', 'us'));
     
     if (result && (result.symbol || result.name)) {
       return {

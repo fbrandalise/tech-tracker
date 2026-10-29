@@ -4,6 +4,8 @@
  * 支持多数据源配置
  */
 
+require('./load-env');
+
 const { 
   getMarkets, 
   getSectors, 
@@ -125,7 +127,7 @@ async function main() {
         // 转发到数据源管理脚本
         const dsArgs = args.slice(1);
         process.argv = ['node', 'data-source.js', ...dsArgs];
-        require('./data-source');
+        require('./data-source').main();
         break;
 
       case 'scan':
