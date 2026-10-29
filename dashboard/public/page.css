@@ -199,3 +199,9 @@
   .lx-pop .pop-dl dd { margin: 0; text-align: right; }
   .lx-pop .pop-note { margin: 10px 0 0; color: var(--color-fg-muted); border-top: 1px solid var(--color-border-line); padding-top: 8px; }
   @media (max-width: 640px) { .lx-seg { flex-wrap: wrap; } .lx-tabs { overflow-x: auto; } }
+
+  /* gráficos estáticos: a barra de rolagem não muda a largura, e o tooltip não aumenta a página */
+  html { scrollbar-gutter: stable; }
+  .lx .lx-static { overflow: hidden; overflow-anchor: none; contain: layout paint; }
+  .lx .lx-static svg { transition: none; }
+  .lx .lx-static circle { transition: none; }
