@@ -81,7 +81,7 @@ async function getEarningsCalendar(symbol = null, market = 'us') {
         name: quote.longName || quote.shortName || quote.symbol,
         date: earningsDate,
         time: 'after',
-        expectedEPS: quote.epsForward || 'N/A',
+        expectedEPS: 'N/A', // quote.epsForward 是未来12个月EPS，不是下季度预期
         expectedRevenue: 'N/A', // Yahoo Finance 不直接提供预期营收
         currency: quote.currency || 'USD',
         isRealData: true,
@@ -103,7 +103,7 @@ async function getEarningsCalendar(symbol = null, market = 'us') {
               name: quote.longName || quote.shortName || quote.symbol,
               date: earningsDate,
               time: 'after',
-              expectedEPS: quote.epsForward || 'N/A',
+              expectedEPS: 'N/A', // epsForward 为未来12个月EPS，非下季度预期
               expectedRevenue: 'N/A',
               currency: quote.currency || 'USD',
               isRealData: true,
@@ -135,23 +135,12 @@ async function getCompanyEarnings(symbol, market = 'us') {
     // 获取 quote 和基本面数据
     const quote = await getQuote(symbol, market);
     
-    // 尝试获取财务报表
-    let financials = null;
-    try {
-      financials = await yahooFinance.fundamentalsTimeSeries(symbol, {
-        period1: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        period2: new Date().toISOString().split('T')[0]
-      });
-    } catch (e) {
-      // 财务报表可能不可用
-    }
-    
     return {
       symbol: quote.symbol,
       name: quote.longName || quote.shortName || quote.symbol,
       quarter: 'N/A',
       date: getEarningsDate(quote) || 'N/A',
-      expectedEPS: quote.epsForward || quote.epsCurrentYear || 'N/A',
+      expectedEPS: 'N/A', // Yahoo 无季度预期EPS
       actualEPS: quote.epsTrailingTwelveMonths || 'N/A',
       expectedRevenue: 'N/A',
       actualRevenue: 'N/A',
@@ -194,7 +183,7 @@ async function getCompanyInfo(symbol, market = 'us') {
       market: market,
       marketName: quote.exchange,
       nextEarningsDate: getEarningsDate(quote) || 'N/A',
-      expectedEPS: quote.epsForward || 'N/A',
+      expectedEPS: 'N/A', // epsForward 为未来12个月EPS，非下季度预期
       expectedRevenue: 'N/A',
       currency: quote.currency || 'USD',
       description: quote.longBusinessSummary,

@@ -18,6 +18,18 @@ const LIVE_PROVIDERS = ['financialModelingPrep', 'yahooFinance', 'alphaVantage',
 
 const watchlist = JSON.parse(fs.readFileSync(path.join(__dirname, '../.config/watchlist.json'), 'utf8'));
 
+/**
+ * 选择某个市场使用的数据源函数。FMP 只覆盖美股，港股/A股改用 Yahoo Finance。
+ */
+function sourceFor(market) {
+  const { provider } = getActiveDataSource();
+  if (provider === 'financialModelingPrep' && market !== 'us') {
+    const yahoo = require('./data-sources/yahoo-finance');
+    return { name: 'yahooFinance', calendar: yahoo.getEarningsCalendar, info: yahoo.getCompanyInfo, earnings: yahoo.getCompanyEarnings };
+  }
+  return { name: provider, calendar: providerCalendar, info: providerInfo, earnings: providerEarnings };
+}
+
 const clean = value => (value === 'N/A' || value === undefined ? null : value);
 const todayISO = () => new Date().toISOString().split('T')[0];
 
@@ -76,8 +88,7 @@ async function getProviderCalendar(market) {
 
   const range = getNextWeekISORange();
   const marketCodes = market ? [market] : Object.keys(watchlist.markets);
-  // FMP 只覆盖美股
-  const supported = marketCodes.filter(m => watchlist.markets[m] && !(provider === 'financialModelingPrep' && m !== 'us'));
+  const supported = marketCodes.filter(m => watchlist.markets[m]);
   if (supported.length === 0) return null;
 
   console.log(`📡 使用 ${provider} 查询 ${range.from} ~ ${range.to} 的财报...`);
@@ -87,9 +98,10 @@ async function getProviderCalendar(market) {
 
   for (const m of supported) {
     const marketConfig = watchlist.markets[m];
+    const source = sourceFor(m);
     await Promise.all(marketConfig.companies.map(async company => {
       try {
-        const list = await providerCalendar(company.symbol, m);
+        const list = await source.calendar(company.symbol, m);
         succeeded++;
         const entry = (list || [])
           .filter(item => item.date >= range.from && item.date <= range.to)
@@ -125,9 +137,10 @@ async function getProviderCompanyData(symbol, market) {
   const { provider } = getActiveDataSource();
   if (!LIVE_PROVIDERS.includes(provider)) return null;
 
+  const source = sourceFor(market);
   const [info, earnings] = await Promise.all([
-    providerInfo(symbol, market).catch(() => null),
-    providerEarnings(symbol, market).catch(() => null)
+    source.info(symbol, market).catch(() => null),
+    source.earnings(symbol, market).catch(() => null)
   ]);
   if (!info && !earnings) return null;
 
@@ -142,12 +155,29 @@ async function getProviderCompanyData(symbol, market) {
     price: info?.price,
     market,
     latestEPS,
+    expectedEPS: clean(info?.expectedEPS),
+    expectedRevenue: clean(info?.expectedRevenue),
     latestRevenue: clean(earnings?.actualRevenue),
     nextEarningsDate: nextDate && nextDate >= todayISO() ? nextDate : null,
     growth: clean(earnings?.yoyGrowth),
     isRealData: true,
     source: info?.source || earnings?.source || provider
   };
+}
+
+/**
+ * 最近一次已公布财报的摘要（实际值 vs 预期值），仅当数据源提供了实际 EPS 时返回
+ */
+async function getRealEarningsSummary(symbol, market = 'us') {
+  const { provider } = getActiveDataSource();
+  if (!LIVE_PROVIDERS.includes(provider)) return null;
+
+  try {
+    const earnings = await sourceFor(market).earnings(symbol, market);
+    return earnings && clean(earnings.actualEPS) ? earnings : null;
+  } catch (e) {
+    return null;
+  }
 }
 
 /**
@@ -343,6 +373,7 @@ async function getRealEarningsData(symbol, market = 'us') {
 module.exports = {
   getRealEarningsCalendar,
   getRealCompanyEarnings,
+  getRealEarningsSummary,
   getRealEarningsData,
   getNextWeekDateRange
 };

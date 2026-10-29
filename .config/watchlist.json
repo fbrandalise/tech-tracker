@@ -437,7 +437,7 @@
     }
   },
   "dataSource": {
-    "provider": "sina",
+    "provider": "financialModelingPrep",
     "options": {
       "mock": {
         "enabled": true,

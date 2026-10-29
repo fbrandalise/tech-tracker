@@ -5,7 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { getRealEarningsData, getRealEarningsCalendar } = require('./real-data');
+const { getRealEarningsData, getRealEarningsCalendar, getRealEarningsSummary } = require('./real-data');
 
 // 加载配置
 const CONFIG_PATH = path.join(__dirname, '../.config/watchlist.json');
@@ -124,8 +124,8 @@ async function queryCompany(symbol, marketCode = null, useRealData = USE_REAL_DA
       earningsInfo = {
         date: realData.nextEarningsDate || '待公布',
         time: '盘后',
-        expectedEPS: realData.latestEPS || 'N/A',
-        expectedRevenue: realData.latestRevenue || 'N/A',
+        expectedEPS: realData.expectedEPS || 'N/A',
+        expectedRevenue: realData.expectedRevenue || 'N/A',
         yoyGrowth: realData.growth || 'N/A',
         isRealData: true
       };
@@ -163,17 +163,38 @@ async function generateSummary(symbol, marketCode = null, useRealData = USE_REAL
   // 尝试获取真实财报摘要
   let summaryData;
   if (useRealData && nextEarnings.isRealData) {
-    const realData = await getRealEarningsData(symbol, market);
-    if (realData) {
+    // 优先使用数据源提供的最近一季实际值/预期值
+    const reported = await getRealEarningsSummary(symbol, market);
+    const realData = reported ? null : await getRealEarningsData(symbol, market);
+    if (reported) {
+      summaryData = {
+        symbol: company.symbol,
+        name: company.name,
+        quarter: '最近一季',
+        date: reported.date || 'N/A',
+        time: 'after',
+        expectedEPS: reported.expectedEPS,
+        actualEPS: reported.actualEPS,
+        expectedRevenue: reported.expectedRevenue,
+        actualRevenue: reported.actualRevenue,
+        yoyGrowth: reported.yoyGrowth || 'N/A',
+        highlights: reported.highlights || [],
+        guidance: reported.guidance || '请查看官方财报发布',
+        afterHoursMove: reported.afterHoursMove || '待公布',
+        nextEarningsDate: nextEarnings.date,
+        currency: marketConfig.currency,
+        isRealData: true
+      };
+    } else if (realData) {
       summaryData = {
         symbol: company.symbol,
         name: company.name,
         quarter: '最新季度',
         date: realData.nextEarningsDate || new Date().toISOString().split('T')[0],
         time: '盘后',
-        expectedEPS: realData.latestEPS || 'N/A',
+        expectedEPS: 'N/A',
         actualEPS: realData.latestEPS || 'N/A',
-        expectedRevenue: realData.latestRevenue || 'N/A',
+        expectedRevenue: 'N/A',
         actualRevenue: realData.latestRevenue || 'N/A',
         yoyGrowth: realData.growth || 'N/A',
         highlights: ['基于真实搜索数据', '详情请查看原始来源'],
@@ -413,8 +434,14 @@ ${timeEmoji} 时间: ${timeText} (${market.timezone})
 }
 
 function formatEarningsSummary(data, marketConfig) {
-  const beatEPS = parseFloat(data.actualEPS) >= parseFloat(data.expectedEPS);
-  const beatRevenue = parseFloat(data.actualRevenue) >= parseFloat(data.expectedRevenue);
+  // 仅当实际值与预期值都是数字时才判断超预期/低于预期
+  const verdict = (actual, expected) => {
+    const a = parseFloat(actual), e = parseFloat(expected);
+    if (isNaN(a) || isNaN(e)) return '';
+    return a >= e ? '✅ 超预期' : '❌ 低于预期';
+  };
+  const epsVerdict = verdict(data.actualEPS, data.expectedEPS);
+  const revenueVerdict = verdict(data.actualRevenue, data.expectedRevenue);
   
   const timeEmoji = data.time === 'pre' ? '🌅' : '🌙';
   const timeText = data.time === 'pre' ? '盘前' : '盘后';
@@ -423,11 +450,11 @@ function formatEarningsSummary(data, marketConfig) {
   return `
 📈 **${data.name} (${data.symbol}) ${data.quarter} 财报摘要** ${dataTag}
 
-⏰ 发布时间: ${data.date} ${timeEmoji}${timeText}
+⏰ 发布时间: ${data.date} ${timeEmoji}${timeText}${data.nextEarningsDate ? `\n📅 下次财报: ${data.nextEarningsDate}` : ''}
 
 📊 **核心指标**
-• EPS: ${data.currency} ${data.actualEPS} (预期: ${data.currency} ${data.expectedEPS}) ${beatEPS ? '✅ 超预期' : '❌ 低于预期'}
-• 营收: ${data.actualRevenue}${data.currency} (预期: ${data.expectedRevenue}${data.currency}) ${beatRevenue ? '✅ 超预期' : '❌ 低于预期'}
+• EPS: ${data.currency} ${data.actualEPS} (预期: ${data.currency} ${data.expectedEPS}) ${epsVerdict}
+• 营收: ${data.actualRevenue}${data.currency} (预期: ${data.expectedRevenue}${data.currency}) ${revenueVerdict}
 • 同比增速: ${data.yoyGrowth}
 
 🚀 **关键亮点**
