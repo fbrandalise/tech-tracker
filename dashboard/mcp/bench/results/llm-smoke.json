@@ -1,0 +1,414 @@
+{
+  "date": "2026-11-03T16:57:06.672Z",
+  "llm": {
+    "url": "http://127.0.0.1:8080",
+    "model": "unsloth/Qwen3.6-35B-A3B-GGUF:Q4_K_M",
+    "thinking": false,
+    "temperature": 0.6,
+    "nCtx": 262144
+  },
+  "isolation": "namespaces+permission",
+  "trials": 1,
+  "defs": {
+    "traditional": {
+      "tools": 10,
+      "bytes": 6276,
+      "tokens": 1947
+    },
+    "code-exec": {
+      "tools": 2,
+      "bytes": 1786,
+      "tokens": 668
+    }
+  },
+  "runs": [
+    {
+      "task": "lookup",
+      "volume": "pequeno",
+      "kind": "traditional",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A margem líquida da Nvidia no último trimestre reportado (26/07/2026) foi de **62%**.",
+      "error": null,
+      "steps": 2,
+      "toolCalls": 1,
+      "toolErrors": 0,
+      "inputTokens": 4473,
+      "newInputTokens": 388,
+      "outputTokens": 60,
+      "peakContext": 2431,
+      "toolResultBytes": 760,
+      "ms": 3488,
+      "trace": [
+        {
+          "promptTokens": 2042,
+          "cachedTokens": 2016,
+          "completionTokens": 28,
+          "llmMs": 1945.4023310000002,
+          "calls": [
+            {
+              "name": "get_company_snapshot",
+              "sentBytes": 61,
+              "receivedBytes": 760,
+              "isError": false,
+              "ms": 4.139900000000125,
+              "args": "{\"symbol\":\"NVDA\"}",
+              "result": "{\"symbol\":\"NVDA\",\"name\":\"Nvidia\",\"area\":\"Chips de IA\",\"market\":\"EUA\",\"currency\":\"USD\",\"period_end\":\"2026-07-26\",\"report_date\":\"2026-08-26\",\"next_earnings\":\"2026-11-17\",\"financials_source\":\"FMP\",\"revenue_usd_b\":96.221,\"net_income_usd_b\":59.688,\"revenue_yoy\":105.9,\"net_income_yoy\":125.9,\"gross_margin\":75,\"operating_margin\":66.2,\"net_margin\":62,\"fcf_margin\":22.2,\"fcf_usd_b\":21.4,\"capex_pct\":2.8,\"eps_"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2431,
+          "cachedTokens": 2069,
+          "completionTokens": 32,
+          "llmMs": 1538.1111990000009,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "lookup",
+      "volume": "pequeno",
+      "kind": "code-exec",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A margem líquida da Nvidia no último trimestre reportado foi de **62%**.",
+      "error": null,
+      "steps": 10,
+      "toolCalls": 9,
+      "toolErrors": 3,
+      "inputTokens": 20499,
+      "newInputTokens": 2185,
+      "outputTokens": 564,
+      "peakContext": 3457,
+      "toolResultBytes": 6221,
+      "ms": 19481,
+      "trace": [
+        {
+          "promptTokens": 763,
+          "cachedTokens": 737,
+          "completionTokens": 38,
+          "llmMs": 1910.468296000001,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 70,
+              "receivedBytes": 217,
+              "isError": false,
+              "ms": 3.0631800000010116,
+              "args": "{\"query\":\"Nvidia\",\"detail\":\"name\"}",
+              "result": "{\"note\":\"nenhuma função combina com \\\"Nvidia\\\"\",\"available\":[\"listCompanies\",\"getCompanySnapshot\",\"listLatest\",\"rankCompanies\",\"getQuarters\",\"getTtm\",\"getUpcomingEarnings\",\"getOntology\",\"checkDataQuality\",\"runSql\"]}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 872,
+          "cachedTokens": 800,
+          "completionTokens": 38,
+          "llmMs": 1422.1227280000003,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 77,
+              "receivedBytes": 217,
+              "isError": false,
+              "ms": 1.353541000000405,
+              "args": "{\"query\":\"Nvidia\",\"detail\":\"description\"}",
+              "result": "{\"note\":\"nenhuma função combina com \\\"Nvidia\\\"\",\"available\":[\"listCompanies\",\"getCompanySnapshot\",\"listLatest\",\"rankCompanies\",\"getQuarters\",\"getTtm\",\"getUpcomingEarnings\",\"getOntology\",\"checkDataQuality\",\"runSql\"]}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 981,
+          "cachedTokens": 909,
+          "completionTokens": 35,
+          "llmMs": 1391.867033999999,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 71,
+              "receivedBytes": 2862,
+              "isError": false,
+              "ms": 1.3433310000000347,
+              "args": "{\"query\":\"\",\"detail\":\"description\"}",
+              "result": "[{\"function\":\"listCompanies\",\"import\":\"import { listCompanies } from '../servers/earnings/index.js';\",\"description\":\"Lista as empresas acompanhadas (símbolo, nome, área, mercado, moeda). Filtros opcionais por mercado e área.\"},{\"function\":\"getCompanySnapshot\",\"import\":\"import { getCompanySnapshot } from '../servers/earnings/index.js';\",\"description\":\"Linha completa de uma empresa como aparece no p"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1721,
+          "cachedTokens": 1015,
+          "completionTokens": 98,
+          "llmMs": 3026.6591009999993,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 357,
+              "receivedBytes": 178,
+              "isError": true,
+              "ms": 34.763011999999435,
+              "args": "{\"code\":\"import { listCompanies } from '../servers/earnings/index.js';\\n\\n// Buscar a empresa Nvidia\\nconst companies = listCompanies();\\nconst nvidia = companies.find(c => c.name.toLowerCase().includes('nvidia') || c.symbol.toLowerCase().includes('nvda'));\\nconsole.log(\\\"Nvidia:\\\", JSON.stringify(nvidia, null, 2));\\n\"}",
+              "result": "\nTypeError: companies.find is not a function\n    at file://<sandbox>/runs/8b767ff8-ee0b-4e5f-919e-9623dfcd29d1.mjs:5:26\n\n[falhou (código 1) · 1 chamadas de ferramenta · 32 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1916,
+          "cachedTokens": 1818,
+          "completionTokens": 75,
+          "llmMs": 2082.1757290000023,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 270,
+              "receivedBytes": 198,
+              "isError": true,
+              "ms": 30.818843999997625,
+              "args": "{\"code\":\"import { listCompanies } from '../servers/earnings/index.js';\\n\\nconst companies = listCompanies();\\nconsole.log(\\\"Tipo:\\\", typeof companies, Array.isArray(companies));\\nconsole.log(JSON.stringify(companies.slice(0, 5)));\\n\"}",
+              "result": "Tipo: object false\n\nTypeError: companies.slice is not a function\n    at file://<sandbox>/runs/6c192cb8-bb5f-43ae-9e4d-29441c8d7827.mjs:5:38\n\n[falhou (código 1) · 1 chamadas de ferramenta · 29 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2094,
+          "cachedTokens": 1990,
+          "completionTokens": 61,
+          "llmMs": 1855.7330279999987,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 211,
+              "receivedBytes": 66,
+              "isError": false,
+              "ms": 34.32391699999789,
+              "args": "{\"code\":\"import { listCompanies } from '../servers/earnings/index.js';\\n\\nconst companies = listCompanies();\\nconsole.log(Object.keys(companies));\\nconsole.log(companies);\\n\"}",
+              "result": "[]\nPromise { <pending> }\n[ok · 1 chamadas de ferramenta · 33 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2196,
+          "cachedTokens": 2154,
+          "completionTokens": 53,
+          "llmMs": 1637.6521140000004,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 173,
+              "receivedBytes": 2189,
+              "isError": false,
+              "ms": 35.22799499999746,
+              "args": "{\"code\":\"import { listCompanies } from '../servers/earnings/index.js';\\n\\nconst result = await listCompanies();\\nconsole.log(result);\\n\"}",
+              "result": "[\n  {\n    symbol: '00700.HK',\n    name: 'Tencent',\n    area: 'Internet',\n    market: 'Hong Kong',\n    currency: 'CNY'\n  },\n  {\n    symbol: '01810.HK',\n    name: 'Xiaomi',\n    area: 'Eletrônicos',\n    market: 'Hong Kong',\n    currency: 'CNY'\n  },\n  {\n    symbol: '03690.HK',\n    name: 'Meituan',\n    area: 'Serviços locais',\n    market: 'Hong Kong',\n    currency: 'CNY'\n  },\n  {\n    symbol: '09618.HK'"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3162,
+          "cachedTokens": 2248,
+          "completionTokens": 71,
+          "llmMs": 2747.3219850000023,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 246,
+              "receivedBytes": 213,
+              "isError": true,
+              "ms": 26.821388000000297,
+              "args": "{\"code\":\"import { getCompanySnapshot } from '../servers/earnings/index.js';\\n\\nconst snapshot = await getCompanySnapshot('NVDA');\\nconsole.log(\\\"Margem líquida (último trimestre):\\\", snapshot.net_margin);\\n\"}",
+              "result": "\nTypeError: getCompanySnapshot recebe um objeto: getCompanySnapshot({ symbol })\n    at file://<sandbox>/runs/16369ba4-1c5c-4063-99c2-f6f49b8caa0f.mjs:3:24\n\n[falhou (código 1) · 0 chamadas de ferramenta · 26 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3337,
+          "cachedTokens": 3232,
+          "completionTokens": 75,
+          "llmMs": 2101.4127130000015,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 258,
+              "receivedBytes": 81,
+              "isError": false,
+              "ms": 30.840383000002475,
+              "args": "{\"code\":\"import { getCompanySnapshot } from '../servers/earnings/index.js';\\n\\nconst snapshot = await getCompanySnapshot({ symbol: 'NVDA' });\\nconsole.log(\\\"Margem líquida (último trimestre):\\\", snapshot.net_margin);\\n\"}",
+              "result": "Margem líquida (último trimestre): 62\n[ok · 1 chamadas de ferramenta · 30 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3457,
+          "cachedTokens": 3411,
+          "completionTokens": 20,
+          "llmMs": 1106.9855979999993,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "top_growth",
+      "volume": "pequeno",
+      "kind": "traditional",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "As 3 empresas com maior crescimento de receita ano a ano no último trimestre são:\n\n1. **SpaceX (SPCX):** 161,4%\n2. **Nvidia (NVDA):** 105,9%\n3. **AMD:** 50,1%",
+      "error": null,
+      "steps": 2,
+      "toolCalls": 1,
+      "toolErrors": 0,
+      "inputTokens": 4273,
+      "newInputTokens": 652,
+      "outputTokens": 119,
+      "peakContext": 2220,
+      "toolResultBytes": 218,
+      "ms": 5114,
+      "trace": [
+        {
+          "promptTokens": 2053,
+          "cachedTokens": 1514,
+          "completionTokens": 55,
+          "llmMs": 3218.6621489999998,
+          "calls": [
+            {
+              "name": "rank_companies",
+              "sentBytes": 87,
+              "receivedBytes": 218,
+              "isError": false,
+              "ms": 1.7416069999999308,
+              "args": "{\"metric\":\"revenue_yoy\",\"order\":\"desc\",\"limit\":3}",
+              "result": "[{\"symbol\":\"SPCX\",\"name\":\"SpaceX\",\"period_end\":\"2026-09-30\",\"value\":161.4},{\"symbol\":\"NVDA\",\"name\":\"Nvidia\",\"period_end\":\"2026-07-26\",\"value\":105.9},{\"symbol\":\"AMD\",\"name\":\"AMD\",\"period_end\":\"2026-06-27\",\"value\":50.1}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2220,
+          "cachedTokens": 2107,
+          "completionTokens": 64,
+          "llmMs": 1893.6962330000024,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "top_growth",
+      "volume": "pequeno",
+      "kind": "code-exec",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "As 3 empresas com maior crescimento de receita ano a ano no último trimestre são:\n\n1. **SpaceX (SPCX)**: 161,4%\n2. **Nvidia (NVDA)**: 105,9%\n3. **AMD**: 50,1%",
+      "error": null,
+      "steps": 6,
+      "toolCalls": 5,
+      "toolErrors": 0,
+      "inputTokens": 7334,
+      "newInputTokens": 1385,
+      "outputTokens": 383,
+      "peakContext": 1697,
+      "toolResultBytes": 1732,
+      "ms": 12905,
+      "trace": [
+        {
+          "promptTokens": 774,
+          "cachedTokens": 0,
+          "completionTokens": 40,
+          "llmMs": 3087.299364999999,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 90,
+              "receivedBytes": 65,
+              "isError": false,
+              "ms": 0.8726879999958328,
+              "args": "{\"query\":\"revenue earnings quarterly\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"rankCompanies\"},{\"function\":\"getUpcomingEarnings\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 847,
+          "cachedTokens": 813,
+          "completionTokens": 38,
+          "llmMs": 1341.3776119999966,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 79,
+              "receivedBytes": 1251,
+              "isError": false,
+              "ms": 1.2112159999960568,
+              "args": "{\"query\":\"rankCompanies\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"rankCompanies\",\"import\":\"import { rankCompanies } from '../servers/earnings/index.js';\",\"description\":\"Ranking das empresas por uma métrica de v_latest (ex.: revenue_yoy, net_margin, fcf_usd_b, market_cap_usd_b, pe, price_reaction_pct). Ignora empresas sem valor na métrica.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"metric\":{\"type\":\"string\",\"description\":\"Coluna numérica de v_lat"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1215,
+          "cachedTokens": 884,
+          "completionTokens": 96,
+          "llmMs": 2591.6239730000016,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 301,
+              "receivedBytes": 44,
+              "isError": false,
+              "ms": 27.869510999997146,
+              "args": "{\"code\":\"import { rankCompanies } from '../servers/earnings/index.js';\\n\\n// Ranking por revenue_yoy (crescimento de receita ano a ano)\\nconst top3 = rankCompanies({ metric: 'revenue_yoy', order: 'desc', limit: 3 });\\nconsole.log(JSON.stringify(top3, null, 2));\\n\"}",
+              "result": "{}\n[ok · 1 chamadas de ferramenta · 27 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1345,
+          "cachedTokens": 1310,
+          "completionTokens": 72,
+          "llmMs": 1905.6326409999965,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 213,
+              "receivedBytes": 63,
+              "isError": false,
+              "ms": 28.260146000000532,
+              "args": "{\"code\":\"import { rankCompanies } from '../servers/earnings/index.js';\\n\\nconst top3 = rankCompanies({ metric: 'revenue_yoy', order: 'desc', limit: 3 });\\nconsole.log(top3);\\n\"}",
+              "result": "Promise { <pending> }\n[ok · 1 chamadas de ferramenta · 27 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1456,
+          "cachedTokens": 1416,
+          "completionTokens": 71,
+          "llmMs": 1914.5963369999954,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 223,
+              "receivedBytes": 309,
+              "isError": false,
+              "ms": 32.15680600000633,
+              "args": "{\"code\":\"import { rankCompanies } from '../servers/earnings/index.js';\\n\\nconst result = await rankCompanies({ metric: 'revenue_yoy', order: 'desc', limit: 3 });\\nconsole.log(result);\\n\"}",
+              "result": "[\n  {\n    symbol: 'SPCX',\n    name: 'SpaceX',\n    period_end: '2026-09-30',\n    value: 161.4\n  },\n  {\n    symbol: 'NVDA',\n    name: 'Nvidia',\n    period_end: '2026-07-26',\n    value: 105.9\n  },\n  { symbol: 'AMD', name: 'AMD', period_end: '2026-06-27', value: 50.1 }\n]\n[ok · 1 chamadas de ferramenta · 31 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1697,
+          "cachedTokens": 1526,
+          "completionTokens": 66,
+          "llmMs": 1973.9364580000038,
+          "calls": []
+        }
+      ]
+    }
+  ]
+}

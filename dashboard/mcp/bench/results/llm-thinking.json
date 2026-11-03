@@ -1,0 +1,3666 @@
+{
+  "date": "2026-11-03T17:34:35.271Z",
+  "llm": {
+    "url": "http://127.0.0.1:8080",
+    "model": "unsloth/Qwen3.6-35B-A3B-GGUF:Q4_K_M",
+    "thinking": true,
+    "temperature": 0.6,
+    "nCtx": 262144
+  },
+  "isolation": "namespaces+permission",
+  "trials": 2,
+  "defs": {
+    "traditional": {
+      "tools": 10,
+      "bytes": 6276,
+      "tokens": 1947
+    },
+    "code-exec": {
+      "tools": 2,
+      "bytes": 1864,
+      "tokens": 688
+    }
+  },
+  "runs": [
+    {
+      "task": "lookup",
+      "volume": "pequeno",
+      "kind": "traditional",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A margem líquida da Nvidia no último trimestre reportado (2026-07-26) é de 62%.",
+      "error": null,
+      "steps": 2,
+      "toolCalls": 1,
+      "toolErrors": 0,
+      "inputTokens": 4178,
+      "newInputTokens": 126,
+      "outputTokens": 379,
+      "peakContext": 2138,
+      "toolResultBytes": 45,
+      "ms": 8663,
+      "trace": [
+        {
+          "promptTokens": 2040,
+          "cachedTokens": 2016,
+          "completionTokens": 315,
+          "llmMs": 6759.2436720000005,
+          "calls": [
+            {
+              "name": "get_quarters",
+              "sentBytes": 101,
+              "receivedBytes": 45,
+              "isError": false,
+              "ms": 4.017814000000726,
+              "args": "{\"symbol\":\"NVDA\",\"limit\":1,\"columns\":[\"period_end\",\"net_margin\"]}",
+              "result": "[{\"period_end\":\"2026-07-26\",\"net_margin\":62}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2138,
+          "cachedTokens": 2036,
+          "completionTokens": 64,
+          "llmMs": 1899.7736129999994,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "lookup",
+      "volume": "pequeno",
+      "kind": "code-exec",
+      "trial": 1,
+      "correct": false,
+      "missing": [
+        62
+      ],
+      "forbidden": [],
+      "answer": "",
+      "error": null,
+      "steps": 3,
+      "toolCalls": 2,
+      "toolErrors": 0,
+      "inputTokens": 3676,
+      "newInputTokens": 1252,
+      "outputTokens": 388,
+      "peakContext": 2001,
+      "toolResultBytes": 2676,
+      "ms": 10473,
+      "trace": [
+        {
+          "promptTokens": 781,
+          "cachedTokens": 757,
+          "completionTokens": 152,
+          "llmMs": 3784.9206360000007,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 2.9477529999967373,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 894,
+          "cachedTokens": 777,
+          "completionTokens": 185,
+          "llmMs": 3905.186422999999,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 324,
+              "receivedBytes": 2392,
+              "isError": false,
+              "ms": 34.950183000000834,
+              "args": "{\"code\":\"import { listCompanies, getQuarters, getCompanySnapshot } from '../servers/earnings/index.js';\\n\\n// Listar empresas para encontrar a Nvidia\\nconst companies = await listCompanies();\\nconsole.log('Empresas disponíveis:', JSON.stringify(companies, null, 2));\",\"timeout_ms\":30000}",
+              "result": "Empresas disponíveis: [\n  {\n    \"symbol\": \"00700.HK\",\n    \"name\": \"Tencent\",\n    \"area\": \"Internet\",\n    \"market\": \"Hong Kong\",\n    \"currency\": \"CNY\"\n  },\n  {\n    \"symbol\": \"01810.HK\",\n    \"name\": \"Xiaomi\",\n    \"area\": \"Eletrônicos\",\n    \"market\": \"Hong Kong\",\n    \"currency\": \"CNY\"\n  },\n  {\n    \"symbol\": \"03690.HK\",\n    \"name\": \"Meituan\",\n    \"area\": \"Serviços locais\",\n    \"market\": \"Hong Kong\",\n "
+            }
+          ]
+        },
+        {
+          "promptTokens": 2001,
+          "cachedTokens": 890,
+          "completionTokens": 51,
+          "llmMs": 2744.5102130000014,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "lookup",
+      "volume": "pequeno",
+      "kind": "traditional",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A margem líquida da Nvidia no último trimestre reportado (26 de julho de 2026) foi de **62%**.",
+      "error": null,
+      "steps": 2,
+      "toolCalls": 1,
+      "toolErrors": 0,
+      "inputTokens": 4178,
+      "newInputTokens": 106,
+      "outputTokens": 688,
+      "peakContext": 2138,
+      "toolResultBytes": 45,
+      "ms": 13266,
+      "trace": [
+        {
+          "promptTokens": 2040,
+          "cachedTokens": 2036,
+          "completionTokens": 576,
+          "llmMs": 10536.815965000002,
+          "calls": [
+            {
+              "name": "get_quarters",
+              "sentBytes": 101,
+              "receivedBytes": 45,
+              "isError": false,
+              "ms": 1.716826999996556,
+              "args": "{\"symbol\":\"NVDA\",\"limit\":1,\"columns\":[\"period_end\",\"net_margin\"]}",
+              "result": "[{\"period_end\":\"2026-07-26\",\"net_margin\":62}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2138,
+          "cachedTokens": 2036,
+          "completionTokens": 112,
+          "llmMs": 2727.6368839999996,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "lookup",
+      "volume": "pequeno",
+      "kind": "code-exec",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A margem líquida da Nvidia no último trimestre reportado foi de **62%**.",
+      "error": null,
+      "steps": 6,
+      "toolCalls": 5,
+      "toolErrors": 0,
+      "inputTokens": 7856,
+      "newInputTokens": 2101,
+      "outputTokens": 591,
+      "peakContext": 2358,
+      "toolResultBytes": 4137,
+      "ms": 17386,
+      "trace": [
+        {
+          "promptTokens": 781,
+          "cachedTokens": 277,
+          "completionTokens": 187,
+          "llmMs": 5197.007956999994,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 79,
+              "receivedBytes": 208,
+              "isError": false,
+              "ms": 1.1710469999961788,
+              "args": "{\"query\":\"earnings\",\"detail\":\"description\"}",
+              "result": "[{\"function\":\"getUpcomingEarnings\",\"import\":\"import { getUpcomingEarnings } from '../servers/earnings/index.js';\",\"description\":\"Próximas divulgações de resultado nos próximos N dias, em ordem de data.\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 887,
+          "cachedTokens": 777,
+          "completionTokens": 53,
+          "llmMs": 1725.915617999999,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 1.0479520000008051,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1000,
+          "cachedTokens": 883,
+          "completionTokens": 85,
+          "llmMs": 2281.3725510000004,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 77,
+              "receivedBytes": 217,
+              "isError": false,
+              "ms": 1.1709179999961634,
+              "args": "{\"query\":\"Nvidia\",\"detail\":\"description\"}",
+              "result": "{\"note\":\"nenhuma função combina com \\\"Nvidia\\\"\",\"available\":[\"listCompanies\",\"getCompanySnapshot\",\"listLatest\",\"rankCompanies\",\"getQuarters\",\"getTtm\",\"getUpcomingEarnings\",\"getOntology\",\"checkDataQuality\",\"runSql\"]}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1109,
+          "cachedTokens": 996,
+          "completionTokens": 61,
+          "llmMs": 1891.3894170000058,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 76,
+              "receivedBytes": 2270,
+              "isError": false,
+              "ms": 1.3267919999998412,
+              "args": "{\"detail\":\"schema\",\"query\":\"listLatest\"}",
+              "result": "[{\"function\":\"listLatest\",\"import\":\"import { listLatest } from '../servers/earnings/index.js';\",\"description\":\"Último trimestre e valuation de TODAS as empresas (uma linha por empresa, view v_latest). Use `columns` para pedir só as colunas necessárias; sem ela devolve as 35 colunas.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"market\":{\"type\":\"string\",\"description\":\"Filtra por mercado: 'EUA' ou "
+            }
+          ]
+        },
+        {
+          "promptTokens": 1721,
+          "cachedTokens": 1105,
+          "completionTokens": 160,
+          "llmMs": 4066.4484840000005,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 258,
+              "receivedBytes": 1158,
+              "isError": false,
+              "ms": 50.3207739999998,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\nconst sql = `\\nSELECT * FROM v_latest \\nWHERE symbol = 'NVDA'\\n`;\\n\\nconst result = await runSql({ sql });\\nconsole.log(JSON.stringify(result, null, 2));\"}",
+              "result": "{\n  \"rowCount\": 1,\n  \"truncated\": false,\n  \"rows\": [\n    {\n      \"symbol\": \"NVDA\",\n      \"name\": \"Nvidia\",\n      \"area\": \"Chips de IA\",\n      \"market\": \"EUA\",\n      \"currency\": \"USD\",\n      \"period_end\": \"2026-07-26\",\n      \"report_date\": \"2026-08-26\",\n      \"next_earnings\": \"2026-11-17\",\n      \"financials_source\": \"FMP\",\n      \"revenue_usd_b\": 96.221,\n      \"net_income_usd_b\": 59.688,\n      \"reve"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2358,
+          "cachedTokens": 1717,
+          "completionTokens": 45,
+          "llmMs": 2168.302512000002,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "top_growth",
+      "volume": "pequeno",
+      "kind": "traditional",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "As 3 empresas com maior crescimento de receita ano a ano no último trimestre são:\n\n1. **SpaceX (SPCX):** 161,4%\n2. **Nvidia (NVDA):** 105,9%\n3. **AMD:** 50,1%",
+      "error": null,
+      "steps": 2,
+      "toolCalls": 1,
+      "toolErrors": 0,
+      "inputTokens": 4269,
+      "newInputTokens": 814,
+      "outputTokens": 466,
+      "peakContext": 2218,
+      "toolResultBytes": 218,
+      "ms": 11084,
+      "trace": [
+        {
+          "promptTokens": 2051,
+          "cachedTokens": 1408,
+          "completionTokens": 318,
+          "llmMs": 7703.317059000001,
+          "calls": [
+            {
+              "name": "rank_companies",
+              "sentBytes": 87,
+              "receivedBytes": 218,
+              "isError": false,
+              "ms": 1.8471429999990505,
+              "args": "{\"metric\":\"revenue_yoy\",\"order\":\"desc\",\"limit\":3}",
+              "result": "[{\"symbol\":\"SPCX\",\"name\":\"SpaceX\",\"period_end\":\"2026-09-30\",\"value\":161.4},{\"symbol\":\"NVDA\",\"name\":\"Nvidia\",\"period_end\":\"2026-07-26\",\"value\":105.9},{\"symbol\":\"AMD\",\"name\":\"AMD\",\"period_end\":\"2026-06-27\",\"value\":50.1}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2218,
+          "cachedTokens": 2047,
+          "completionTokens": 148,
+          "llmMs": 3379.0710570000083,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "top_growth",
+      "volume": "pequeno",
+      "kind": "code-exec",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "As 3 empresas com maior crescimento de receita ano a ano no último trimestre são:\n\n1. **SpaceX (SPCX)**: 161,4%\n2. **Nvidia (NVDA)**: 105,9%\n3. **AMD**: 50,1%",
+      "error": null,
+      "steps": 4,
+      "toolCalls": 3,
+      "toolErrors": 0,
+      "inputTokens": 4251,
+      "newInputTokens": 1136,
+      "outputTokens": 512,
+      "peakContext": 1401,
+      "toolResultBytes": 1351,
+      "ms": 13408,
+      "trace": [
+        {
+          "promptTokens": 792,
+          "cachedTokens": 277,
+          "completionTokens": 109,
+          "llmMs": 3933.3400519999996,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 1.0044740000012098,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 905,
+          "cachedTokens": 788,
+          "completionTokens": 65,
+          "llmMs": 1926.2039829999994,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 73,
+              "receivedBytes": 758,
+              "isError": false,
+              "ms": 0.9083769999997457,
+              "args": "{\"query\":\"revenue\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"rankCompanies\",\"import\":\"import { rankCompanies } from '../servers/earnings/index.js';\",\"description\":\"Ranking das empresas por uma métrica de v_latest (ex.: revenue_yoy, net_margin, fcf_usd_b, market_cap_usd_b, pe, price_reaction_pct). Ignora empresas sem valor na métrica.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"metric\":{\"type\":\"string\",\"description\":\"Coluna numérica de v_lat"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1153,
+          "cachedTokens": 901,
+          "completionTokens": 143,
+          "llmMs": 3349.7177109999902,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 233,
+              "receivedBytes": 309,
+              "isError": false,
+              "ms": 30.083509000003687,
+              "args": "{\"code\":\"import { rankCompanies } from '../servers/earnings/index.js';\\n\\nconst result = await rankCompanies({\\n  metric: 'revenue_yoy',\\n  order: 'desc',\\n  limit: 3\\n});\\n\\nconsole.log(result);\"}",
+              "result": "[\n  {\n    symbol: 'SPCX',\n    name: 'SpaceX',\n    period_end: '2026-09-30',\n    value: 161.4\n  },\n  {\n    symbol: 'NVDA',\n    name: 'Nvidia',\n    period_end: '2026-07-26',\n    value: 105.9\n  },\n  { symbol: 'AMD', name: 'AMD', period_end: '2026-06-27', value: 50.1 }\n]\n[ok · 1 chamadas de ferramenta · 29 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1401,
+          "cachedTokens": 1149,
+          "completionTokens": 195,
+          "llmMs": 4166.893590000007,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "top_growth",
+      "volume": "pequeno",
+      "kind": "traditional",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "As 3 empresas com maior crescimento de receita ano a ano no último trimestre são:\n\n1. **SpaceX (SPCX)**: 161,4%\n2. **Nvidia (NVDA)**: 105,9%\n3. **AMD (AMD)**: 50,1%",
+      "error": null,
+      "steps": 2,
+      "toolCalls": 1,
+      "toolErrors": 0,
+      "inputTokens": 4269,
+      "newInputTokens": 175,
+      "outputTokens": 436,
+      "peakContext": 2218,
+      "toolResultBytes": 218,
+      "ms": 9070,
+      "trace": [
+        {
+          "promptTokens": 2051,
+          "cachedTokens": 2047,
+          "completionTokens": 322,
+          "llmMs": 6241.4946920000075,
+          "calls": [
+            {
+              "name": "rank_companies",
+              "sentBytes": 87,
+              "receivedBytes": 218,
+              "isError": false,
+              "ms": 1.5557739999931073,
+              "args": "{\"metric\":\"revenue_yoy\",\"order\":\"desc\",\"limit\":3}",
+              "result": "[{\"symbol\":\"SPCX\",\"name\":\"SpaceX\",\"period_end\":\"2026-09-30\",\"value\":161.4},{\"symbol\":\"NVDA\",\"name\":\"Nvidia\",\"period_end\":\"2026-07-26\",\"value\":105.9},{\"symbol\":\"AMD\",\"name\":\"AMD\",\"period_end\":\"2026-06-27\",\"value\":50.1}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2218,
+          "cachedTokens": 2047,
+          "completionTokens": 114,
+          "llmMs": 2826.629323000001,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "top_growth",
+      "volume": "pequeno",
+      "kind": "code-exec",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "As 3 empresas com maior crescimento de receita ano a ano no último trimestre são:\n\n1. **SpaceX (SPCX)** – 161,4%\n2. **Nvidia (NVDA)** – 105,9%\n3. **AMD** – 50,1%",
+      "error": null,
+      "steps": 4,
+      "toolCalls": 3,
+      "toolErrors": 0,
+      "inputTokens": 4513,
+      "newInputTokens": 1278,
+      "outputTokens": 454,
+      "peakContext": 1543,
+      "toolResultBytes": 1886,
+      "ms": 12585,
+      "trace": [
+        {
+          "promptTokens": 792,
+          "cachedTokens": 277,
+          "completionTokens": 183,
+          "llmMs": 5145.434817000001,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 0.8953670000046259,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 905,
+          "cachedTokens": 788,
+          "completionTokens": 61,
+          "llmMs": 1842.471510999996,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 79,
+              "receivedBytes": 1251,
+              "isError": false,
+              "ms": 1.0927300000039395,
+              "args": "{\"detail\":\"schema\",\"query\":\"rankCompanies\"}",
+              "result": "[{\"function\":\"rankCompanies\",\"import\":\"import { rankCompanies } from '../servers/earnings/index.js';\",\"description\":\"Ranking das empresas por uma métrica de v_latest (ex.: revenue_yoy, net_margin, fcf_usd_b, market_cap_usd_b, pe, price_reaction_pct). Ignora empresas sem valor na métrica.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"metric\":{\"type\":\"string\",\"description\":\"Coluna numérica de v_lat"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1273,
+          "cachedTokens": 901,
+          "completionTokens": 140,
+          "llmMs": 3401.9436859999987,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 246,
+              "receivedBytes": 351,
+              "isError": false,
+              "ms": 30.09354900001199,
+              "args": "{\"code\":\"import { rankCompanies } from '../servers/earnings/index.js';\\n\\nconst result = await rankCompanies({ metric: 'revenue_yoy', order: 'desc', limit: 3 });\\nconsole.log(JSON.stringify(result, null, 2));\"}",
+              "result": "[\n  {\n    \"symbol\": \"SPCX\",\n    \"name\": \"SpaceX\",\n    \"period_end\": \"2026-09-30\",\n    \"value\": 161.4\n  },\n  {\n    \"symbol\": \"NVDA\",\n    \"name\": \"Nvidia\",\n    \"period_end\": \"2026-07-26\",\n    \"value\": 105.9\n  },\n  {\n    \"symbol\": \"AMD\",\n    \"name\": \"AMD\",\n    \"period_end\": \"2026-06-27\",\n    \"value\": 50.1\n  }\n]\n[ok · 1 chamadas de ferramenta · 29 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1543,
+          "cachedTokens": 1269,
+          "completionTokens": 70,
+          "llmMs": 2163.180708999993,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "screen_multi",
+      "volume": "médio",
+      "kind": "traditional",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "As empresas com fluxo de caixa livre negativo e crescimento de receita acima de 15% são: **GOOGL, META, ORCL, SPCX**.",
+      "error": null,
+      "steps": 2,
+      "toolCalls": 1,
+      "toolErrors": 0,
+      "inputTokens": 4204,
+      "newInputTokens": 747,
+      "outputTokens": 382,
+      "peakContext": 2151,
+      "toolResultBytes": 114,
+      "ms": 9571,
+      "trace": [
+        {
+          "promptTokens": 2053,
+          "cachedTokens": 1408,
+          "completionTokens": 298,
+          "llmMs": 7303.536389999994,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 109,
+              "receivedBytes": 114,
+              "isError": false,
+              "ms": 25.20749599998817,
+              "args": "{\"sql\":\"SELECT symbol FROM v_latest WHERE fcf_usd_b < 0 AND revenue_yoy > 15\"}",
+              "result": "{\"rowCount\":4,\"truncated\":false,\"rows\":[{\"symbol\":\"GOOGL\"},{\"symbol\":\"META\"},{\"symbol\":\"ORCL\"},{\"symbol\":\"SPCX\"}]}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2151,
+          "cachedTokens": 2049,
+          "completionTokens": 84,
+          "llmMs": 2242.1345839999994,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "screen_multi",
+      "volume": "médio",
+      "kind": "code-exec",
+      "trial": 1,
+      "correct": false,
+      "missing": [],
+      "forbidden": [
+        "AMZN"
+      ],
+      "answer": "As empresas com fluxo de caixa livre negativo e crescimento de receita acima de 15% no último trimestre são:\n\n**AMZN, GOOGL, META, ORCL, SPCX**",
+      "error": null,
+      "steps": 6,
+      "toolCalls": 5,
+      "toolErrors": 0,
+      "inputTokens": 8114,
+      "newInputTokens": 1776,
+      "outputTokens": 690,
+      "peakContext": 2033,
+      "toolResultBytes": 3756,
+      "ms": 18617,
+      "trace": [
+        {
+          "promptTokens": 794,
+          "cachedTokens": 277,
+          "completionTokens": 199,
+          "llmMs": 5387.098522,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 72,
+              "receivedBytes": 36,
+              "isError": false,
+              "ms": 0.7771020000072895,
+              "args": "{\"query\":\"earnings\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"getUpcomingEarnings\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 860,
+          "cachedTokens": 790,
+          "completionTokens": 88,
+          "llmMs": 2257.891543000005,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 0.8373290000017732,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 973,
+          "cachedTokens": 856,
+          "completionTokens": 76,
+          "llmMs": 2103.9616959999985,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 76,
+              "receivedBytes": 2270,
+              "isError": false,
+              "ms": 0.8660579999996116,
+              "args": "{\"detail\":\"schema\",\"query\":\"listLatest\"}",
+              "result": "[{\"function\":\"listLatest\",\"import\":\"import { listLatest } from '../servers/earnings/index.js';\",\"description\":\"Último trimestre e valuation de TODAS as empresas (uma linha por empresa, view v_latest). Use `columns` para pedir só as colunas necessárias; sem ela devolve as 35 colunas.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"market\":{\"type\":\"string\",\"description\":\"Filtra por mercado: 'EUA' ou "
+            }
+          ]
+        },
+        {
+          "promptTokens": 1585,
+          "cachedTokens": 969,
+          "completionTokens": 109,
+          "llmMs": 3233.750727000006,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 74,
+              "receivedBytes": 992,
+              "isError": false,
+              "ms": 0.9640249999938533,
+              "args": "{\"query\":\"ontology\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"getOntology\",\"import\":\"import { getOntology } from '../servers/earnings/index.js';\",\"description\":\"Dicionário dos dados: convenções (unidades, datas fiscais), fontes e suas limitações, entidades, métricas e regras. Consulte antes de interpretar lucro operacional, TTM ou dados de Hong Kong.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"section\":{\"type\":\"string\",\"description\":\"Seção d"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1869,
+          "cachedTokens": 1581,
+          "completionTokens": 95,
+          "llmMs": 2627.9053720000084,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 280,
+              "receivedBytes": 174,
+              "isError": false,
+              "ms": 28.941149999998743,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\nconst sql = `\\nSELECT symbol\\nFROM v_latest\\nWHERE fcf_usd_b < 0\\n  AND revenue_yoy > 0.15\\n`;\\n\\nconst result = await runSql({ sql });\\nconsole.log(JSON.stringify(result));\\n\"}",
+              "result": "{\"rowCount\":5,\"truncated\":false,\"rows\":[{\"symbol\":\"AMZN\"},{\"symbol\":\"GOOGL\"},{\"symbol\":\"META\"},{\"symbol\":\"ORCL\"},{\"symbol\":\"SPCX\"}]}\n[ok · 1 chamadas de ferramenta · 28 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2033,
+          "cachedTokens": 1865,
+          "completionTokens": 123,
+          "llmMs": 2973.7491270000028,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "screen_multi",
+      "volume": "médio",
+      "kind": "traditional",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "As empresas com fluxo de caixa livre negativo e crescimento de receita acima de 15% são: GOOGL, META, ORCL e SPCX.",
+      "error": null,
+      "steps": 2,
+      "toolCalls": 1,
+      "toolErrors": 0,
+      "inputTokens": 4204,
+      "newInputTokens": 106,
+      "outputTokens": 483,
+      "peakContext": 2151,
+      "toolResultBytes": 114,
+      "ms": 9870,
+      "trace": [
+        {
+          "promptTokens": 2053,
+          "cachedTokens": 2049,
+          "completionTokens": 384,
+          "llmMs": 7349.976964999994,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 109,
+              "receivedBytes": 114,
+              "isError": false,
+              "ms": 2.284256999992067,
+              "args": "{\"sql\":\"SELECT symbol FROM v_latest WHERE fcf_usd_b < 0 AND revenue_yoy > 15\"}",
+              "result": "{\"rowCount\":4,\"truncated\":false,\"rows\":[{\"symbol\":\"GOOGL\"},{\"symbol\":\"META\"},{\"symbol\":\"ORCL\"},{\"symbol\":\"SPCX\"}]}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2151,
+          "cachedTokens": 2049,
+          "completionTokens": 99,
+          "llmMs": 2517.2856739999843,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "screen_multi",
+      "volume": "médio",
+      "kind": "code-exec",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "As empresas com fluxo de caixa livre negativo e crescimento de receita acima de 15% no último trimestre são:\n\n- **SPCX**\n- **ORCL**\n- **META**\n- **GOOGL**",
+      "error": null,
+      "steps": 5,
+      "toolCalls": 4,
+      "toolErrors": 0,
+      "inputTokens": 13372,
+      "newInputTokens": 4046,
+      "outputTokens": 689,
+      "peakContext": 4307,
+      "toolResultBytes": 11565,
+      "ms": 20620,
+      "trace": [
+        {
+          "promptTokens": 794,
+          "cachedTokens": 277,
+          "completionTokens": 141,
+          "llmMs": 4495.281798999989,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 71,
+              "receivedBytes": 2862,
+              "isError": false,
+              "ms": 0.7818019999831449,
+              "args": "{\"query\":\"\",\"detail\":\"description\"}",
+              "result": "[{\"function\":\"listCompanies\",\"import\":\"import { listCompanies } from '../servers/earnings/index.js';\",\"description\":\"Lista as empresas acompanhadas (símbolo, nome, área, mercado, moeda). Filtros opcionais por mercado e área.\"},{\"function\":\"getCompanySnapshot\",\"import\":\"import { getCompanySnapshot } from '../servers/earnings/index.js';\",\"description\":\"Linha completa de uma empresa como aparece no p"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1534,
+          "cachedTokens": 790,
+          "completionTokens": 113,
+          "llmMs": 3381.9870010000013,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 74,
+              "receivedBytes": 4895,
+              "isError": false,
+              "ms": 0.9230269999825396,
+              "args": "{\"query\":\"v_latest\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"listLatest\",\"import\":\"import { listLatest } from '../servers/earnings/index.js';\",\"description\":\"Último trimestre e valuation de TODAS as empresas (uma linha por empresa, view v_latest). Use `columns` para pedir só as colunas necessárias; sem ela devolve as 35 colunas.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"market\":{\"type\":\"string\",\"description\":\"Filtra por mercado: 'EUA' ou "
+            }
+          ]
+        },
+        {
+          "promptTokens": 2774,
+          "cachedTokens": 1530,
+          "completionTokens": 103,
+          "llmMs": 3851.6493449999834,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 216,
+              "receivedBytes": 3347,
+              "isError": false,
+              "ms": 31.256346000009216,
+              "args": "{\"code\":\"import { getOntology } from '../servers/earnings/index.js';\\nconst ontology = await getOntology({ section: 'metrics' });\\nconsole.log(JSON.stringify(ontology, null, 2));\"}",
+              "result": "{\n  \"text\": \"metrics:\\n  net_margin:\\n    label: {pt: \\\"Margem líquida\\\", en: \\\"Net margin\\\"}\\n    formula: \\\"net_income / revenue * 100\\\"\\n    where: [v_quarter, v_latest]\\n    synonyms: [\\\"margem de lucro\\\", \\\"lucro sobre receita\\\", \\\"profit margin\\\"]\\n  gross_margin:\\n    label: {pt: \\\"Margem bruta\\\", en: \\\"Gross margin\\\"}\\n    formula: \\\"gross_profit / revenue * 100\\\"\\n    where: [v_quarter, v"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3963,
+          "cachedTokens": 2770,
+          "completionTokens": 137,
+          "llmMs": 4441.140142999997,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 313,
+              "receivedBytes": 461,
+              "isError": false,
+              "ms": 48.896486999990884,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\nconst result = await runSql({\\n  sql: `SELECT symbol, revenue_yoy, fcf_usd_b FROM v_latest WHERE fcf_usd_b < 0 AND revenue_yoy > 15 ORDER BY revenue_yoy DESC`\\n});\\nconsole.log(JSON.stringify(result, null, 2));\"}",
+              "result": "{\n  \"rowCount\": 4,\n  \"truncated\": false,\n  \"rows\": [\n    {\n      \"symbol\": \"SPCX\",\n      \"revenue_yoy\": 161.4,\n      \"fcf_usd_b\": -9.972\n    },\n    {\n      \"symbol\": \"ORCL\",\n      \"revenue_yoy\": 29.6,\n      \"fcf_usd_b\": -5.396\n    },\n    {\n      \"symbol\": \"META\",\n      \"revenue_yoy\": 26.1,\n      \"fcf_usd_b\": -1.156\n    },\n    {\n      \"symbol\": \"GOOGL\",\n      \"revenue_yoy\": 24.7,\n      \"fcf_usd_b\":"
+            }
+          ]
+        },
+        {
+          "promptTokens": 4307,
+          "cachedTokens": 3959,
+          "completionTokens": 195,
+          "llmMs": 4368.449909999996,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "beat_and_fell",
+      "volume": "médio",
+      "kind": "traditional",
+      "trial": 1,
+      "correct": false,
+      "missing": [],
+      "forbidden": [
+        "09988.HK"
+      ],
+      "answer": "As empresas que bateram a estimativa de EPS mas tiveram queda no preço após o resultado são:\n\n- **00700.HK** (Alibaba)\n- **09618.HK** (JD.com)\n- **AMD**\n- **INTU** (Intuit)\n- **META** (Meta Platforms)\n- **MSFT** (Microsoft)\n- **ORCL** (Oracle)",
+      "error": null,
+      "steps": 2,
+      "toolCalls": 1,
+      "toolErrors": 0,
+      "inputTokens": 4229,
+      "newInputTokens": 770,
+      "outputTokens": 1823,
+      "peakContext": 2174,
+      "toolResultBytes": 174,
+      "ms": 34328,
+      "trace": [
+        {
+          "promptTokens": 2055,
+          "cachedTokens": 1408,
+          "completionTokens": 1682,
+          "llmMs": 31075.787896000023,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 122,
+              "receivedBytes": 174,
+              "isError": false,
+              "ms": 1.7372470000118483,
+              "args": "{\"sql\":\"SELECT symbol FROM v_latest WHERE eps_surprise_pct > 0 AND price_reaction_pct < 0\"}",
+              "result": "{\"rowCount\":7,\"truncated\":false,\"rows\":[{\"symbol\":\"00700.HK\"},{\"symbol\":\"09618.HK\"},{\"symbol\":\"AMD\"},{\"symbol\":\"INTU\"},{\"symbol\":\"META\"},{\"symbol\":\"MSFT\"},{\"symbol\":\"ORCL\"}]}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2174,
+          "cachedTokens": 2051,
+          "completionTokens": 141,
+          "llmMs": 3250.761740999995,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "beat_and_fell",
+      "volume": "médio",
+      "kind": "code-exec",
+      "trial": 1,
+      "correct": false,
+      "missing": [
+        "00700.HK",
+        "09618.HK",
+        "AMD",
+        "INTU",
+        "META",
+        "MSFT",
+        "ORCL"
+      ],
+      "forbidden": [],
+      "answer": "",
+      "error": null,
+      "steps": 5,
+      "toolCalls": 7,
+      "toolErrors": 1,
+      "inputTokens": 14046,
+      "newInputTokens": 4299,
+      "outputTokens": 673,
+      "peakContext": 4283,
+      "toolResultBytes": 12227,
+      "ms": 20576,
+      "trace": [
+        {
+          "promptTokens": 796,
+          "cachedTokens": 0,
+          "completionTokens": 136,
+          "llmMs": 4745.612588999997,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 0.9029070000106003,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 909,
+          "cachedTokens": 792,
+          "completionTokens": 190,
+          "llmMs": 3964.4912119999935,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 72,
+              "receivedBytes": 3143,
+              "isError": false,
+              "ms": 1.0984600000083447,
+              "args": "{\"detail\":\"schema\",\"query\":\"getTtm\"}",
+              "result": "[{\"function\":\"getCompanySnapshot\",\"import\":\"import { getCompanySnapshot } from '../servers/earnings/index.js';\",\"description\":\"Linha completa de uma empresa como aparece no painel: último trimestre reportado, margens, crescimento, estimativas, surpresa de EPS, reação do preço, valuation (P/L, EV/EBITDA…), TTM e próxima divulgação. Valores em bilhões de USD.\",\"inputSchema\":{\"type\":\"object\",\"propert"
+            },
+            {
+              "name": "search_tools",
+              "sentBytes": 77,
+              "receivedBytes": 3143,
+              "isError": false,
+              "ms": 0.4920129999809433,
+              "args": "{\"detail\":\"schema\",\"query\":\"getQuarters\"}",
+              "result": "[{\"function\":\"getQuarters\",\"import\":\"import { getQuarters } from '../servers/earnings/index.js';\",\"description\":\"Histórico trimestral de UMA empresa (view v_quarter): receita, lucros, caixa, margens, variação a/a e fonte do dado, do mais recente para o mais antigo. Valores em bilhões de USD.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"symbol\":{\"type\":\"string\",\"description\":\"Ticker\"},\"limit\":{\"t"
+            },
+            {
+              "name": "search_tools",
+              "sentBytes": 84,
+              "receivedBytes": 3143,
+              "isError": false,
+              "ms": 0.24499200002173893,
+              "args": "{\"detail\":\"schema\",\"query\":\"getCompanySnapshot\"}",
+              "result": "[{\"function\":\"getCompanySnapshot\",\"import\":\"import { getCompanySnapshot } from '../servers/earnings/index.js';\",\"description\":\"Linha completa de uma empresa como aparece no painel: último trimestre reportado, margens, crescimento, estimativas, surpresa de EPS, reação do preço, valuation (P/L, EV/EBITDA…), TTM e próxima divulgação. Valores em bilhões de USD.\",\"inputSchema\":{\"type\":\"object\",\"propert"
+            },
+            {
+              "name": "search_tools",
+              "sentBytes": 76,
+              "receivedBytes": 2270,
+              "isError": false,
+              "ms": 0.19691299999249168,
+              "args": "{\"detail\":\"schema\",\"query\":\"listLatest\"}",
+              "result": "[{\"function\":\"listLatest\",\"import\":\"import { listLatest } from '../servers/earnings/index.js';\",\"description\":\"Último trimestre e valuation de TODAS as empresas (uma linha por empresa, view v_latest). Use `columns` para pedir só as colunas necessárias; sem ela devolve as 35 colunas.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"market\":{\"type\":\"string\",\"description\":\"Filtra por mercado: 'EUA' ou "
+            }
+          ]
+        },
+        {
+          "promptTokens": 3923,
+          "cachedTokens": 905,
+          "completionTokens": 199,
+          "llmMs": 7400.167264999996,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 366,
+              "receivedBytes": 186,
+              "isError": true,
+              "ms": 29.07521499998984,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Primeiro ver as colunas disponíveis\\nconst schema = await runSql(`\\n  SELECT * FROM v_latest LIMIT 1\\n`);\\nconsole.log(\\\"Colunas:\\\", Object.keys(schema[0] || {}).join(\\\", \\\"));\\nconsole.log(\\\"---\\\");\\nconsole.log(JSON.stringify(schema[0] || {}, null, 2));\\n\"}",
+              "result": "\nTypeError: runSql recebe um objeto: runSql({ sql })\n    at file://<sandbox>/runs/3676e726-b19d-4863-9ef9-0d387e8499aa.mjs:4:22\n\n[falhou (código 1) · 0 chamadas de ferramenta · 28 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 4135,
+          "cachedTokens": 3919,
+          "completionTokens": 112,
+          "llmMs": 2858.773568000004,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 360,
+              "receivedBytes": 58,
+              "isError": false,
+              "ms": 34.03581500001019,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Ver as colunas disponíveis\\nconst schema = await runSql({ sql: `SELECT * FROM v_latest LIMIT 1` });\\nconsole.log(\\\"Colunas:\\\", Object.keys(schema[0] || {}).join(\\\", \\\"));\\nconsole.log(\\\"---\\\");\\nconsole.log(JSON.stringify(schema[0] || {}, null, 2));\\n\"}",
+              "result": "Colunas: \n---\n{}\n[ok · 1 chamadas de ferramenta · 33 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 4283,
+          "cachedTokens": 4131,
+          "completionTokens": 36,
+          "llmMs": 1541.0453440000128,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "beat_and_fell",
+      "volume": "médio",
+      "kind": "traditional",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "META, INTU, ORCL, MSFT, 09618.HK, 00700.HK, AMD",
+      "error": null,
+      "steps": 2,
+      "toolCalls": 1,
+      "toolErrors": 0,
+      "inputTokens": 4364,
+      "newInputTokens": 262,
+      "outputTokens": 481,
+      "peakContext": 2309,
+      "toolResultBytes": 517,
+      "ms": 10142,
+      "trace": [
+        {
+          "promptTokens": 2055,
+          "cachedTokens": 2051,
+          "completionTokens": 349,
+          "llmMs": 6935.567897000001,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 191,
+              "receivedBytes": 517,
+              "isError": false,
+              "ms": 2.088424000015948,
+              "args": "{\"sql\":\"SELECT symbol, eps_surprise_pct, price_reaction_pct FROM v_latest WHERE eps_surprise_pct > 0 AND price_reaction_pct < 0 ORDER BY eps_surprise_pct DESC\"}",
+              "result": "{\"rowCount\":7,\"truncated\":false,\"rows\":[{\"symbol\":\"META\",\"eps_surprise_pct\":13.1,\"price_reaction_pct\":-6.5},{\"symbol\":\"INTU\",\"eps_surprise_pct\":12.3,\"price_reaction_pct\":-6.5},{\"symbol\":\"ORCL\",\"eps_surprise_pct\":10.5,\"price_reaction_pct\":-7},{\"symbol\":\"MSFT\",\"eps_surprise_pct\":3.6,\"price_reaction_pct\":-0.2},{\"symbol\":\"09618.HK\",\"eps_surprise_pct\":3,\"price_reaction_pct\":-10.4},{\"symbol\":\"00700.HK\","
+            }
+          ]
+        },
+        {
+          "promptTokens": 2309,
+          "cachedTokens": 2051,
+          "completionTokens": 132,
+          "llmMs": 3204.646192999993,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "beat_and_fell",
+      "volume": "médio",
+      "kind": "code-exec",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "Empresas que bateram a estimativa de EPS (surpresa positiva) mas tiveram queda no preço após o resultado:\n\n- **00700.HK**\n- **09618.HK**\n- **AMD**\n- **INTU**\n- **META**\n- **MSFT**\n- **ORCL**",
+      "error": null,
+      "steps": 4,
+      "toolCalls": 3,
+      "toolErrors": 0,
+      "inputTokens": 7460,
+      "newInputTokens": 2992,
+      "outputTokens": 1060,
+      "peakContext": 2980,
+      "toolResultBytes": 6836,
+      "ms": 24926,
+      "trace": [
+        {
+          "promptTokens": 796,
+          "cachedTokens": 0,
+          "completionTokens": 98,
+          "llmMs": 4121.84460500002,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 71,
+              "receivedBytes": 2862,
+              "isError": false,
+              "ms": 0.8340700000117067,
+              "args": "{\"detail\":\"description\",\"query\":\"\"}",
+              "result": "[{\"function\":\"listCompanies\",\"import\":\"import { listCompanies } from '../servers/earnings/index.js';\",\"description\":\"Lista as empresas acompanhadas (símbolo, nome, área, mercado, moeda). Filtros opcionais por mercado e área.\"},{\"function\":\"getCompanySnapshot\",\"import\":\"import { getCompanySnapshot } from '../servers/earnings/index.js';\",\"description\":\"Linha completa de uma empresa como aparece no p"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1536,
+          "cachedTokens": 792,
+          "completionTokens": 112,
+          "llmMs": 3353.4130770000047,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 76,
+              "receivedBytes": 2270,
+              "isError": false,
+              "ms": 0.859838000003947,
+              "args": "{\"detail\":\"schema\",\"query\":\"listLatest\"}",
+              "result": "[{\"function\":\"listLatest\",\"import\":\"import { listLatest } from '../servers/earnings/index.js';\",\"description\":\"Último trimestre e valuation de TODAS as empresas (uma linha por empresa, view v_latest). Use `columns` para pedir só as colunas necessárias; sem ela devolve as 35 colunas.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"market\":{\"type\":\"string\",\"description\":\"Filtra por mercado: 'EUA' ou "
+            }
+          ]
+        },
+        {
+          "promptTokens": 2148,
+          "cachedTokens": 1532,
+          "completionTokens": 108,
+          "llmMs": 3252.1186809999926,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 251,
+              "receivedBytes": 1704,
+              "isError": false,
+              "ms": 33.29426200001035,
+              "args": "{\"code\":\"import { listLatest } from '../servers/earnings/index.js';\\n\\nconst data = await listLatest({ columns: ['symbol', 'eps_surprise_pct', 'price_reaction_pct'] });\\nconsole.log(JSON.stringify(data, null, 2));\"}",
+              "result": "[\n  {\n    \"symbol\": \"00700.HK\",\n    \"eps_surprise_pct\": 2.7,\n    \"price_reaction_pct\": -6.3\n  },\n  {\n    \"symbol\": \"01810.HK\",\n    \"eps_surprise_pct\": 2.2,\n    \"price_reaction_pct\": 6\n  },\n  {\n    \"symbol\": \"03690.HK\",\n    \"eps_surprise_pct\": null,\n    \"price_reaction_pct\": 1.8\n  },\n  {\n    \"symbol\": \"09618.HK\",\n    \"eps_surprise_pct\": 3,\n    \"price_reaction_pct\": -10.4\n  },\n  {\n    \"symbol\": \"098"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2980,
+          "cachedTokens": 2144,
+          "completionTokens": 742,
+          "llmMs": 14163.691802000016,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "capex_increase",
+      "volume": "médio",
+      "kind": "traditional",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "**AMZN** teve o maior aumento: **+18,8 pontos percentuais** (de 19,5% para 38,3%).",
+      "error": null,
+      "steps": 3,
+      "toolCalls": 8,
+      "toolErrors": 4,
+      "inputTokens": 8614,
+      "newInputTokens": 2238,
+      "outputTokens": 1247,
+      "peakContext": 3638,
+      "toolResultBytes": 2592,
+      "ms": 26650,
+      "trace": [
+        {
+          "promptTokens": 2074,
+          "cachedTokens": 1408,
+          "completionTokens": 664,
+          "llmMs": 13685.89278199998,
+          "calls": [
+            {
+              "name": "get_quarters",
+              "sentBytes": 106,
+              "receivedBytes": 423,
+              "isError": true,
+              "ms": 1.5134149999939837,
+              "args": "{\"symbol\":\"MSFT\",\"limit\":5,\"columns\":[\"period_end\",\"revenue\",\"capex\"]}",
+              "result": "Colunas inexistentes em v_quarter: revenue, capex. Disponíveis: symbol, name, market, currency, period_end, source, revenue_usd_b, gross_profit_usd_b, operating_income_usd_b, net_income_usd_b, ocf_usd_b, capex_usd_b, fcf_usd_b, rd_usd_b, sbc_usd_b, cash_usd_b, debt_usd_b, net_cash_usd_b, eps_native, gross_margin, operating_margin, net_margin, fcf_margin, capex_pct, rd_pct, sbc_pct, tax_rate, reven"
+            },
+            {
+              "name": "get_quarters",
+              "sentBytes": 107,
+              "receivedBytes": 423,
+              "isError": true,
+              "ms": 0.5407799999811687,
+              "args": "{\"symbol\":\"GOOGL\",\"limit\":5,\"columns\":[\"period_end\",\"revenue\",\"capex\"]}",
+              "result": "Colunas inexistentes em v_quarter: revenue, capex. Disponíveis: symbol, name, market, currency, period_end, source, revenue_usd_b, gross_profit_usd_b, operating_income_usd_b, net_income_usd_b, ocf_usd_b, capex_usd_b, fcf_usd_b, rd_usd_b, sbc_usd_b, cash_usd_b, debt_usd_b, net_cash_usd_b, eps_native, gross_margin, operating_margin, net_margin, fcf_margin, capex_pct, rd_pct, sbc_pct, tax_rate, reven"
+            },
+            {
+              "name": "get_quarters",
+              "sentBytes": 106,
+              "receivedBytes": 423,
+              "isError": true,
+              "ms": 0.33085800003027543,
+              "args": "{\"symbol\":\"AMZN\",\"limit\":5,\"columns\":[\"period_end\",\"revenue\",\"capex\"]}",
+              "result": "Colunas inexistentes em v_quarter: revenue, capex. Disponíveis: symbol, name, market, currency, period_end, source, revenue_usd_b, gross_profit_usd_b, operating_income_usd_b, net_income_usd_b, ocf_usd_b, capex_usd_b, fcf_usd_b, rd_usd_b, sbc_usd_b, cash_usd_b, debt_usd_b, net_cash_usd_b, eps_native, gross_margin, operating_margin, net_margin, fcf_margin, capex_pct, rd_pct, sbc_pct, tax_rate, reven"
+            },
+            {
+              "name": "get_quarters",
+              "sentBytes": 106,
+              "receivedBytes": 423,
+              "isError": true,
+              "ms": 0.2838800000026822,
+              "args": "{\"symbol\":\"META\",\"limit\":5,\"columns\":[\"period_end\",\"revenue\",\"capex\"]}",
+              "result": "Colunas inexistentes em v_quarter: revenue, capex. Disponíveis: symbol, name, market, currency, period_end, source, revenue_usd_b, gross_profit_usd_b, operating_income_usd_b, net_income_usd_b, ocf_usd_b, capex_usd_b, fcf_usd_b, rd_usd_b, sbc_usd_b, cash_usd_b, debt_usd_b, net_cash_usd_b, eps_native, gross_margin, operating_margin, net_margin, fcf_margin, capex_pct, rd_pct, sbc_pct, tax_rate, reven"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2902,
+          "cachedTokens": 2070,
+          "completionTokens": 379,
+          "llmMs": 7996.391039999959,
+          "calls": [
+            {
+              "name": "get_quarters",
+              "sentBytes": 100,
+              "receivedBytes": 224,
+              "isError": false,
+              "ms": 1.260653999983333,
+              "args": "{\"symbol\":\"MSFT\",\"limit\":5,\"columns\":[\"period_end\",\"capex_pct\"]}",
+              "result": "[{\"period_end\":\"2026-09-30\",\"capex_pct\":42.7},{\"period_end\":\"2026-06-30\",\"capex_pct\":39.8},{\"period_end\":\"2026-03-31\",\"capex_pct\":37.3},{\"period_end\":\"2025-12-31\",\"capex_pct\":36.8},{\"period_end\":\"2025-09-30\",\"capex_pct\":25}]"
+            },
+            {
+              "name": "get_quarters",
+              "sentBytes": 101,
+              "receivedBytes": 226,
+              "isError": false,
+              "ms": 0.4397340000141412,
+              "args": "{\"symbol\":\"GOOGL\",\"limit\":5,\"columns\":[\"period_end\",\"capex_pct\"]}",
+              "result": "[{\"period_end\":\"2026-09-30\",\"capex_pct\":40.3},{\"period_end\":\"2026-06-30\",\"capex_pct\":37.5},{\"period_end\":\"2026-03-31\",\"capex_pct\":32.5},{\"period_end\":\"2025-12-31\",\"capex_pct\":24.5},{\"period_end\":\"2025-09-30\",\"capex_pct\":23.4}]"
+            },
+            {
+              "name": "get_quarters",
+              "sentBytes": 100,
+              "receivedBytes": 224,
+              "isError": false,
+              "ms": 0.524310999957379,
+              "args": "{\"symbol\":\"AMZN\",\"limit\":5,\"columns\":[\"period_end\",\"capex_pct\"]}",
+              "result": "[{\"period_end\":\"2026-09-30\",\"capex_pct\":38.3},{\"period_end\":\"2026-06-30\",\"capex_pct\":27},{\"period_end\":\"2026-03-31\",\"capex_pct\":24.4},{\"period_end\":\"2025-12-31\",\"capex_pct\":18.5},{\"period_end\":\"2025-09-30\",\"capex_pct\":19.5}]"
+            },
+            {
+              "name": "get_quarters",
+              "sentBytes": 100,
+              "receivedBytes": 226,
+              "isError": false,
+              "ms": 0.4795129999984056,
+              "args": "{\"symbol\":\"META\",\"limit\":5,\"columns\":[\"period_end\",\"capex_pct\"]}",
+              "result": "[{\"period_end\":\"2026-09-30\",\"capex_pct\":52.5},{\"period_end\":\"2026-06-30\",\"capex_pct\":49.5},{\"period_end\":\"2026-03-31\",\"capex_pct\":33.7},{\"period_end\":\"2025-12-31\",\"capex_pct\":35.7},{\"period_end\":\"2025-09-30\",\"capex_pct\":36.7}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3638,
+          "cachedTokens": 2898,
+          "completionTokens": 204,
+          "llmMs": 4962.305310000025,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "capex_increase",
+      "volume": "médio",
+      "kind": "code-exec",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "**AMZN** teve o maior aumento em pontos percentuais do capex sobre a receita: **+18,78 p.p.** (de 19,48% em 2025-09-30 para 38,26% em 2026-09-30).\n\nComparativo das outras:\n- MSFT: +17,69 p.p.\n- GOOGL: +16,85 p.p.\n- META: +15,79 p.p.",
+      "error": null,
+      "steps": 6,
+      "toolCalls": 7,
+      "toolErrors": 0,
+      "inputTokens": 18811,
+      "newInputTokens": 6255,
+      "outputTokens": 1099,
+      "peakContext": 6235,
+      "toolResultBytes": 15376,
+      "ms": 31030,
+      "trace": [
+        {
+          "promptTokens": 815,
+          "cachedTokens": 0,
+          "completionTokens": 229,
+          "llmMs": 6455.192090999975,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 0.9418960000039078,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 928,
+          "cachedTokens": 811,
+          "completionTokens": 161,
+          "llmMs": 3533.966048000031,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 72,
+              "receivedBytes": 3143,
+              "isError": false,
+              "ms": 0.9552759999642149,
+              "args": "{\"detail\":\"schema\",\"query\":\"getTtm\"}",
+              "result": "[{\"function\":\"getCompanySnapshot\",\"import\":\"import { getCompanySnapshot } from '../servers/earnings/index.js';\",\"description\":\"Linha completa de uma empresa como aparece no painel: último trimestre reportado, margens, crescimento, estimativas, surpresa de EPS, reação do preço, valuation (P/L, EV/EBITDA…), TTM e próxima divulgação. Valores em bilhões de USD.\",\"inputSchema\":{\"type\":\"object\",\"propert"
+            },
+            {
+              "name": "search_tools",
+              "sentBytes": 77,
+              "receivedBytes": 3143,
+              "isError": false,
+              "ms": 0.3146190000115894,
+              "args": "{\"detail\":\"schema\",\"query\":\"getQuarters\"}",
+              "result": "[{\"function\":\"getQuarters\",\"import\":\"import { getQuarters } from '../servers/earnings/index.js';\",\"description\":\"Histórico trimestral de UMA empresa (view v_quarter): receita, lucros, caixa, margens, variação a/a e fonte do dado, do mais recente para o mais antigo. Valores em bilhões de USD.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"symbol\":{\"type\":\"string\",\"description\":\"Ticker\"},\"limit\":{\"t"
+            },
+            {
+              "name": "search_tools",
+              "sentBytes": 76,
+              "receivedBytes": 2270,
+              "isError": false,
+              "ms": 0.2488809999777004,
+              "args": "{\"detail\":\"schema\",\"query\":\"listLatest\"}",
+              "result": "[{\"function\":\"listLatest\",\"import\":\"import { listLatest } from '../servers/earnings/index.js';\",\"description\":\"Último trimestre e valuation de TODAS as empresas (uma linha por empresa, view v_latest). Use `columns` para pedir só as colunas necessárias; sem ela devolve as 35 colunas.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"market\":{\"type\":\"string\",\"description\":\"Filtra por mercado: 'EUA' ou "
+            }
+          ]
+        },
+        {
+          "promptTokens": 3142,
+          "cachedTokens": 924,
+          "completionTokens": 41,
+          "llmMs": 3896.1024020000477,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 71,
+              "receivedBytes": 216,
+              "isError": false,
+              "ms": 0.8565090000047348,
+              "args": "{\"detail\":\"schema\",\"query\":\"capex\"}",
+              "result": "{\"note\":\"nenhuma função combina com \\\"capex\\\"\",\"available\":[\"listCompanies\",\"getCompanySnapshot\",\"listLatest\",\"rankCompanies\",\"getQuarters\",\"getTtm\",\"getUpcomingEarnings\",\"getOntology\",\"checkDataQuality\",\"runSql\"]}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3251,
+          "cachedTokens": 3138,
+          "completionTokens": 102,
+          "llmMs": 2596.022617999988,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 216,
+              "receivedBytes": 3347,
+              "isError": false,
+              "ms": 28.90728099999251,
+              "args": "{\"code\":\"import { getOntology } from '../servers/earnings/index.js';\\nconst ontology = await getOntology({ section: 'metrics' });\\nconsole.log(JSON.stringify(ontology, null, 2));\"}",
+              "result": "{\n  \"text\": \"metrics:\\n  net_margin:\\n    label: {pt: \\\"Margem líquida\\\", en: \\\"Net margin\\\"}\\n    formula: \\\"net_income / revenue * 100\\\"\\n    where: [v_quarter, v_latest]\\n    synonyms: [\\\"margem de lucro\\\", \\\"lucro sobre receita\\\", \\\"profit margin\\\"]\\n  gross_margin:\\n    label: {pt: \\\"Margem bruta\\\", en: \\\"Gross margin\\\"}\\n    formula: \\\"gross_profit / revenue * 100\\\"\\n    where: [v_quarter, v"
+            }
+          ]
+        },
+        {
+          "promptTokens": 4440,
+          "cachedTokens": 3247,
+          "completionTokens": 261,
+          "llmMs": 6499.515543000016,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 592,
+              "receivedBytes": 2973,
+              "isError": false,
+              "ms": 31.64920300000813,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\nconst symbols = ['MSFT', 'GOOGL', 'AMZN', 'META'];\\nconst results = {};\\n\\nfor (const sym of symbols) {\\n  const sql = `\\n    SELECT period_end, capex_usd_b, revenue_usd_b, \\n           ROUND(capex_usd_b / revenue_usd_b * 100, 2) as capex_pct\\n    FROM v_quarter\\n    WHERE symbol = '${sym}'\\n    ORDER BY period_end DESC\\n    LIMIT 5\\n  `;\\n  const rows = await runSql({ sql });\\n  results[sym] = rows;\\n  console.log(`=== ${sym} ===`);\\n  console.log(JSON.stringify(rows, null, 2));\\n}\"}",
+              "result": "=== MSFT ===\n{\n  \"rowCount\": 5,\n  \"truncated\": false,\n  \"rows\": [\n    {\n      \"period_end\": \"2026-09-30\",\n      \"capex_usd_b\": 39.367,\n      \"revenue_usd_b\": 92.279,\n      \"capex_pct\": 42.66\n    },\n    {\n      \"period_end\": \"2026-06-30\",\n      \"capex_usd_b\": 35.802,\n      \"revenue_usd_b\": 90.007,\n      \"capex_pct\": 39.78\n    },\n    {\n      \"period_end\": \"2026-03-31\",\n      \"capex_usd_b\": 30.876,\n "
+            }
+          ]
+        },
+        {
+          "promptTokens": 6235,
+          "cachedTokens": 4436,
+          "completionTokens": 305,
+          "llmMs": 7985.20106500003,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "capex_increase",
+      "volume": "médio",
+      "kind": "traditional",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "AMZN teve o maior aumento: **+18,8 pontos percentuais** (de ~19,5% para ~38,3%).",
+      "error": null,
+      "steps": 5,
+      "toolCalls": 4,
+      "toolErrors": 0,
+      "inputTokens": 19994,
+      "newInputTokens": 4231,
+      "outputTokens": 2713,
+      "peakContext": 5623,
+      "toolResultBytes": 6346,
+      "ms": 55563,
+      "trace": [
+        {
+          "promptTokens": 2074,
+          "cachedTokens": 1408,
+          "completionTokens": 526,
+          "llmMs": 11614.49628599995,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 201,
+              "receivedBytes": 1820,
+              "isError": false,
+              "ms": 2.3003069999977015,
+              "args": "{\"sql\":\"SELECT symbol, period_end, revenue_usd_b, capex_usd_b FROM v_quarter WHERE symbol IN ('MSFT', 'GOOGL', 'AMZN', 'META') ORDER BY symbol, period_end DESC LIMIT 20\"}",
+              "result": "{\"rowCount\":20,\"truncated\":false,\"rows\":[{\"symbol\":\"AMZN\",\"period_end\":\"2026-09-30\",\"revenue_usd_b\":201.944,\"capex_usd_b\":77.259},{\"symbol\":\"AMZN\",\"period_end\":\"2026-06-30\",\"revenue_usd_b\":200.606,\"capex_usd_b\":54.208},{\"symbol\":\"AMZN\",\"period_end\":\"2026-03-31\",\"revenue_usd_b\":181.519,\"capex_usd_b\":44.203},{\"symbol\":\"AMZN\",\"period_end\":\"2025-12-31\",\"revenue_usd_b\":213.386,\"capex_usd_b\":39.522},{\"s"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3099,
+          "cachedTokens": 2070,
+          "completionTokens": 117,
+          "llmMs": 3696.7763419999974,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 193,
+              "receivedBytes": 1818,
+              "isError": false,
+              "ms": 2.0031569999991916,
+              "args": "{\"sql\":\"SELECT symbol, period_end, revenue_usd_b, capex_usd_b FROM v_quarter WHERE symbol IN ('MSFT', 'GOOGL', 'META') ORDER BY symbol, period_end DESC LIMIT 20\"}",
+              "result": "{\"rowCount\":20,\"truncated\":false,\"rows\":[{\"symbol\":\"GOOGL\",\"period_end\":\"2026-09-30\",\"revenue_usd_b\":127.577,\"capex_usd_b\":51.355},{\"symbol\":\"GOOGL\",\"period_end\":\"2026-06-30\",\"revenue_usd_b\":119.796,\"capex_usd_b\":44.924},{\"symbol\":\"GOOGL\",\"period_end\":\"2026-03-31\",\"revenue_usd_b\":109.896,\"capex_usd_b\":35.674},{\"symbol\":\"GOOGL\",\"period_end\":\"2025-12-31\",\"revenue_usd_b\":113.829,\"capex_usd_b\":27.851}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 4118,
+          "cachedTokens": 3095,
+          "completionTokens": 103,
+          "llmMs": 3470.8863659999915,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 184,
+              "receivedBytes": 1786,
+              "isError": false,
+              "ms": 1.9025710000423715,
+              "args": "{\"sql\":\"SELECT symbol, period_end, revenue_usd_b, capex_usd_b FROM v_quarter WHERE symbol IN ('MSFT', 'META') ORDER BY symbol, period_end DESC LIMIT 20\"}",
+              "result": "{\"rowCount\":20,\"truncated\":false,\"rows\":[{\"symbol\":\"META\",\"period_end\":\"2026-09-30\",\"revenue_usd_b\":64.601,\"capex_usd_b\":33.942},{\"symbol\":\"META\",\"period_end\":\"2026-06-30\",\"revenue_usd_b\":60.801,\"capex_usd_b\":30.116},{\"symbol\":\"META\",\"period_end\":\"2026-03-31\",\"revenue_usd_b\":56.311,\"capex_usd_b\":18.997},{\"symbol\":\"META\",\"period_end\":\"2025-12-31\",\"revenue_usd_b\":59.894,\"capex_usd_b\":21.383},{\"symbo"
+            }
+          ]
+        },
+        {
+          "promptTokens": 5080,
+          "cachedTokens": 4114,
+          "completionTokens": 604,
+          "llmMs": 12041.87997400004,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 165,
+              "receivedBytes": 922,
+              "isError": false,
+              "ms": 1.7092679999768734,
+              "args": "{\"sql\":\"SELECT symbol, period_end, revenue_usd_b, capex_usd_b FROM v_quarter WHERE symbol = 'MSFT' ORDER BY period_end DESC LIMIT 10\"}",
+              "result": "{\"rowCount\":10,\"truncated\":false,\"rows\":[{\"symbol\":\"MSFT\",\"period_end\":\"2026-09-30\",\"revenue_usd_b\":92.279,\"capex_usd_b\":39.367},{\"symbol\":\"MSFT\",\"period_end\":\"2026-06-30\",\"revenue_usd_b\":90.007,\"capex_usd_b\":35.802},{\"symbol\":\"MSFT\",\"period_end\":\"2026-03-31\",\"revenue_usd_b\":82.886,\"capex_usd_b\":30.876},{\"symbol\":\"MSFT\",\"period_end\":\"2025-12-31\",\"revenue_usd_b\":81.273,\"capex_usd_b\":29.876},{\"symbo"
+            }
+          ]
+        },
+        {
+          "promptTokens": 5623,
+          "cachedTokens": 5076,
+          "completionTokens": 1363,
+          "llmMs": 24731.460754,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "capex_increase",
+      "volume": "médio",
+      "kind": "code-exec",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A **AMZN** teve o maior aumento em pontos percentuais do capex sobre a receita:\n\n- **Mais recente (T3 2026):** 38,3%\n- **4 trimestres antes (T3 2025):** 19,5%\n- **Aumento: 18,8 pontos percentuais**\n\nComparação com as outras:\n- MSFT: +17,7 pp (42,7% - 25,0%)\n- GOOGL: +16,9 pp (40,3% - 23,4%)\n- META: +15,8 pp (52,5% - 36,7%)",
+      "error": null,
+      "steps": 9,
+      "toolCalls": 8,
+      "toolErrors": 1,
+      "inputTokens": 28270,
+      "newInputTokens": 9096,
+      "outputTokens": 1595,
+      "peakContext": 9064,
+      "toolResultBytes": 17636,
+      "ms": 45589,
+      "trace": [
+        {
+          "promptTokens": 815,
+          "cachedTokens": 0,
+          "completionTokens": 185,
+          "llmMs": 5985.867123999982,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 0.920085999998264,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 928,
+          "cachedTokens": 811,
+          "completionTokens": 69,
+          "llmMs": 1982.4667929999996,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 84,
+              "receivedBytes": 3143,
+              "isError": false,
+              "ms": 0.9964340000296943,
+              "args": "{\"query\":\"getQuarters getTtm\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"getCompanySnapshot\",\"import\":\"import { getCompanySnapshot } from '../servers/earnings/index.js';\",\"description\":\"Linha completa de uma empresa como aparece no painel: último trimestre reportado, margens, crescimento, estimativas, surpresa de EPS, reação do preço, valuation (P/L, EV/EBITDA…), TTM e próxima divulgação. Valores em bilhões de USD.\",\"inputSchema\":{\"type\":\"object\",\"propert"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1744,
+          "cachedTokens": 924,
+          "completionTokens": 107,
+          "llmMs": 3394.3202339999843,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 71,
+              "receivedBytes": 216,
+              "isError": false,
+              "ms": 0.983883999986574,
+              "args": "{\"query\":\"capex\",\"detail\":\"schema\"}",
+              "result": "{\"note\":\"nenhuma função combina com \\\"capex\\\"\",\"available\":[\"listCompanies\",\"getCompanySnapshot\",\"listLatest\",\"rankCompanies\",\"getQuarters\",\"getTtm\",\"getUpcomingEarnings\",\"getOntology\",\"checkDataQuality\",\"runSql\"]}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1853,
+          "cachedTokens": 1740,
+          "completionTokens": 104,
+          "llmMs": 2624.2953430000343,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 229,
+              "receivedBytes": 114,
+              "isError": true,
+              "ms": 27.706254999968223,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\nconst result = await runSql({\\n  sql: \\\"PRAGMA table_info(v_quarter)\\\"\\n});\\n\\nconsole.log(JSON.stringify(result, null, 2));\"}",
+              "result": "\nError: Só são permitidas instruções SELECT ou WITH\n\n[falhou (código 1) · 1 chamadas de ferramenta · 27 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1979,
+          "cachedTokens": 1849,
+          "completionTokens": 108,
+          "llmMs": 2690.757082999975,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 214,
+              "receivedBytes": 3347,
+              "isError": false,
+              "ms": 31.650351999967825,
+              "args": "{\"code\":\"import { getOntology } from '../servers/earnings/index.js';\\n\\nconst result = await getOntology({ section: 'metrics' });\\nconsole.log(JSON.stringify(result, null, 2));\"}",
+              "result": "{\n  \"text\": \"metrics:\\n  net_margin:\\n    label: {pt: \\\"Margem líquida\\\", en: \\\"Net margin\\\"}\\n    formula: \\\"net_income / revenue * 100\\\"\\n    where: [v_quarter, v_latest]\\n    synonyms: [\\\"margem de lucro\\\", \\\"lucro sobre receita\\\", \\\"profit margin\\\"]\\n  gross_margin:\\n    label: {pt: \\\"Margem bruta\\\", en: \\\"Gross margin\\\"}\\n    formula: \\\"gross_profit / revenue * 100\\\"\\n    where: [v_quarter, v"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3167,
+          "cachedTokens": 1975,
+          "completionTokens": 97,
+          "llmMs": 3675.725335999974,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 301,
+              "receivedBytes": 244,
+              "isError": false,
+              "ms": 29.951233999978285,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\nconst result = await runSql({\\n  sql: \\\"SELECT DISTINCT symbol FROM v_quarter WHERE symbol IN ('MSFT','GOOGL','AMZN','META') ORDER BY symbol\\\"\\n});\\n\\nconsole.log(JSON.stringify(result, null, 2));\"}",
+              "result": "{\n  \"rowCount\": 4,\n  \"truncated\": false,\n  \"rows\": [\n    {\n      \"symbol\": \"AMZN\"\n    },\n    {\n      \"symbol\": \"GOOGL\"\n    },\n    {\n      \"symbol\": \"META\"\n    },\n    {\n      \"symbol\": \"MSFT\"\n    }\n  ]\n}\n[ok · 1 chamadas de ferramenta · 29 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3382,
+          "cachedTokens": 3163,
+          "completionTokens": 163,
+          "llmMs": 3716.7088600000134,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 384,
+              "receivedBytes": 3447,
+              "isError": false,
+              "ms": 33.34078099997714,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\nconst result = await runSql({\\n  sql: `SELECT symbol, period_end, capex_pct \\n        FROM v_quarter \\n        WHERE symbol IN ('MSFT','GOOGL','AMZN','META') \\n        ORDER BY symbol, period_end DESC \\n        LIMIT 40`\\n});\\n\\nconsole.log(JSON.stringify(result.rows, null, 2));\"}",
+              "result": "[\n  {\n    \"symbol\": \"AMZN\",\n    \"period_end\": \"2026-09-30\",\n    \"capex_pct\": 38.3\n  },\n  {\n    \"symbol\": \"AMZN\",\n    \"period_end\": \"2026-06-30\",\n    \"capex_pct\": 27\n  },\n  {\n    \"symbol\": \"AMZN\",\n    \"period_end\": \"2026-03-31\",\n    \"capex_pct\": 24.4\n  },\n  {\n    \"symbol\": \"AMZN\",\n    \"period_end\": \"2025-12-31\",\n    \"capex_pct\": 18.5\n  },\n  {\n    \"symbol\": \"AMZN\",\n    \"period_end\": \"2025-09-30\",\n  "
+            }
+          ]
+        },
+        {
+          "promptTokens": 5338,
+          "cachedTokens": 3378,
+          "completionTokens": 164,
+          "llmMs": 5576.526231000025,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 384,
+              "receivedBytes": 6841,
+              "isError": false,
+              "ms": 32.70196299999952,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\nconst result = await runSql({\\n  sql: `SELECT symbol, period_end, capex_pct \\n        FROM v_quarter \\n        WHERE symbol IN ('MSFT','GOOGL','AMZN','META') \\n        ORDER BY symbol, period_end DESC \\n        LIMIT 80`\\n});\\n\\nconsole.log(JSON.stringify(result.rows, null, 2));\"}",
+              "result": "[\n  {\n    \"symbol\": \"AMZN\",\n    \"period_end\": \"2026-09-30\",\n    \"capex_pct\": 38.3\n  },\n  {\n    \"symbol\": \"AMZN\",\n    \"period_end\": \"2026-06-30\",\n    \"capex_pct\": 27\n  },\n  {\n    \"symbol\": \"AMZN\",\n    \"period_end\": \"2026-03-31\",\n    \"capex_pct\": 24.4\n  },\n  {\n    \"symbol\": \"AMZN\",\n    \"period_end\": \"2025-12-31\",\n    \"capex_pct\": 18.5\n  },\n  {\n    \"symbol\": \"AMZN\",\n    \"period_end\": \"2025-09-30\",\n  "
+            }
+          ]
+        },
+        {
+          "promptTokens": 9064,
+          "cachedTokens": 5334,
+          "completionTokens": 598,
+          "llmMs": 15783.672472999955,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "avg_margin_8q",
+      "volume": "grande",
+      "kind": "traditional",
+      "trial": 1,
+      "correct": false,
+      "missing": [
+        57.9,
+        41.4,
+        38.5
+      ],
+      "forbidden": [],
+      "answer": "As 3 maiores médias de margem líquida nos últimos 8 trimestres (empresas dos EUA) são:\n\n1. **NVDA**: 43,20%\n2. **MSFT**: 36,77%\n3. **GOOGL**: 31,03%",
+      "error": null,
+      "steps": 3,
+      "toolCalls": 2,
+      "toolErrors": 0,
+      "inputTokens": 8625,
+      "newInputTokens": 1980,
+      "outputTokens": 869,
+      "peakContext": 3380,
+      "toolResultBytes": 3503,
+      "ms": 20871,
+      "trace": [
+        {
+          "promptTokens": 2060,
+          "cachedTokens": 1408,
+          "completionTokens": 430,
+          "llmMs": 10382.852027999994,
+          "calls": [
+            {
+              "name": "get_ontology",
+              "sentBytes": 57,
+              "receivedBytes": 3300,
+              "isError": false,
+              "ms": 1.1535380000132136,
+              "args": "{\"section\":\"metrics\"}",
+              "result": "{\"text\":\"metrics:\\n  net_margin:\\n    label: {pt: \\\"Margem líquida\\\", en: \\\"Net margin\\\"}\\n    formula: \\\"net_income / revenue * 100\\\"\\n    where: [v_quarter, v_latest]\\n    synonyms: [\\\"margem de lucro\\\", \\\"lucro sobre receita\\\", \\\"profit margin\\\"]\\n  gross_margin:\\n    label: {pt: \\\"Margem bruta\\\", en: \\\"Gross margin\\\"}\\n    formula: \\\"gross_profit / revenue * 100\\\"\\n    where: [v_quarter, v_lat"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3185,
+          "cachedTokens": 2056,
+          "completionTokens": 261,
+          "llmMs": 6501.520919999981,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 234,
+              "receivedBytes": 203,
+              "isError": false,
+              "ms": 2.2906269999803044,
+              "args": "{\"sql\":\"SELECT c.symbol, AVG(q.net_margin) as avg_net_margin\\nFROM v_company c\\nJOIN v_quarter q ON c.symbol = q.symbol\\nWHERE c.market = 'EUA'\\nGROUP BY c.symbol\\nORDER BY avg_net_margin DESC\\nLIMIT 3\"}",
+              "result": "{\"rowCount\":3,\"truncated\":false,\"rows\":[{\"symbol\":\"NVDA\",\"avg_net_margin\":43.20434782608696},{\"symbol\":\"MSFT\",\"avg_net_margin\":36.766666666666666},{\"symbol\":\"GOOGL\",\"avg_net_margin\":31.025000000000002}]}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3380,
+          "cachedTokens": 3181,
+          "completionTokens": 178,
+          "llmMs": 3983.3994860000093,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "avg_margin_8q",
+      "volume": "grande",
+      "kind": "code-exec",
+      "trial": 1,
+      "correct": false,
+      "missing": [
+        "NVDA",
+        57.9,
+        "GOOGL",
+        41.4,
+        "MSFT",
+        38.5
+      ],
+      "forbidden": [],
+      "answer": "",
+      "error": null,
+      "steps": 7,
+      "toolCalls": 6,
+      "toolErrors": 1,
+      "inputTokens": 22844,
+      "newInputTokens": 5815,
+      "outputTokens": 758,
+      "peakContext": 5791,
+      "toolResultBytes": 13706,
+      "ms": 25354,
+      "trace": [
+        {
+          "promptTokens": 801,
+          "cachedTokens": 0,
+          "completionTokens": 146,
+          "llmMs": 4994.318988999992,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 0.7815619999892078,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 914,
+          "cachedTokens": 797,
+          "completionTokens": 77,
+          "llmMs": 2115.733448999992,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 77,
+              "receivedBytes": 3143,
+              "isError": false,
+              "ms": 0.9986930000013672,
+              "args": "{\"query\":\"getQuarters\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"getQuarters\",\"import\":\"import { getQuarters } from '../servers/earnings/index.js';\",\"description\":\"Histórico trimestral de UMA empresa (view v_quarter): receita, lucros, caixa, margens, variação a/a e fonte do dado, do mais recente para o mais antigo. Valores em bilhões de USD.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"symbol\":{\"type\":\"string\",\"description\":\"Ticker\"},\"limit\":{\"t"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1727,
+          "cachedTokens": 910,
+          "completionTokens": 99,
+          "llmMs": 3262.629210000043,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 222,
+              "receivedBytes": 3901,
+              "isError": false,
+              "ms": 33.04697099997429,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\nconst result = await runSql({\\n  sql: `SELECT * FROM v_company`\\n});\\n\\nconsole.log(JSON.stringify(result, null, 2));\"}",
+              "result": "{\n  \"rowCount\": 18,\n  \"truncated\": false,\n  \"rows\": [\n    {\n      \"symbol\": \"NVDA\",\n      \"name\": \"Nvidia\",\n      \"area\": \"Chips de IA\",\n      \"market\": \"EUA\",\n      \"currency\": \"USD\",\n      \"fx_to_usd\": 1,\n      \"as_of\": \"2026-11-03T12:43:42.660Z\"\n    },\n    {\n      \"symbol\": \"MSFT\",\n      \"name\": \"Microsoft\",\n      \"area\": \"Nuvem/IA\",\n      \"market\": \"EUA\",\n      \"currency\": \"USD\",\n      \"fx_to_"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3657,
+          "cachedTokens": 1723,
+          "completionTokens": 68,
+          "llmMs": 3931.9777810000232,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 75,
+              "receivedBytes": 4895,
+              "isError": false,
+              "ms": 1.7302969999727793,
+              "args": "{\"query\":\"v_quarter\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"getQuarters\",\"import\":\"import { getQuarters } from '../servers/earnings/index.js';\",\"description\":\"Histórico trimestral de UMA empresa (view v_quarter): receita, lucros, caixa, margens, variação a/a e fonte do dado, do mais recente para o mais antigo. Valores em bilhões de USD.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"symbol\":{\"type\":\"string\",\"description\":\"Ticker\"},\"limit\":{\"t"
+            }
+          ]
+        },
+        {
+          "promptTokens": 4898,
+          "cachedTokens": 3653,
+          "completionTokens": 110,
+          "llmMs": 4051.9325309999986,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 353,
+              "receivedBytes": 114,
+              "isError": true,
+              "ms": 30.557781999988947,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Primeiro, verifique as colunas disponíveis em v_quarter\\nconst columns = await runSql({\\n  sql: `PRAGMA table_info(v_quarter)`\\n});\\n\\nconsole.log(\\\"Colunas de v_quarter:\\\");\\nconsole.log(JSON.stringify(columns.rows.map(r => r.name), null, 2));\"}",
+              "result": "\nError: Só são permitidas instruções SELECT ou WITH\n\n[falhou (código 1) · 1 chamadas de ferramenta · 29 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 5056,
+          "cachedTokens": 4894,
+          "completionTokens": 115,
+          "llmMs": 2884.952439000015,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 302,
+              "receivedBytes": 1369,
+              "isError": false,
+              "ms": 30.98837600002298,
+              "args": "{\"code\":\"import { getQuarters } from '../servers/earnings/index.js';\\n\\nconst result = await getQuarters({ symbol: \\\"NVDA\\\", limit: 1 });\\nconsole.log(\\\"Colunas de v_quarter:\\\", Object.keys(result[0]));\\nconsole.log(\\\"Dados:\\\", JSON.stringify(result[0], null, 2));\"}",
+              "result": "Colunas de v_quarter: [\n  'period_end',             'symbol',\n  'name',                   'market',\n  'currency',               'source',\n  'revenue_usd_b',          'gross_profit_usd_b',\n  'operating_income_usd_b', 'net_income_usd_b',\n  'ocf_usd_b',              'capex_usd_b',\n  'fcf_usd_b',              'rd_usd_b',\n  'sbc_usd_b',              'cash_usd_b',\n  'debt_usd_b',             'net_cash_u"
+            }
+          ]
+        },
+        {
+          "promptTokens": 5791,
+          "cachedTokens": 5052,
+          "completionTokens": 143,
+          "llmMs": 4014.1569710000185,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "avg_margin_8q",
+      "volume": "grande",
+      "kind": "traditional",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "As 3 maiores médias da margem líquida dos últimos 8 trimestres (apenas empresas dos EUA) são:\n\n1. **NVDA** (Nvidia): 57,86%\n2. **GOOGL** (Alphabet): 41,35%\n3. **MSFT** (Microsoft): 38,48%",
+      "error": null,
+      "steps": 4,
+      "toolCalls": 4,
+      "toolErrors": 0,
+      "inputTokens": 13352,
+      "newInputTokens": 2584,
+      "outputTokens": 2405,
+      "peakContext": 3980,
+      "toolResultBytes": 4914,
+      "ms": 47772,
+      "trace": [
+        {
+          "promptTokens": 2060,
+          "cachedTokens": 1408,
+          "completionTokens": 1013,
+          "llmMs": 19874.274520999985,
+          "calls": [
+            {
+              "name": "get_ontology",
+              "sentBytes": 57,
+              "receivedBytes": 3300,
+              "isError": false,
+              "ms": 0.7694520000368357,
+              "args": "{\"section\":\"metrics\"}",
+              "result": "{\"text\":\"metrics:\\n  net_margin:\\n    label: {pt: \\\"Margem líquida\\\", en: \\\"Net margin\\\"}\\n    formula: \\\"net_income / revenue * 100\\\"\\n    where: [v_quarter, v_latest]\\n    synonyms: [\\\"margem de lucro\\\", \\\"lucro sobre receita\\\", \\\"profit margin\\\"]\\n  gross_margin:\\n    label: {pt: \\\"Margem bruta\\\", en: \\\"Gross margin\\\"}\\n    formula: \\\"gross_profit / revenue * 100\\\"\\n    where: [v_quarter, v_lat"
+            },
+            {
+              "name": "list_companies",
+              "sentBytes": 54,
+              "receivedBytes": 1079,
+              "isError": false,
+              "ms": 0.9971139999688603,
+              "args": "{\"market\":\"EUA\"}",
+              "result": "[{\"symbol\":\"AAPL\",\"name\":\"Apple\",\"area\":\"Eletrônicos\",\"market\":\"EUA\",\"currency\":\"USD\"},{\"symbol\":\"AMD\",\"name\":\"AMD\",\"area\":\"Chips\",\"market\":\"EUA\",\"currency\":\"USD\"},{\"symbol\":\"AMZN\",\"name\":\"Amazon\",\"area\":\"E-commerce/nuvem\",\"market\":\"EUA\",\"currency\":\"USD\"},{\"symbol\":\"CRM\",\"name\":\"Salesforce\",\"area\":\"SaaS/IA\",\"market\":\"EUA\",\"currency\":\"USD\"},{\"symbol\":\"GOOGL\",\"name\":\"Alphabet\",\"area\":\"Busca/IA\",\"mar"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3530,
+          "cachedTokens": 2056,
+          "completionTokens": 511,
+          "llmMs": 11010.97078600002,
+          "calls": [
+            {
+              "name": "get_quarters",
+              "sentBytes": 101,
+              "receivedBytes": 367,
+              "isError": false,
+              "ms": 1.3171730000176467,
+              "args": "{\"symbol\":\"AAPL\",\"limit\":8,\"columns\":[\"period_end\",\"net_margin\"]}",
+              "result": "[{\"period_end\":\"2026-09-26\",\"net_margin\":26.8},{\"period_end\":\"2026-06-27\",\"net_margin\":27.2},{\"period_end\":\"2026-03-28\",\"net_margin\":26.6},{\"period_end\":\"2025-12-27\",\"net_margin\":29.3},{\"period_end\":\"2025-09-27\",\"net_margin\":26.8},{\"period_end\":\"2025-06-28\",\"net_margin\":24.9},{\"period_end\":\"2025-03-31\",\"net_margin\":26},{\"period_end\":\"2024-12-28\",\"net_margin\":29.2}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3782,
+          "cachedTokens": 3526,
+          "completionTokens": 567,
+          "llmMs": 10597.008450999972,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 394,
+              "receivedBytes": 168,
+              "isError": false,
+              "ms": 2.296427000022959,
+              "args": "{\"sql\":\"WITH ranked AS (\\n  SELECT symbol, net_margin,\\n         ROW_NUMBER() OVER (PARTITION BY symbol ORDER BY period_end DESC) as rn\\n  FROM v_quarter\\n  WHERE symbol IN (SELECT symbol FROM v_company WHERE market = 'EUA')\\n)\\nSELECT symbol, AVG(net_margin) as avg_net_margin\\nFROM ranked\\nWHERE rn <= 8\\nGROUP BY symbol\\nORDER BY avg_net_margin DESC\\nLIMIT 3\"}",
+              "result": "{\"rowCount\":3,\"truncated\":false,\"rows\":[{\"symbol\":\"NVDA\",\"avg_net_margin\":57.8625},{\"symbol\":\"GOOGL\",\"avg_net_margin\":41.35},{\"symbol\":\"MSFT\",\"avg_net_margin\":38.475}]}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3980,
+          "cachedTokens": 3778,
+          "completionTokens": 314,
+          "llmMs": 6283.944851999986,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "avg_margin_8q",
+      "volume": "grande",
+      "kind": "code-exec",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "As 3 empresas dos EUA com as maiores médias da margem líquida nos últimos 8 trimestres são:\n\n1. **NVDA** – 57,86%\n2. **GOOGL** – 41,35%\n3. **MSFT** – 38,48%",
+      "error": null,
+      "steps": 6,
+      "toolCalls": 5,
+      "toolErrors": 0,
+      "inputTokens": 12290,
+      "newInputTokens": 3654,
+      "outputTokens": 847,
+      "peakContext": 3634,
+      "toolResultBytes": 7563,
+      "ms": 23433,
+      "trace": [
+        {
+          "promptTokens": 801,
+          "cachedTokens": 0,
+          "completionTokens": 158,
+          "llmMs": 5283.491689999995,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 0.8430090000038035,
+              "args": "{\"detail\":\"name\",\"query\":\"\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 914,
+          "cachedTokens": 797,
+          "completionTokens": 64,
+          "llmMs": 1904.9772839999641,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 79,
+              "receivedBytes": 1823,
+              "isError": false,
+              "ms": 0.8907279999693856,
+              "args": "{\"detail\":\"schema\",\"query\":\"listCompanies\"}",
+              "result": "[{\"function\":\"listCompanies\",\"import\":\"import { listCompanies } from '../servers/earnings/index.js';\",\"description\":\"Lista as empresas acompanhadas (símbolo, nome, área, mercado, moeda). Filtros opcionais por mercado e área.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"market\":{\"type\":\"string\",\"description\":\"Mercado: 'EUA' ou 'Hong Kong'\",\"enum\":[\"EUA\",\"Hong Kong\"]},\"area\":{\"type\":\"string\",\"desc"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1420,
+          "cachedTokens": 910,
+          "completionTokens": 65,
+          "llmMs": 2234.427823999955,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 77,
+              "receivedBytes": 3143,
+              "isError": false,
+              "ms": 0.9741240000003017,
+              "args": "{\"detail\":\"schema\",\"query\":\"getQuarters\"}",
+              "result": "[{\"function\":\"getQuarters\",\"import\":\"import { getQuarters } from '../servers/earnings/index.js';\",\"description\":\"Histórico trimestral de UMA empresa (view v_quarter): receita, lucros, caixa, margens, variação a/a e fonte do dado, do mais recente para o mais antigo. Valores em bilhões de USD.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"symbol\":{\"type\":\"string\",\"description\":\"Ticker\"},\"limit\":{\"t"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2233,
+          "cachedTokens": 1416,
+          "completionTokens": 156,
+          "llmMs": 4165.799799999979,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 337,
+              "receivedBytes": 2012,
+              "isError": false,
+              "ms": 33.80476400000043,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\nconst result = await runSql({\\n  sql: `SELECT DISTINCT symbol, net_margin, period_end FROM v_quarter WHERE symbol IN (SELECT symbol FROM v_company WHERE market = 'EUA') LIMIT 20`\\n});\\n\\nconsole.log(JSON.stringify(result, null, 2));\"}",
+              "result": "{\n  \"rowCount\": 20,\n  \"truncated\": false,\n  \"rows\": [\n    {\n      \"symbol\": \"AAPL\",\n      \"net_margin\": 25.8,\n      \"period_end\": \"2020-12-26\"\n    },\n    {\n      \"symbol\": \"AAPL\",\n      \"net_margin\": 26.4,\n      \"period_end\": \"2021-03-27\"\n    },\n    {\n      \"symbol\": \"AAPL\",\n      \"net_margin\": 26.7,\n      \"period_end\": \"2021-06-26\"\n    },\n    {\n      \"symbol\": \"AAPL\",\n      \"net_margin\": 24.7,\n  "
+            }
+          ]
+        },
+        {
+          "promptTokens": 3288,
+          "cachedTokens": 2229,
+          "completionTokens": 251,
+          "llmMs": 6097.883639999956,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 706,
+              "receivedBytes": 301,
+              "isError": false,
+              "ms": 33.70838700002059,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\nconst result = await runSql({\\n  sql: `\\n    WITH ranked AS (\\n      SELECT symbol, net_margin,\\n             ROW_NUMBER() OVER (PARTITION BY symbol ORDER BY period_end DESC) as rn\\n      FROM v_quarter\\n      WHERE symbol IN (SELECT symbol FROM v_company WHERE market = 'EUA')\\n    ),\\n    last8 AS (\\n      SELECT symbol, net_margin\\n      FROM ranked\\n      WHERE rn <= 8\\n    )\\n    SELECT symbol, \\n           ROUND(AVG(net_margin), 2) as avg_net_margin\\n    FROM last8\\n    GROUP BY symbol\\n    ORDER BY avg_net_margin DESC\\n    LIMIT 3\\n  `\\n});\\n\\nconsole.log(JSON.stringify(result, null, 2));\"}",
+              "result": "{\n  \"rowCount\": 3,\n  \"truncated\": false,\n  \"rows\": [\n    {\n      \"symbol\": \"NVDA\",\n      \"avg_net_margin\": 57.86\n    },\n    {\n      \"symbol\": \"GOOGL\",\n      \"avg_net_margin\": 41.35\n    },\n    {\n      \"symbol\": \"MSFT\",\n      \"avg_net_margin\": 38.48\n    }\n  ]\n}\n[ok · 1 chamadas de ferramenta · 33 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3634,
+          "cachedTokens": 3284,
+          "completionTokens": 153,
+          "llmMs": 3676.4718089999515,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "cagr_history",
+      "volume": "grande",
+      "kind": "traditional",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A empresa dos EUA com pelo menos 12 trimestres no banco que teve o maior CAGR da receita trimestral foi a **NVDA (NVIDIA)**, com **71,50%**.\n\nO cálculo foi feito entre o trimestre mais antigo (2021-01-31, receita de US$ 5,003 bilhões) e o mais recente (2026-07-26, receita de US$ 96,221 bilhões), num período de ~5,48 anos.",
+      "error": null,
+      "steps": 3,
+      "toolCalls": 2,
+      "toolErrors": 0,
+      "inputTokens": 9378,
+      "newInputTokens": 3010,
+      "outputTokens": 2919,
+      "peakContext": 4410,
+      "toolResultBytes": 2950,
+      "ms": 55820,
+      "trace": [
+        {
+          "promptTokens": 2093,
+          "cachedTokens": 1408,
+          "completionTokens": 2079,
+          "llmMs": 37770.88717400003,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 724,
+              "receivedBytes": 1078,
+              "isError": false,
+              "ms": 2.3457349999807775,
+              "args": "{\"sql\":\"WITH us_companies AS (\\n  SELECT c.symbol\\n  FROM v_company c\\n  JOIN v_quarter q ON c.symbol = q.symbol\\n  WHERE c.market = 'EUA'\\n  GROUP BY c.symbol\\n  HAVING COUNT(*) >= 12\\n)\\nSELECT stats.symbol, \\n       q1.period_end as start_date, q1.revenue_usd_b as start_rev,\\n       q2.period_end as end_date, q2.revenue_usd_b as end_rev\\nFROM (\\n  SELECT symbol, MIN(period_end) as start_date, MAX(period_end) as end_date\\n  FROM v_quarter\\n  WHERE symbol IN (SELECT symbol FROM us_companies)\\n  GROUP BY symbol\\n) stats\\nJOIN v_quarter q1 ON stats.symbol = q1.symbol AND stats.start_date = q1.period_end\\nJOIN v_quarter q2 ON stats.symbol = q2.symbol AND stats.end_date = q2.period_end\"}",
+              "result": "{\"rowCount\":10,\"truncated\":false,\"rows\":[{\"symbol\":\"AAPL\",\"start_date\":\"2020-12-26\",\"start_rev\":111.439,\"end_date\":\"2026-09-26\",\"end_rev\":114.477},{\"symbol\":\"AMD\",\"start_date\":\"2020-12-26\",\"start_rev\":3.244,\"end_date\":\"2026-06-27\",\"end_rev\":11.536},{\"symbol\":\"AMZN\",\"start_date\":\"2020-12-31\",\"start_rev\":125.555,\"end_date\":\"2026-09-30\",\"end_rev\":201.944},{\"symbol\":\"CRM\",\"start_date\":\"2021-01-31\",\"st"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2875,
+          "cachedTokens": 2089,
+          "completionTokens": 705,
+          "llmMs": 13475.389438000042,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 1034,
+              "receivedBytes": 1872,
+              "isError": false,
+              "ms": 2.8338970000622794,
+              "args": "{\"sql\":\"WITH us_companies AS (\\n  SELECT c.symbol\\n  FROM v_company c\\n  JOIN v_quarter q ON c.symbol = q.symbol\\n  WHERE c.market = 'EUA'\\n  GROUP BY c.symbol\\n  HAVING COUNT(*) >= 12\\n),\\nstats AS (\\n  SELECT symbol, MIN(period_end) as start_date, MAX(period_end) as end_date\\n  FROM v_quarter\\n  WHERE symbol IN (SELECT symbol FROM us_companies)\\n  GROUP BY symbol\\n),\\nrevenues AS (\\n  SELECT s.symbol, s.start_date, s.end_date,\\n         q1.revenue_usd_b as start_rev, q2.revenue_usd_b as end_rev\\n  FROM stats s\\n  JOIN v_quarter q1 ON s.symbol = q1.symbol AND s.start_date = q1.period_end\\n  JOIN v_quarter q2 ON s.symbol = q2.symbol AND s.end_date = q2.period_end\\n)\\nSELECT symbol, start_rev, end_rev, start_date, end_date,\\n       (julianday(end_date) - julianday(start_date)) / 365.25 as years,\\n       (end_rev / start_rev) AS ratio,\\n       POWER(end_rev / start_rev, 1.0 / ((julianday(end_date) - julianday(start_date)) / 365.25)) - 1 as cagr\\nFROM revenues\\nORDER BY cagr DESC\\nLIMIT 10\"}",
+              "result": "{\"rowCount\":10,\"truncated\":false,\"rows\":[{\"symbol\":\"NVDA\",\"start_rev\":5.003,\"end_rev\":96.221,\"start_date\":\"2021-01-31\",\"end_date\":\"2026-07-26\",\"years\":5.4811772758384665,\"ratio\":19.232660403757745,\"cagr\":0.7149972393163908},{\"symbol\":\"AMD\",\"start_rev\":3.244,\"end_rev\":11.536,\"start_date\":\"2020-12-26\",\"end_date\":\"2026-06-27\",\"years\":5.500342231348392,\"ratio\":3.5561035758323056,\"cagr\":0.2594210010167"
+            }
+          ]
+        },
+        {
+          "promptTokens": 4410,
+          "cachedTokens": 2871,
+          "completionTokens": 135,
+          "llmMs": 4568.655658000032,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "cagr_history",
+      "volume": "grande",
+      "kind": "code-exec",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A empresa com o maior CAGR da receita trimestral é a **NVDA (Nvidia)**, com **71,50%**.",
+      "error": null,
+      "steps": 9,
+      "toolCalls": 8,
+      "toolErrors": 3,
+      "inputTokens": 24310,
+      "newInputTokens": 5300,
+      "outputTokens": 1631,
+      "peakContext": 5268,
+      "toolResultBytes": 9343,
+      "ms": 40968,
+      "trace": [
+        {
+          "promptTokens": 834,
+          "cachedTokens": 0,
+          "completionTokens": 316,
+          "llmMs": 7964.6878789999755,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 0.964185000048019,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 947,
+          "cachedTokens": 830,
+          "completionTokens": 66,
+          "llmMs": 1939.6173470000504,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 66,
+              "receivedBytes": 5388,
+              "isError": false,
+              "ms": 1.3020729999989271,
+              "args": "{\"query\":\"\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"listCompanies\",\"import\":\"import { listCompanies } from '../servers/earnings/index.js';\",\"description\":\"Lista as empresas acompanhadas (símbolo, nome, área, mercado, moeda). Filtros opcionais por mercado e área.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"market\":{\"type\":\"string\",\"description\":\"Mercado: 'EUA' ou 'Hong Kong'\",\"enum\":[\"EUA\",\"Hong Kong\"]},\"area\":{\"type\":\"string\",\"desc"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2304,
+          "cachedTokens": 943,
+          "completionTokens": 271,
+          "llmMs": 6736.800035999971,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 314,
+              "receivedBytes": 186,
+              "isError": true,
+              "ms": 32.20319200004451,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Primeiro, ver a estrutura das views\\nconst schema = await runSql(`\\n  SELECT sql FROM sqlite_master WHERE type='table' OR type='view'\\n`);\\nconsole.log(\\\"Tables/Views:\\\", JSON.stringify(schema, null, 2));\\n\"}",
+              "result": "\nTypeError: runSql recebe um objeto: runSql({ sql })\n    at file://<sandbox>/runs/362c38c8-5ad5-4520-b80c-ad7afa986776.mjs:4:22\n\n[falhou (código 1) · 0 chamadas de ferramenta · 31 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2498,
+          "cachedTokens": 2300,
+          "completionTokens": 97,
+          "llmMs": 2595.7899870000547,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 317,
+              "receivedBytes": 108,
+              "isError": true,
+              "ms": 30.176086000050418,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Verificar estrutura das views\\nconst schema = await runSql({ sql: `\\n  SELECT sql FROM sqlite_master WHERE type='table' OR type='view'\\n`} );\\nconsole.log(\\\"Tables/Views:\\\", JSON.stringify(schema, null, 2));\\n\"}",
+              "result": "\nError: access to sqlite_master.sql is prohibited\n\n[falhou (código 1) · 1 chamadas de ferramenta · 29 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2642,
+          "cachedTokens": 2494,
+          "completionTokens": 99,
+          "llmMs": 2583.230622999952,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 297,
+              "receivedBytes": 221,
+              "isError": true,
+              "ms": 33.21788500004914,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Verificar colunas de v_quarter\\nconst cols = await runSql({ sql: `SELECT * FROM v_quarter LIMIT 1` });\\nconsole.log(\\\"Colunas v_quarter:\\\", JSON.stringify(Object.keys(cols[0]), null, 2));\\n\"}",
+              "result": "\nTypeError: Cannot convert undefined or null to object\n    at Object.keys (<anonymous>)\n    at file://<sandbox>/runs/18abbb94-92f9-4be0-8c23-6f6fd0c382bc.mjs:5:57\n\n[falhou (código 1) · 1 chamadas de ferramenta · 32 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2842,
+          "cachedTokens": 2638,
+          "completionTokens": 86,
+          "llmMs": 2398.391316999914,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 264,
+              "receivedBytes": 662,
+              "isError": false,
+              "ms": 32.5542200000491,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Verificar colunas de v_quarter\\nconst cols = await runSql({ sql: `SELECT * FROM v_quarter LIMIT 1` });\\nconsole.log(\\\"Resultado:\\\", JSON.stringify(cols));\\n\"}",
+              "result": "Resultado: {\"rowCount\":1,\"truncated\":false,\"rows\":[{\"symbol\":\"NVDA\",\"name\":\"Nvidia\",\"market\":\"EUA\",\"currency\":\"USD\",\"period_end\":\"2025-07-27\",\"source\":\"FMP\",\"revenue_usd_b\":46.743,\"gross_profit_usd_b\":33.853,\"operating_income_usd_b\":28.44,\"net_income_usd_b\":26.422,\"ocf_usd_b\":15.365,\"capex_usd_b\":1.895,\"fcf_usd_b\":13.47,\"rd_usd_b\":4.291,\"sbc_usd_b\":1.625,\"cash_usd_b\":56.791,\"debt_usd_b\":8.466,\"net"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3252,
+          "cachedTokens": 2838,
+          "completionTokens": 180,
+          "llmMs": 4150.8180240000365,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 587,
+              "receivedBytes": 618,
+              "isError": false,
+              "ms": 33.55803199997172,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Obter todas as empresas dos EUA com pelo menos 12 trimestres no banco\\nconst result = await runSql({ sql: `\\n  WITH company_quarters AS (\\n    SELECT symbol, COUNT(*) as num_quarters\\n    FROM v_quarter\\n    WHERE market = 'EUA'\\n    GROUP BY symbol\\n    HAVING COUNT(*) >= 12\\n  )\\n  SELECT cq.symbol, cq.num_quarters\\n  FROM company_quarters cq\\n  ORDER BY cq.num_quarters DESC\\n`});\\nconsole.log(\\\"Empresas EUA com >= 12 trimestres:\\\", JSON.stringify(result.rows, null, 2));\\n\"}",
+              "result": "Empresas EUA com >= 12 trimestres: [\n  {\n    \"symbol\": \"AAPL\",\n    \"num_quarters\": 24\n  },\n  {\n    \"symbol\": \"AMZN\",\n    \"num_quarters\": 24\n  },\n  {\n    \"symbol\": \"GOOGL\",\n    \"num_quarters\": 24\n  },\n  {\n    \"symbol\": \"META\",\n    \"num_quarters\": 24\n  },\n  {\n    \"symbol\": \"MSFT\",\n    \"num_quarters\": 24\n  },\n  {\n    \"symbol\": \"ORCL\",\n    \"num_quarters\": 24\n  },\n  {\n    \"symbol\": \"AMD\",\n    \"num_quar"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3723,
+          "cachedTokens": 3248,
+          "completionTokens": 483,
+          "llmMs": 9473.946655999986,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 1376,
+              "receivedBytes": 1876,
+              "isError": false,
+              "ms": 33.40830799995456,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\nconst symbols = ['AAPL', 'AMZN', 'GOOGL', 'META', 'MSFT', 'ORCL', 'AMD', 'CRM', 'INTU', 'NVDA'];\\n\\n// Para cada empresa, obter o trimestre mais antigo e o mais recente\\nfor (const sym of symbols) {\\n  const oldest = await runSql({ sql: `\\n    SELECT period_end, revenue_usd_b \\n    FROM v_quarter \\n    WHERE symbol = '${sym}'\\n    ORDER BY period_end ASC \\n    LIMIT 1\\n  `});\\n  \\n  const newest = await runSql({ sql: `\\n    SELECT period_end, revenue_usd_b \\n    FROM v_quarter \\n    WHERE symbol = '${sym}'\\n    ORDER BY period_end DESC \\n    LIMIT 1\\n  `});\\n  \\n  console.log(`\\\\n${sym}:`);\\n  console.log(\\\"  Mais antigo:\\\", JSON.stringify(oldest.rows[0]));\\n  console.log(\\\"  Mais recente:\\\", JSON.stringify(newest.rows[0]));\\n  \\n  // Calcular CAGR\\n  const startDate = new Date(oldest.rows[0].period_end);\\n  const endDate = new Date(newest.rows[0].period_end);\\n  const daysBetween = (endDate - startDate) / (1000 * 60 * 60 * 24);\\n  const years = daysBetween / 365.25;\\n  \\n  const startRev = oldest.rows[0].revenue_usd_b;\\n  const endRev = newest.rows[0].revenue_usd_b;\\n  \\n  const cagr = (Math.pow(endRev / startRev, 1 / years) - 1) * 100;\\n  \\n  console.log(`  Dias: ${daysBetween.toFixed(2)}, Anos: ${years.toFixed(4)}, CAGR: ${cagr.toFixed(2)}%`);\\n}\\n\"}",
+              "result": "\nAAPL:\n  Mais antigo: {\"period_end\":\"2020-12-26\",\"revenue_usd_b\":111.439}\n  Mais recente: {\"period_end\":\"2026-09-26\",\"revenue_usd_b\":114.477}\n  Dias: 2100.00, Anos: 5.7495, CAGR: 0.47%\n\nAMZN:\n  Mais antigo: {\"period_end\":\"2020-12-31\",\"revenue_usd_b\":125.555}\n  Mais recente: {\"period_end\":\"2026-09-30\",\"revenue_usd_b\":201.944}\n  Dias: 2099.00, Anos: 5.7467, CAGR: 8.62%\n\nGOOGL:\n  Mais antigo: {\"perio"
+            }
+          ]
+        },
+        {
+          "promptTokens": 5268,
+          "cachedTokens": 3719,
+          "completionTokens": 33,
+          "llmMs": 2926.7346129999496,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "cagr_history",
+      "volume": "grande",
+      "kind": "traditional",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A empresa com o maior CAGR da receita trimestral foi a **NVDA (Nvidia)**, com **71,5%**.",
+      "error": null,
+      "steps": 5,
+      "toolCalls": 4,
+      "toolErrors": 0,
+      "inputTokens": 16014,
+      "newInputTokens": 3708,
+      "outputTokens": 4669,
+      "peakContext": 5100,
+      "toolResultBytes": 4332,
+      "ms": 88963,
+      "trace": [
+        {
+          "promptTokens": 2093,
+          "cachedTokens": 1408,
+          "completionTokens": 3648,
+          "llmMs": 64678.81720399996,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 72,
+              "receivedBytes": 609,
+              "isError": false,
+              "ms": 1.8150240000104532,
+              "args": "{\"sql\":\"SELECT * FROM v_quarter LIMIT 1\"}",
+              "result": "{\"rowCount\":1,\"truncated\":false,\"rows\":[{\"symbol\":\"NVDA\",\"name\":\"Nvidia\",\"market\":\"EUA\",\"currency\":\"USD\",\"period_end\":\"2025-07-27\",\"source\":\"FMP\",\"revenue_usd_b\":46.743,\"gross_profit_usd_b\":33.853,\"operating_income_usd_b\":28.44,\"net_income_usd_b\":26.422,\"ocf_usd_b\":15.365,\"capex_usd_b\":1.895,\"fcf_usd_b\":13.47,\"rd_usd_b\":4.291,\"sbc_usd_b\":1.625,\"cash_usd_b\":56.791,\"debt_usd_b\":8.466,\"net_cash_usd_b"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2438,
+          "cachedTokens": 2089,
+          "completionTokens": 200,
+          "llmMs": 5281.965266000014,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 170,
+              "receivedBytes": 401,
+              "isError": false,
+              "ms": 1.8548530000261962,
+              "args": "{\"sql\":\"SELECT symbol, COUNT(*) as num_quarters FROM v_quarter WHERE market = 'EUA' GROUP BY symbol HAVING COUNT(*) >= 12 ORDER BY symbol\"}",
+              "result": "{\"rowCount\":10,\"truncated\":false,\"rows\":[{\"symbol\":\"AAPL\",\"num_quarters\":24},{\"symbol\":\"AMD\",\"num_quarters\":23},{\"symbol\":\"AMZN\",\"num_quarters\":24},{\"symbol\":\"CRM\",\"num_quarters\":23},{\"symbol\":\"GOOGL\",\"num_quarters\":24},{\"symbol\":\"INTU\",\"num_quarters\":23},{\"symbol\":\"META\",\"num_quarters\":24},{\"symbol\":\"MSFT\",\"num_quarters\":24},{\"symbol\":\"NVDA\",\"num_quarters\":23},{\"symbol\":\"ORCL\",\"num_quarters\":24}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2647,
+          "cachedTokens": 2434,
+          "completionTokens": 360,
+          "llmMs": 7032.137713999953,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 768,
+              "receivedBytes": 1576,
+              "isError": false,
+              "ms": 2.159241000073962,
+              "args": "{\"sql\":\"WITH first_last AS (\\n  SELECT \\n    symbol,\\n    MIN(period_end) as first_period,\\n    MAX(period_end) as last_period,\\n    FIRST_VALUE(revenue_usd_b) OVER (PARTITION BY symbol ORDER BY period_end ASC) as first_revenue,\\n    FIRST_VALUE(revenue_usd_b) OVER (PARTITION BY symbol ORDER BY period_end DESC) as last_revenue\\n  FROM v_quarter\\n  WHERE market = 'EUA'\\n  GROUP BY symbol\\n  HAVING COUNT(*) >= 12\\n)\\nSELECT \\n  symbol,\\n  first_period,\\n  last_period,\\n  first_revenue,\\n  last_revenue,\\n  (julianday(last_period) - julianday(first_period)) / 365.25 as years,\\n  POWER(last_revenue / first_revenue, 1.0 / ((julianday(last_period) - julianday(first_period)) / 365.25)) - 1 as cagr\\nFROM first_last\\nORDER BY cagr DESC\"}",
+              "result": "{\"rowCount\":10,\"truncated\":false,\"rows\":[{\"symbol\":\"AAPL\",\"first_period\":\"2020-12-26\",\"last_period\":\"2026-09-26\",\"first_revenue\":114.477,\"last_revenue\":114.477,\"years\":5.749486652977413,\"cagr\":0},{\"symbol\":\"AMD\",\"first_period\":\"2020-12-26\",\"last_period\":\"2026-06-27\",\"first_revenue\":11.536,\"last_revenue\":11.536,\"years\":5.500342231348392,\"cagr\":0},{\"symbol\":\"AMZN\",\"first_period\":\"2020-12-31\",\"last_p"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3736,
+          "cachedTokens": 2643,
+          "completionTokens": 398,
+          "llmMs": 8696.114669000031,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 1102,
+              "receivedBytes": 1746,
+              "isError": false,
+              "ms": 2.538658000063151,
+              "args": "{\"sql\":\"WITH ranked AS (\\n  SELECT \\n    symbol,\\n    period_end,\\n    revenue_usd_b,\\n    ROW_NUMBER() OVER (PARTITION BY symbol ORDER BY period_end ASC) as rn_asc,\\n    ROW_NUMBER() OVER (PARTITION BY symbol ORDER BY period_end DESC) as rn_desc\\n  FROM v_quarter\\n  WHERE market = 'EUA'\\n),\\nfirst_last AS (\\n  SELECT \\n    symbol,\\n    MIN(CASE WHEN rn_asc = 1 THEN period_end END) as first_period,\\n    MIN(CASE WHEN rn_desc = 1 THEN period_end END) as last_period,\\n    MIN(CASE WHEN rn_asc = 1 THEN revenue_usd_b END) as first_revenue,\\n    MIN(CASE WHEN rn_desc = 1 THEN revenue_usd_b END) as last_revenue\\n  FROM ranked\\n  GROUP BY symbol\\n)\\nSELECT \\n  symbol,\\n  first_period,\\n  last_period,\\n  first_revenue,\\n  last_revenue,\\n  (julianday(last_period) - julianday(first_period)) / 365.25 as years,\\n  POWER(last_revenue / first_revenue, 1.0 / ((julianday(last_period) - julianday(first_period)) / 365.25)) - 1 as cagr\\nFROM first_last\\nWHERE (SELECT COUNT(*) FROM ranked r2 WHERE r2.symbol = first_last.symbol AND r2.rn_asc <= 12) >= 12\\nORDER BY cagr DESC\"}",
+              "result": "{\"rowCount\":10,\"truncated\":false,\"rows\":[{\"symbol\":\"NVDA\",\"first_period\":\"2021-01-31\",\"last_period\":\"2026-07-26\",\"first_revenue\":5.003,\"last_revenue\":96.221,\"years\":5.4811772758384665,\"cagr\":0.7149972393163908},{\"symbol\":\"AMD\",\"first_period\":\"2020-12-26\",\"last_period\":\"2026-06-27\",\"first_revenue\":3.244,\"last_revenue\":11.536,\"years\":5.500342231348392,\"cagr\":0.2594210010167939},{\"symbol\":\"INTU\",\"fir"
+            }
+          ]
+        },
+        {
+          "promptTokens": 5100,
+          "cachedTokens": 3732,
+          "completionTokens": 63,
+          "llmMs": 3265.484426000039,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "cagr_history",
+      "volume": "grande",
+      "kind": "code-exec",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A empresa com o maior CAGR da receita trimestral foi a **NVDA (Nvidia)**, com **71,50%**.",
+      "error": null,
+      "steps": 10,
+      "toolCalls": 9,
+      "toolErrors": 2,
+      "inputTokens": 32802,
+      "newInputTokens": 6864,
+      "outputTokens": 1914,
+      "peakContext": 6828,
+      "toolResultBytes": 12915,
+      "ms": 48271,
+      "trace": [
+        {
+          "promptTokens": 834,
+          "cachedTokens": 0,
+          "completionTokens": 205,
+          "llmMs": 6159.10103999998,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 0.8223299999954179,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 947,
+          "cachedTokens": 830,
+          "completionTokens": 58,
+          "llmMs": 1798.4459750000387,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 77,
+              "receivedBytes": 3143,
+              "isError": false,
+              "ms": 0.8450589999556541,
+              "args": "{\"query\":\"getQuarters\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"getQuarters\",\"import\":\"import { getQuarters } from '../servers/earnings/index.js';\",\"description\":\"Histórico trimestral de UMA empresa (view v_quarter): receita, lucros, caixa, margens, variação a/a e fonte do dado, do mais recente para o mais antigo. Valores em bilhões de USD.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"symbol\":{\"type\":\"string\",\"description\":\"Ticker\"},\"limit\":{\"t"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1760,
+          "cachedTokens": 943,
+          "completionTokens": 192,
+          "llmMs": 4786.569596000016,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 428,
+              "receivedBytes": 186,
+              "isError": true,
+              "ms": 28.447993999929167,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Primeiro, ver quantas empresas têm pelo menos 12 trimestres\\nconst result = await runSql(`\\nSELECT symbol, COUNT(*) as num_quarters, MIN(period_end) as oldest, MAX(period_end) as newest\\nFROM v_quarter\\nGROUP BY symbol\\nHAVING COUNT(*) >= 12\\nORDER BY COUNT(*) DESC\\n`);\\nconsole.log(JSON.stringify(result, null, 2));\\n\"}",
+              "result": "\nTypeError: runSql recebe um objeto: runSql({ sql })\n    at file://<sandbox>/runs/ddddd5ef-3611-477b-bf8c-5e2371eade03.mjs:4:22\n\n[falhou (código 1) · 0 chamadas de ferramenta · 27 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1985,
+          "cachedTokens": 1756,
+          "completionTokens": 133,
+          "llmMs": 3216.878541999962,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 432,
+              "receivedBytes": 1319,
+              "isError": false,
+              "ms": 32.67809100006707,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Verificar quantas empresas têm pelo menos 12 trimestres\\nconst result = await runSql({ sql: `\\nSELECT symbol, COUNT(*) as num_quarters, MIN(period_end) as oldest, MAX(period_end) as newest\\nFROM v_quarter\\nGROUP BY symbol\\nHAVING COUNT(*) >= 12\\nORDER BY COUNT(*) DESC\\n`});\\nconsole.log(JSON.stringify(result, null, 2));\\n\"}",
+              "result": "{\n  \"rowCount\": 10,\n  \"truncated\": false,\n  \"rows\": [\n    {\n      \"symbol\": \"AAPL\",\n      \"num_quarters\": 24,\n      \"oldest\": \"2020-12-26\",\n      \"newest\": \"2026-09-26\"\n    },\n    {\n      \"symbol\": \"AMZN\",\n      \"num_quarters\": 24,\n      \"oldest\": \"2020-12-31\",\n      \"newest\": \"2026-09-30\"\n    },\n    {\n      \"symbol\": \"GOOGL\",\n      \"num_quarters\": 24,\n      \"oldest\": \"2020-12-31\",\n      \"newest\":"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2794,
+          "cachedTokens": 1981,
+          "completionTokens": 567,
+          "llmMs": 11066.280540000065,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 1468,
+              "receivedBytes": 90,
+              "isError": true,
+              "ms": 32.19318800000474,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Pegar a receita do trimestre mais antigo e mais recente de cada empresa\\nconst symbols = ['AAPL', 'AMZN', 'GOOGL', 'META', 'MSFT', 'ORCL', 'AMD', 'CRM', 'INTU', 'NVDA'];\\n\\nconst results = [];\\n\\nfor (const sym of symbols) {\\n  // Último trimestre\\n  const latest = await runSql({ sql: `\\n    SELECT period_end, revenue\\n    FROM v_quarter\\n    WHERE symbol = '${sym}'\\n    ORDER BY period_end DESC\\n    LIMIT 1\\n  `});\\n  \\n  // Primeiro trimestre\\n  const oldest = await runSql({ sql: `\\n    SELECT period_end, revenue\\n    FROM v_quarter\\n    WHERE symbol = '${sym}'\\n    ORDER BY period_end ASC\\n    LIMIT 1\\n  `});\\n  \\n  const revLatest = latest.rows[0].revenue;\\n  const revOldest = oldest.rows[0].revenue;\\n  const endDate = new Date(latest.rows[0].period_end);\\n  const startDate = new Date(oldest.rows[0].period_end);\\n  \\n  const daysBetween = (endDate - startDate) / (1000 * 60 * 60 * 24);\\n  const years = daysBetween / 365.25;\\n  \\n  const cagr = (Math.pow(revLatest / revOldest, 1 / years) - 1) * 100;\\n  \\n  results.push({\\n    symbol: sym,\\n    revOldest: revOldest,\\n    revLatest: revLatest,\\n    startDate: oldest.rows[0].period_end,\\n    endDate: latest.rows[0].period_end,\\n    days: daysBetween,\\n    years: years,\\n    cagr: cagr\\n  });\\n}\\n\\nresults.sort((a, b) => b.cagr - a.cagr);\\n\\nconsole.log(JSON.stringify(results, null, 2));\\n\"}",
+              "result": "\nError: no such column: revenue\n\n[falhou (código 1) · 1 chamadas de ferramenta · 31 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3314,
+          "cachedTokens": 2790,
+          "completionTokens": 63,
+          "llmMs": 2249.530181000009,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 75,
+              "receivedBytes": 4895,
+              "isError": false,
+              "ms": 1.0138840000145137,
+              "args": "{\"query\":\"v_quarter\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"getQuarters\",\"import\":\"import { getQuarters } from '../servers/earnings/index.js';\",\"description\":\"Histórico trimestral de UMA empresa (view v_quarter): receita, lucros, caixa, margens, variação a/a e fonte do dado, do mais recente para o mais antigo. Valores em bilhões de USD.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"symbol\":{\"type\":\"string\",\"description\":\"Ticker\"},\"limit\":{\"t"
+            }
+          ]
+        },
+        {
+          "promptTokens": 4555,
+          "cachedTokens": 3310,
+          "completionTokens": 42,
+          "llmMs": 2858.792114000069,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 71,
+              "receivedBytes": 30,
+              "isError": false,
+              "ms": 0.8365500000072643,
+              "args": "{\"query\":\"revenue\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"rankCompanies\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 4618,
+          "cachedTokens": 4551,
+          "completionTokens": 91,
+          "llmMs": 2351.455733000068,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 267,
+              "receivedBytes": 909,
+              "isError": false,
+              "ms": 35.235177999944426,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Verificar as colunas de v_quarter\\nconst result = await runSql({ sql: `\\nSELECT * FROM v_quarter LIMIT 1\\n`});\\nconsole.log(JSON.stringify(result, null, 2));\\n\"}",
+              "result": "{\n  \"rowCount\": 1,\n  \"truncated\": false,\n  \"rows\": [\n    {\n      \"symbol\": \"NVDA\",\n      \"name\": \"Nvidia\",\n      \"market\": \"EUA\",\n      \"currency\": \"USD\",\n      \"period_end\": \"2025-07-27\",\n      \"source\": \"FMP\",\n      \"revenue_usd_b\": 46.743,\n      \"gross_profit_usd_b\": 33.853,\n      \"operating_income_usd_b\": 28.44,\n      \"net_income_usd_b\": 26.422,\n      \"ocf_usd_b\": 15.365,\n      \"capex_usd_b\": "
+            }
+          ]
+        },
+        {
+          "promptTokens": 5167,
+          "cachedTokens": 4614,
+          "completionTokens": 485,
+          "llmMs": 9631.123281000066,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 1474,
+              "receivedBytes": 2059,
+              "isError": false,
+              "ms": 36.22565299994312,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\nconst symbols = ['AAPL', 'AMZN', 'GOOGL', 'META', 'MSFT', 'ORCL', 'AMD', 'CRM', 'INTU', 'NVDA'];\\n\\nconst results = [];\\n\\nfor (const sym of symbols) {\\n  // Último trimestre\\n  const latest = await runSql({ sql: `\\n    SELECT period_end, revenue_usd_b\\n    FROM v_quarter\\n    WHERE symbol = '${sym}'\\n    ORDER BY period_end DESC\\n    LIMIT 1\\n  `});\\n  \\n  // Primeiro trimestre\\n  const oldest = await runSql({ sql: `\\n    SELECT period_end, revenue_usd_b\\n    FROM v_quarter\\n    WHERE symbol = '${sym}'\\n    ORDER BY period_end ASC\\n    LIMIT 1\\n  `});\\n  \\n  const revLatest = latest.rows[0].revenue_usd_b;\\n  const revOldest = oldest.rows[0].revenue_usd_b;\\n  const endDate = new Date(latest.rows[0].period_end);\\n  const startDate = new Date(oldest.rows[0].period_end);\\n  \\n  const daysBetween = (endDate - startDate) / (1000 * 60 * 60 * 24);\\n  const years = daysBetween / 365.25;\\n  \\n  const cagr = (Math.pow(revLatest / revOldest, 1 / years) - 1) * 100;\\n  \\n  results.push({\\n    symbol: sym,\\n    revOldest: revOldest,\\n    revLatest: revLatest,\\n    startDate: oldest.rows[0].period_end,\\n    endDate: latest.rows[0].period_end,\\n    days: Math.round(daysBetween),\\n    years: years.toFixed(4),\\n    cagr: cagr.toFixed(2)\\n  });\\n}\\n\\nresults.sort((a, b) => parseFloat(b.cagr) - parseFloat(a.cagr));\\n\\nconsole.log(JSON.stringify(results, null, 2));\\n\"}",
+              "result": "[\n  {\n    \"symbol\": \"NVDA\",\n    \"revOldest\": 5.003,\n    \"revLatest\": 96.221,\n    \"startDate\": \"2021-01-31\",\n    \"endDate\": \"2026-07-26\",\n    \"days\": 2002,\n    \"years\": \"5.4812\",\n    \"cagr\": \"71.50\"\n  },\n  {\n    \"symbol\": \"AMD\",\n    \"revOldest\": 3.244,\n    \"revLatest\": 11.536,\n    \"startDate\": \"2020-12-26\",\n    \"endDate\": \"2026-06-27\",\n    \"days\": 2009,\n    \"years\": \"5.5003\",\n    \"cagr\": \"25.94\"\n  "
+            }
+          ]
+        },
+        {
+          "promptTokens": 6828,
+          "cachedTokens": 5163,
+          "completionTokens": 78,
+          "llmMs": 3983.986598999938,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "worst_qoq",
+      "volume": "grande",
+      "kind": "traditional",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A maior queda foi da **INTU** (Intuit) no trimestre encerrado em **2022-07-31**, com uma queda de **-57,14%** (de 5,63 bilhões para 2,41 bilhões de USD).",
+      "error": null,
+      "steps": 2,
+      "toolCalls": 1,
+      "toolErrors": 0,
+      "inputTokens": 4416,
+      "newInputTokens": 332,
+      "outputTokens": 1906,
+      "peakContext": 2344,
+      "toolResultBytes": 154,
+      "ms": 35165,
+      "trace": [
+        {
+          "promptTokens": 2072,
+          "cachedTokens": 2016,
+          "completionTokens": 1782,
+          "llmMs": 32056.106127999956,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 497,
+              "receivedBytes": 154,
+              "isError": false,
+              "ms": 2.6533739999867976,
+              "args": "{\"sql\":\"WITH qoq AS (\\n  SELECT \\n    c.symbol,\\n    q.period_end,\\n    q.revenue_usd_b,\\n    LAG(q.revenue_usd_b) OVER (PARTITION BY c.symbol ORDER BY q.period_end) as prev_rev\\n  FROM v_quarter q\\n  JOIN v_company c ON q.symbol = c.symbol\\n  WHERE c.market = 'EUA'\\n)\\nSELECT \\n  symbol,\\n  period_end,\\n  prev_rev,\\n  revenue_usd_b,\\n  (revenue_usd_b - prev_rev) / prev_rev * 100 as drop_pct\\nFROM qoq\\nWHERE prev_rev IS NOT NULL\\nORDER BY drop_pct ASC\\nLIMIT 1\"}",
+              "result": "{\"rowCount\":1,\"truncated\":false,\"rows\":[{\"symbol\":\"INTU\",\"period_end\":\"2022-07-31\",\"prev_rev\":5.632,\"revenue_usd_b\":2.414,\"drop_pct\":-57.13778409090908}]}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2344,
+          "cachedTokens": 2068,
+          "completionTokens": 124,
+          "llmMs": 3106.3560900000157,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "worst_qoq",
+      "volume": "grande",
+      "kind": "code-exec",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A maior queda de receita de um trimestre para o imediatamente anterior em empresas dos EUA foi da **Intuit (INTU)**:\n\n- **Empresa:** Intuit (INTU)\n- **Trimestre (period_end):** 2022-07-31\n- **Queda:** 57,14% (de 5,632 bi para 2,414 bi USD)",
+      "error": null,
+      "steps": 11,
+      "toolCalls": 11,
+      "toolErrors": 2,
+      "inputTokens": 38495,
+      "newInputTokens": 7418,
+      "outputTokens": 3396,
+      "peakContext": 7378,
+      "toolResultBytes": 11984,
+      "ms": 75730,
+      "trace": [
+        {
+          "promptTokens": 813,
+          "cachedTokens": 0,
+          "completionTokens": 146,
+          "llmMs": 4935.607698999927,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 0.7363040000200272,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 926,
+          "cachedTokens": 809,
+          "completionTokens": 104,
+          "llmMs": 2574.9079689999344,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 77,
+              "receivedBytes": 3143,
+              "isError": false,
+              "ms": 0.9799449999118224,
+              "args": "{\"query\":\"getQuarters\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"getQuarters\",\"import\":\"import { getQuarters } from '../servers/earnings/index.js';\",\"description\":\"Histórico trimestral de UMA empresa (view v_quarter): receita, lucros, caixa, margens, variação a/a e fonte do dado, do mais recente para o mais antigo. Valores em bilhões de USD.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"symbol\":{\"type\":\"string\",\"description\":\"Ticker\"},\"limit\":{\"t"
+            },
+            {
+              "name": "search_tools",
+              "sentBytes": 79,
+              "receivedBytes": 1823,
+              "isError": false,
+              "ms": 0.4072150000138208,
+              "args": "{\"query\":\"listCompanies\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"listCompanies\",\"import\":\"import { listCompanies } from '../servers/earnings/index.js';\",\"description\":\"Lista as empresas acompanhadas (símbolo, nome, área, mercado, moeda). Filtros opcionais por mercado e área.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"market\":{\"type\":\"string\",\"description\":\"Mercado: 'EUA' ou 'Hong Kong'\",\"enum\":[\"EUA\",\"Hong Kong\"]},\"area\":{\"type\":\"string\",\"desc"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2233,
+          "cachedTokens": 922,
+          "completionTokens": 232,
+          "llmMs": 6080.305699000019,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 289,
+              "receivedBytes": 114,
+              "isError": true,
+              "ms": 32.03852400009055,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Primeiro, ver a estrutura de v_quarter\\nconst schema = await runSql({ sql: `PRAGMA table_info(v_quarter)` });\\nconsole.log(\\\"Schema v_quarter:\\\", JSON.stringify(schema, null, 2));\\n\"}",
+              "result": "\nError: Só são permitidas instruções SELECT ou WITH\n\n[falhou (código 1) · 1 chamadas de ferramenta · 31 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2373,
+          "cachedTokens": 2229,
+          "completionTokens": 222,
+          "llmMs": 4654.201174000045,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 364,
+              "receivedBytes": 221,
+              "isError": true,
+              "ms": 31.04067000001669,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Verificar as colunas disponíveis em v_quarter com um exemplo\\nconst exemplo = await runSql({ sql: `SELECT * FROM v_quarter LIMIT 1` });\\nconsole.log(\\\"Colunas:\\\", Object.keys(exemplo[0]));\\nconsole.log(\\\"Exemplo:\\\", JSON.stringify(exemplo[0], null, 2));\\n\"}",
+              "result": "\nTypeError: Cannot convert undefined or null to object\n    at Object.keys (<anonymous>)\n    at file://<sandbox>/runs/c16b87fa-9d5d-45bc-bad7-e89960a6c3dc.mjs:5:32\n\n[falhou (código 1) · 1 chamadas de ferramenta · 30 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2586,
+          "cachedTokens": 2369,
+          "completionTokens": 167,
+          "llmMs": 3795.8993669999763,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 515,
+              "receivedBytes": 637,
+              "isError": false,
+              "ms": 31.073468000045978,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Verificar se há dados em v_quarter\\nconst count = await runSql({ sql: `SELECT COUNT(*) as cnt FROM v_quarter` });\\nconsole.log(\\\"Count v_quarter:\\\", JSON.stringify(count, null, 2));\\n\\n// Verificar empresas dos EUA\\nconst usCompanies = await runSql({ sql: `SELECT symbol, name, market FROM v_company WHERE market = 'EUA' LIMIT 5` });\\nconsole.log(\\\"US Companies:\\\", JSON.stringify(usCompanies, null, 2));\\n\"}",
+              "result": "Count v_quarter: {\n  \"rowCount\": 1,\n  \"truncated\": false,\n  \"rows\": [\n    {\n      \"cnt\": 287\n    }\n  ]\n}\nUS Companies: {\n  \"rowCount\": 5,\n  \"truncated\": false,\n  \"rows\": [\n    {\n      \"symbol\": \"NVDA\",\n      \"name\": \"Nvidia\",\n      \"market\": \"EUA\"\n    },\n    {\n      \"symbol\": \"MSFT\",\n      \"name\": \"Microsoft\",\n      \"market\": \"EUA\"\n    },\n    {\n      \"symbol\": \"GOOGL\",\n      \"name\": \"Alphabet\",\n  "
+            }
+          ]
+        },
+        {
+          "promptTokens": 3009,
+          "cachedTokens": 2582,
+          "completionTokens": 94,
+          "llmMs": 2715.4579669999657,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 286,
+              "receivedBytes": 920,
+              "isError": false,
+              "ms": 28.355817000032403,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Obter todas as colunas de v_quarter\\nconst quarters = await runSql({ sql: `SELECT * FROM v_quarter LIMIT 1` });\\nconsole.log(\\\"Resultado:\\\", JSON.stringify(quarters, null, 2));\\n\"}",
+              "result": "Resultado: {\n  \"rowCount\": 1,\n  \"truncated\": false,\n  \"rows\": [\n    {\n      \"symbol\": \"NVDA\",\n      \"name\": \"Nvidia\",\n      \"market\": \"EUA\",\n      \"currency\": \"USD\",\n      \"period_end\": \"2025-07-27\",\n      \"source\": \"FMP\",\n      \"revenue_usd_b\": 46.743,\n      \"gross_profit_usd_b\": 33.853,\n      \"operating_income_usd_b\": 28.44,\n      \"net_income_usd_b\": 26.422,\n      \"ocf_usd_b\": 15.365,\n      \"cap"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3563,
+          "cachedTokens": 3005,
+          "completionTokens": 157,
+          "llmMs": 3997.3542169999564,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 516,
+              "receivedBytes": 1210,
+              "isError": false,
+              "ms": 30.991431000060402,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Obter todos os trimestres de empresas dos EUA, ordenados por symbol e period_end\\nconst allQuarters = await runSql({ \\n  sql: `SELECT symbol, name, period_end, revenue_usd_b FROM v_quarter WHERE market = 'EUA' ORDER BY symbol, period_end DESC` \\n});\\n\\nconsole.log(\\\"Total de trimestres EUA:\\\", allQuarters.rowCount);\\nconsole.log(\\\"Primeiros 10:\\\", JSON.stringify(allQuarters.rows.slice(0, 10), null, 2));\\n\"}",
+              "result": "Total de trimestres EUA: 200\nPrimeiros 10: [\n  {\n    \"symbol\": \"AAPL\",\n    \"name\": \"Apple\",\n    \"period_end\": \"2026-09-26\",\n    \"revenue_usd_b\": 114.477\n  },\n  {\n    \"symbol\": \"AAPL\",\n    \"name\": \"Apple\",\n    \"period_end\": \"2026-06-27\",\n    \"revenue_usd_b\": 109.417\n  },\n  {\n    \"symbol\": \"AAPL\",\n    \"name\": \"Apple\",\n    \"period_end\": \"2026-03-28\",\n    \"revenue_usd_b\": 111.184\n  },\n  {\n    \"symbol\""
+            }
+          ]
+        },
+        {
+          "promptTokens": 4342,
+          "cachedTokens": 3559,
+          "completionTokens": 474,
+          "llmMs": 9684.688358000014,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 1482,
+              "receivedBytes": 217,
+              "isError": false,
+              "ms": 30.962242999929003,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Obter todos os trimestres de empresas dos EUA\\nconst allQuarters = await runSql({ \\n  sql: `SELECT symbol, name, period_end, revenue_usd_b FROM v_quarter WHERE market = 'EUA' ORDER BY symbol, period_end DESC` \\n});\\n\\n// Agrupar por symbol\\nconst bySymbol = {};\\nfor (const q of allQuarters.rows) {\\n  if (!bySymbol[q.symbol]) {\\n    bySymbol[q.symbol] = { name: q.name, quarters: [] };\\n  }\\n  bySymbol[q.symbol].quarters.push({ period_end: q.period_end, revenue: q.revenue_usd_b });\\n}\\n\\n// Calcular queda trimestre a trimestre\\nlet maxDrop = { symbol: null, name: null, period_end: null, drop_pct: 0 };\\n\\nfor (const [symbol, data] of Object.entries(bySymbol)) {\\n  // As quarters já estão ordenadas por period_end DESC\\n  for (let i = 0; i < data.quarters.length - 1; i++) {\\n    const current = data.quarters[i];\\n    const previous = data.quarters[i + 1];\\n    \\n    const dropPct = ((current.revenue - previous.revenue) / previous.revenue) * 100;\\n    \\n    if (dropPct < -maxDrop.drop_pct && current.revenue < previous.revenue) {\\n      maxDrop = {\\n        symbol,\\n        name: data.name,\\n        period_end: current.period_end,\\n        drop_pct: -dropPct, // negativo = queda\\n        current_revenue: current.revenue,\\n        previous_revenue: previous.revenue\\n      };\\n    }\\n  }\\n}\\n\\nconsole.log(\\\"Maior queda:\\\", JSON.stringify(maxDrop, null, 2));\\n\"}",
+              "result": "Maior queda: {\n  \"symbol\": \"INTU\",\n  \"name\": \"Intuit\",\n  \"period_end\": \"2022-07-31\",\n  \"drop_pct\": 57.13778409090908,\n  \"current_revenue\": 2.414,\n  \"previous_revenue\": 5.632\n}\n[ok · 1 chamadas de ferramenta · 30 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 4902,
+          "cachedTokens": 4338,
+          "completionTokens": 165,
+          "llmMs": 4204.795802000095,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 379,
+              "receivedBytes": 2635,
+              "isError": false,
+              "ms": 32.673350999946706,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Verificar trimestres da INTU\\nconst intQuarters = await runSql({ \\n  sql: `SELECT symbol, name, period_end, revenue_usd_b FROM v_quarter WHERE symbol = 'INTU' ORDER BY period_end DESC` \\n});\\n\\nconsole.log(\\\"INTU Quarters:\\\", JSON.stringify(intQuarters.rows, null, 2));\\n\"}",
+              "result": "INTU Quarters: [\n  {\n    \"symbol\": \"INTU\",\n    \"name\": \"Intuit\",\n    \"period_end\": \"2026-07-31\",\n    \"revenue_usd_b\": 4.354\n  },\n  {\n    \"symbol\": \"INTU\",\n    \"name\": \"Intuit\",\n    \"period_end\": \"2026-04-30\",\n    \"revenue_usd_b\": 8.558\n  },\n  {\n    \"symbol\": \"INTU\",\n    \"name\": \"Intuit\",\n    \"period_end\": \"2026-01-31\",\n    \"revenue_usd_b\": 4.651\n  },\n  {\n    \"symbol\": \"INTU\",\n    \"name\": \"Intuit\","
+            }
+          ]
+        },
+        {
+          "promptTokens": 6370,
+          "cachedTokens": 4898,
+          "completionTokens": 1033,
+          "llmMs": 20594.640358999954,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 1646,
+              "receivedBytes": 780,
+              "isError": false,
+              "ms": 34.342139999964274,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Obter todos os trimestres de empresas dos EUA\\nconst allQuarters = await runSql({ \\n  sql: `SELECT symbol, name, period_end, revenue_usd_b FROM v_quarter WHERE market = 'EUA' ORDER BY symbol, period_end DESC` \\n});\\n\\n// Agrupar por symbol\\nconst bySymbol = {};\\nfor (const q of allQuarters.rows) {\\n  if (!bySymbol[q.symbol]) {\\n    bySymbol[q.symbol] = { name: q.name, quarters: [] };\\n  }\\n  bySymbol[q.symbol].quarters.push({ period_end: q.period_end, revenue: q.revenue_usd_b });\\n}\\n\\n// Calular queda trimestre a trimestre e listar as maiores quedas\\nlet drops = [];\\n\\nfor (const [symbol, data] of Object.entries(bySymbol)) {\\n  for (let i = 0; i < data.quarters.length - 1; i++) {\\n    const current = data.quarters[i];\\n    const previous = data.quarters[i + 1];\\n    \\n    const changePct = ((current.revenue - previous.revenue) / previous.revenue) * 100;\\n    \\n    if (changePct < 0) {\\n      drops.push({\\n        symbol,\\n        name: data.name,\\n        period_end: current.period_end,\\n        drop_pct: -changePct,\\n        current_revenue: current.revenue,\\n        previous_revenue: previous.revenue\\n      });\\n    }\\n  }\\n}\\n\\n// Ordenar por maior queda\\ndrops.sort((a, b) => b.drop_pct - a.drop_pct);\\n\\n// Top 10 maiores quedas\\nconsole.log(\\\"Top 10 maiores quedas:\\\");\\nfor (let i = 0; i < Math.min(10, drops.length); i++) {\\n  const d = drops[i];\\n  console.log(`${i+1}. ${d.symbol} (${d.name}): ${d.per",
+              "result": "Top 10 maiores quedas:\n1. INTU (Intuit): 2022-07-31 - queda de 57.14% (2.414 bi → 5.632 bi)\n2. INTU (Intuit): 2023-07-31 - queda de 54.94% (2.712 bi → 6.018 bi)\n3. INTU (Intuit): 2024-07-31 - queda de 52.74% (3.184 bi → 6.737 bi)\n4. INTU (Intuit): 2025-07-31 - queda de 50.59% (3.831 bi → 7.754 bi)\n5. INTU (Intuit): 2026-07-31 - queda de 49.12% (4.354 bi → 8.558 bi)\n6. INTU (Intuit): 2021-07-31 - q"
+            }
+          ]
+        },
+        {
+          "promptTokens": 7378,
+          "cachedTokens": 6366,
+          "completionTokens": 602,
+          "llmMs": 12237.823772000032,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "worst_qoq",
+      "volume": "grande",
+      "kind": "traditional",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A maior queda de receita de um trimestre para o anterior (para empresas dos EUA) foi:\n\n- **Empresa:** Intuit (INTU)\n- **Trimestre:** 2022-07-31\n- **Queda:** -57,14% (de 5,632 bi USD para 2,414 bi USD)",
+      "error": null,
+      "steps": 4,
+      "toolCalls": 3,
+      "toolErrors": 0,
+      "inputTokens": 10805,
+      "newInputTokens": 1246,
+      "outputTokens": 2187,
+      "peakContext": 3302,
+      "toolResultBytes": 1632,
+      "ms": 41906,
+      "trace": [
+        {
+          "promptTokens": 2072,
+          "cachedTokens": 2068,
+          "completionTokens": 1287,
+          "llmMs": 23143.73079000006,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 72,
+              "receivedBytes": 609,
+              "isError": false,
+              "ms": 1.7767160000512376,
+              "args": "{\"sql\":\"SELECT * FROM v_quarter LIMIT 1\"}",
+              "result": "{\"rowCount\":1,\"truncated\":false,\"rows\":[{\"symbol\":\"NVDA\",\"name\":\"Nvidia\",\"market\":\"EUA\",\"currency\":\"USD\",\"period_end\":\"2025-07-27\",\"source\":\"FMP\",\"revenue_usd_b\":46.743,\"gross_profit_usd_b\":33.853,\"operating_income_usd_b\":28.44,\"net_income_usd_b\":26.422,\"ocf_usd_b\":15.365,\"capex_usd_b\":1.895,\"fcf_usd_b\":13.47,\"rd_usd_b\":4.291,\"sbc_usd_b\":1.625,\"cash_usd_b\":56.791,\"debt_usd_b\":8.466,\"net_cash_usd_b"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2417,
+          "cachedTokens": 2068,
+          "completionTokens": 317,
+          "llmMs": 6407.112165999948,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 644,
+              "receivedBytes": 851,
+              "isError": false,
+              "ms": 2.4201929999981076,
+              "args": "{\"sql\":\"WITH quarterly_changes AS (\\n  SELECT \\n    symbol,\\n    name,\\n    period_end,\\n    revenue_usd_b,\\n    LAG(revenue_usd_b) OVER (PARTITION BY symbol ORDER BY period_end) AS prev_revenue,\\n    LAG(period_end) OVER (PARTITION BY symbol ORDER BY period_end) AS prev_period_end\\n  FROM v_quarter\\n  WHERE market = 'EUA'\\n)\\nSELECT \\n  symbol,\\n  name,\\n  period_end,\\n  prev_period_end,\\n  revenue_usd_b,\\n  prev_revenue,\\n  ROUND((revenue_usd_b - prev_revenue) / prev_revenue * 100, 2) AS revenue_change_pct\\nFROM quarterly_changes\\nWHERE prev_revenue IS NOT NULL\\nORDER BY revenue_change_pct ASC\\nLIMIT 5\"}",
+              "result": "{\"rowCount\":5,\"truncated\":false,\"rows\":[{\"symbol\":\"INTU\",\"name\":\"Intuit\",\"period_end\":\"2022-07-31\",\"prev_period_end\":\"2022-04-30\",\"revenue_usd_b\":2.414,\"prev_revenue\":5.632,\"revenue_change_pct\":-57.14},{\"symbol\":\"INTU\",\"name\":\"Intuit\",\"period_end\":\"2023-07-31\",\"prev_period_end\":\"2023-04-30\",\"revenue_usd_b\":2.712,\"prev_revenue\":6.018,\"revenue_change_pct\":-54.94},{\"symbol\":\"INTU\",\"name\":\"Intuit\",\"pe"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3014,
+          "cachedTokens": 2413,
+          "completionTokens": 365,
+          "llmMs": 7607.549914999981,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 624,
+              "receivedBytes": 172,
+              "isError": false,
+              "ms": 2.2530090000946075,
+              "args": "{\"sql\":\"WITH quarterly_changes AS (\\n  SELECT \\n    symbol,\\n    name,\\n    period_end,\\n    revenue_usd_b,\\n    LAG(revenue_usd_b) OVER (PARTITION BY symbol ORDER BY period_end) AS prev_revenue,\\n    LAG(period_end) OVER (PARTITION BY symbol ORDER BY period_end) AS prev_period_end\\n  FROM v_quarter\\n  WHERE market = 'EUA'\\n)\\nSELECT \\n  symbol,\\n  name,\\n  period_end,\\n  revenue_usd_b,\\n  prev_revenue,\\n  ROUND((revenue_usd_b - prev_revenue) / prev_revenue * 100, 2) AS revenue_change_pct\\nFROM quarterly_changes\\nWHERE prev_revenue IS NOT NULL\\nORDER BY revenue_change_pct ASC\\nLIMIT 1\"}",
+              "result": "{\"rowCount\":1,\"truncated\":false,\"rows\":[{\"symbol\":\"INTU\",\"name\":\"Intuit\",\"period_end\":\"2022-07-31\",\"revenue_usd_b\":2.414,\"prev_revenue\":5.632,\"revenue_change_pct\":-57.14}]}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3302,
+          "cachedTokens": 3010,
+          "completionTokens": 218,
+          "llmMs": 4740.67210299999,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "worst_qoq",
+      "volume": "grande",
+      "kind": "code-exec",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A maior queda de receita de um trimestre para o imediatamente anterior entre as empresas dos EUA foi:\n\n- **Empresa:** INTU (Intuit)\n- **Trimestre (period_end):** 2022-07-31\n- **Queda:** 57,14%\n\nA receita caiu de US$ 5,632 bilhões (trimestre anterior, 2022-04-30) para US$ 2,414 bilhões.\n\n*Nota: Essa queda reflete a forte sazonalidade da Intuit, que tem seu pico de receita no trimestre de abril e quedas significativas nos trimestres seguintes.*",
+      "error": null,
+      "steps": 9,
+      "toolCalls": 8,
+      "toolErrors": 0,
+      "inputTokens": 21044,
+      "newInputTokens": 4777,
+      "outputTokens": 1958,
+      "peakContext": 4745,
+      "toolResultBytes": 7286,
+      "ms": 45984,
+      "trace": [
+        {
+          "promptTokens": 813,
+          "cachedTokens": 0,
+          "completionTokens": 38,
+          "llmMs": 3272.0241420000093,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 71,
+              "receivedBytes": 30,
+              "isError": false,
+              "ms": 0.717564000049606,
+              "args": "{\"query\":\"revenue\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"rankCompanies\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 876,
+          "cachedTokens": 809,
+          "completionTokens": 70,
+          "llmMs": 1936.8786329999566,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 73,
+              "receivedBytes": 758,
+              "isError": false,
+              "ms": 0.7885419999947771,
+              "args": "{\"query\":\"revenue\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"rankCompanies\",\"import\":\"import { rankCompanies } from '../servers/earnings/index.js';\",\"description\":\"Ranking das empresas por uma métrica de v_latest (ex.: revenue_yoy, net_margin, fcf_usd_b, market_cap_usd_b, pe, price_reaction_pct). Ignora empresas sem valor na métrica.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"metric\":{\"type\":\"string\",\"description\":\"Coluna numérica de v_lat"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1124,
+          "cachedTokens": 872,
+          "completionTokens": 58,
+          "llmMs": 1921.6809830000857,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 0.7655929999891669,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1237,
+          "cachedTokens": 1120,
+          "completionTokens": 59,
+          "llmMs": 1832.8059389999835,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 77,
+              "receivedBytes": 3143,
+              "isError": false,
+              "ms": 1.0546519999625161,
+              "args": "{\"query\":\"getQuarters\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"getQuarters\",\"import\":\"import { getQuarters } from '../servers/earnings/index.js';\",\"description\":\"Histórico trimestral de UMA empresa (view v_quarter): receita, lucros, caixa, margens, variação a/a e fonte do dado, do mais recente para o mais antigo. Valores em bilhões de USD.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"symbol\":{\"type\":\"string\",\"description\":\"Ticker\"},\"limit\":{\"t"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2050,
+          "cachedTokens": 1233,
+          "completionTokens": 150,
+          "llmMs": 4090.063701999956,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 290,
+              "receivedBytes": 917,
+              "isError": false,
+              "ms": 31.242682999931276,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Primeiro, veja a estrutura da view v_quarter\\nconst schema = await runSql({\\n  sql: `SELECT * FROM v_quarter LIMIT 1`\\n});\\nconsole.log('Schema:', JSON.stringify(schema, null, 2));\\n\"}",
+              "result": "Schema: {\n  \"rowCount\": 1,\n  \"truncated\": false,\n  \"rows\": [\n    {\n      \"symbol\": \"NVDA\",\n      \"name\": \"Nvidia\",\n      \"market\": \"EUA\",\n      \"currency\": \"USD\",\n      \"period_end\": \"2025-07-27\",\n      \"source\": \"FMP\",\n      \"revenue_usd_b\": 46.743,\n      \"gross_profit_usd_b\": 33.853,\n      \"operating_income_usd_b\": 28.44,\n      \"net_income_usd_b\": 26.422,\n      \"ocf_usd_b\": 15.365,\n      \"capex_"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2606,
+          "cachedTokens": 2046,
+          "completionTokens": 165,
+          "llmMs": 4099.653405999998,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 528,
+              "receivedBytes": 1414,
+              "isError": false,
+              "ms": 31.63515899993945,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Obter todos os trimestres de empresas dos EUA, ordenados por empresa e data\\nconst allQuarters = await runSql({\\n  sql: `\\n    SELECT symbol, name, market, period_end, revenue_usd_b\\n    FROM v_quarter\\n    WHERE market = 'EUA'\\n    ORDER BY symbol, period_end\\n  `\\n});\\n\\nconsole.log('Total de registros:', allQuarters.rowCount);\\nconsole.log('Primeiros 10:', JSON.stringify(allQuarters.rows.slice(0, 10), null, 2));\\n\"}",
+              "result": "Total de registros: 200\nPrimeiros 10: [\n  {\n    \"symbol\": \"AAPL\",\n    \"name\": \"Apple\",\n    \"market\": \"EUA\",\n    \"period_end\": \"2020-12-26\",\n    \"revenue_usd_b\": 111.439\n  },\n  {\n    \"symbol\": \"AAPL\",\n    \"name\": \"Apple\",\n    \"market\": \"EUA\",\n    \"period_end\": \"2021-03-27\",\n    \"revenue_usd_b\": 89.584\n  },\n  {\n    \"symbol\": \"AAPL\",\n    \"name\": \"Apple\",\n    \"market\": \"EUA\",\n    \"period_end\": \"2021-0"
+            }
+          ]
+        },
+        {
+          "promptTokens": 3480,
+          "cachedTokens": 2602,
+          "completionTokens": 563,
+          "llmMs": 11202.355610000086,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 1707,
+              "receivedBytes": 210,
+              "isError": false,
+              "ms": 30.893434999976307,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Obter todos os trimestres de empresas dos EUA, ordenados por empresa e data\\nconst allQuarters = await runSql({\\n  sql: `\\n    SELECT symbol, name, market, period_end, revenue_usd_b\\n    FROM v_quarter\\n    WHERE market = 'EUA'\\n    ORDER BY symbol, period_end\\n  `\\n});\\n\\n// Agrupar por empresa\\nconst byCompany = {};\\nfor (const row of allQuarters.rows) {\\n  if (!byCompany[row.symbol]) {\\n    byCompany[row.symbol] = { name: row.name, quarters: [] };\\n  }\\n  byCompany[row.symbol].quarters.push({ period_end: row.period_end, revenue: row.revenue_usd_b });\\n}\\n\\n// Calcular queda de trimestre para trimestre\\nlet maxDrop = { drop: 0, symbol: '', name: '', period_end: '', prev_revenue: 0, curr_revenue: 0 };\\n\\nfor (const [symbol, data] of Object.entries(byCompany)) {\\n  for (let i = 1; i < data.quarters.length; i++) {\\n    const prev = data.quarters[i - 1].revenue;\\n    const curr = data.quarters[i].revenue;\\n    const dropPct = ((prev - curr) / prev) * 100;\\n    \\n    if (dropPct > maxDrop.drop) {\\n      maxDrop = {\\n        drop: dropPct,\\n        symbol: symbol,\\n        name: data.name,\\n        period_end: data.quarters[i].period_end,\\n        prev_revenue: prev,\\n        curr_revenue: curr\\n      };\\n    }\\n  }\\n}\\n\\nconsole.log('Maior queda de receita (trimestre a trimestre):');\\nconsole.log(`Empresa: ${maxDrop.symbol} (${maxDrop.name})`);\\nconsole.log(`Trimestre (period_end): ${maxDrop.period_end}`);\\nco",
+              "result": "Maior queda de receita (trimestre a trimestre):\nEmpresa: INTU (Intuit)\nTrimestre (period_end): 2022-07-31\nQueda: 57.14%\nReceita anterior: $5.632B\nReceita atual: $2.414B\n[ok · 1 chamadas de ferramenta · 30 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 4113,
+          "cachedTokens": 3476,
+          "completionTokens": 217,
+          "llmMs": 5155.1729949999135,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 478,
+              "receivedBytes": 530,
+              "isError": false,
+              "ms": 32.31481300003361,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\n// Verificar todos os trimestres da INTU\\nconst intQuarters = await runSql({\\n  sql: `\\n    SELECT symbol, name, period_end, revenue_usd_b\\n    FROM v_quarter\\n    WHERE symbol = 'INTU'\\n    ORDER BY period_end\\n  `\\n});\\n\\nconsole.log('Todos os trimestres da INTU:');\\nfor (const row of intQuarters.rows) {\\n  console.log(`${row.period_end}: $${row.revenue_usd_b}B`);\\n}\\n\"}",
+              "result": "Todos os trimestres da INTU:\n2021-01-31: $1.576B\n2021-04-30: $4.173B\n2021-07-31: $2.561B\n2021-10-31: $2.007B\n2022-01-31: $2.673B\n2022-04-30: $5.632B\n2022-07-31: $2.414B\n2022-10-31: $2.597B\n2023-01-31: $3.041B\n2023-04-30: $6.018B\n2023-07-31: $2.712B\n2023-10-31: $2.978B\n2024-01-31: $3.386B\n2024-04-30: $6.737B\n2024-07-31: $3.184B\n2024-10-31: $3.283B\n2025-01-31: $3.963B\n2025-04-30: $7.754B\n2025-07-31:"
+            }
+          ]
+        },
+        {
+          "promptTokens": 4745,
+          "cachedTokens": 4109,
+          "completionTokens": 638,
+          "llmMs": 12344.068908000016,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "source_counts",
+      "volume": "pequeno",
+      "kind": "traditional",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "Contagem de trimestres por fonte de dados:\n\n- **SEC**: 174 trimestres\n- **Yahoo**: 71 trimestres\n- **FMP**: 40 trimestres\n- **Yahoo + empresa**: 2 trimestres",
+      "error": null,
+      "steps": 2,
+      "toolCalls": 1,
+      "toolErrors": 0,
+      "inputTokens": 4224,
+      "newInputTokens": 770,
+      "outputTokens": 257,
+      "peakContext": 2174,
+      "toolResultBytes": 211,
+      "ms": 7825,
+      "trace": [
+        {
+          "promptTokens": 2050,
+          "cachedTokens": 1408,
+          "completionTokens": 175,
+          "llmMs": 5575.986437999993,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 115,
+              "receivedBytes": 211,
+              "isError": false,
+              "ms": 1.655250999960117,
+              "args": "{\"sql\":\"SELECT source, COUNT(*) as total_trimestres FROM v_quarter GROUP BY source\"}",
+              "result": "{\"rowCount\":4,\"truncated\":false,\"rows\":[{\"source\":\"FMP\",\"total_trimestres\":40},{\"source\":\"SEC\",\"total_trimestres\":174},{\"source\":\"Yahoo\",\"total_trimestres\":71},{\"source\":\"Yahoo + empresa\",\"total_trimestres\":2}]}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2174,
+          "cachedTokens": 2046,
+          "completionTokens": 82,
+          "llmMs": 2247.3831990000326,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "source_counts",
+      "volume": "pequeno",
+      "kind": "code-exec",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A contagem de trimestres por fonte de dados é:\n\n- **FMP**: 40\n- **SEC**: 174\n- **Yahoo**: 71\n- **Yahoo + empresa**: 2",
+      "error": null,
+      "steps": 4,
+      "toolCalls": 3,
+      "toolErrors": 0,
+      "inputTokens": 4068,
+      "newInputTokens": 1317,
+      "outputTokens": 436,
+      "peakContext": 1305,
+      "toolResultBytes": 1061,
+      "ms": 12410,
+      "trace": [
+        {
+          "promptTokens": 791,
+          "cachedTokens": 0,
+          "completionTokens": 128,
+          "llmMs": 4554.263449999969,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 0.8122209999710321,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 904,
+          "cachedTokens": 787,
+          "completionTokens": 106,
+          "llmMs": 2598.0750930000795,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 72,
+              "receivedBytes": 448,
+              "isError": false,
+              "ms": 0.769681999925524,
+              "args": "{\"detail\":\"schema\",\"query\":\"runSql\"}",
+              "result": "[{\"function\":\"runSql\",\"import\":\"import { runSql } from '../servers/earnings/index.js';\",\"description\":\"Consulta SQLite somente leitura (SELECT ou WITH) sobre as views v_company, v_quarter, v_ttm e v_latest. No máximo 200 linhas; use ORDER BY e LIMIT. Veja get_ontology para o significado das colunas.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"sql\":{\"type\":\"string\",\"description\":\"Uma única instr"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1068,
+          "cachedTokens": 900,
+          "completionTokens": 109,
+          "llmMs": 2721.960022000014,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 278,
+              "receivedBytes": 329,
+              "isError": false,
+              "ms": 29.605082000023685,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\n\\nconst result = await runSql({\\n  sql: `SELECT source, COUNT(*) as count FROM v_quarter GROUP BY source ORDER BY source`\\n});\\n\\nconsole.log(JSON.stringify(result, null, 2));\"}",
+              "result": "{\n  \"rowCount\": 4,\n  \"truncated\": false,\n  \"rows\": [\n    {\n      \"source\": \"FMP\",\n      \"count\": 40\n    },\n    {\n      \"source\": \"SEC\",\n      \"count\": 174\n    },\n    {\n      \"source\": \"Yahoo\",\n      \"count\": 71\n    },\n    {\n      \"source\": \"Yahoo + empresa\",\n      \"count\": 2\n    }\n  ]\n}\n[ok · 1 chamadas de ferramenta · 29 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1305,
+          "cachedTokens": 1064,
+          "completionTokens": 93,
+          "llmMs": 2504.633725999971,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "source_counts",
+      "volume": "pequeno",
+      "kind": "traditional",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "Existem **287 trimestres** no banco, distribuídos entre as fontes:\n\n| Fonte | Contagem |\n|-------|----------|\n| SEC | 174 |\n| Yahoo | 71 |\n| FMP | 40 |\n| Yahoo + empresa | 2 |",
+      "error": null,
+      "steps": 2,
+      "toolCalls": 1,
+      "toolErrors": 0,
+      "inputTokens": 4209,
+      "newInputTokens": 117,
+      "outputTokens": 326,
+      "peakContext": 2159,
+      "toolResultBytes": 167,
+      "ms": 7111,
+      "trace": [
+        {
+          "promptTokens": 2050,
+          "cachedTokens": 2046,
+          "completionTokens": 156,
+          "llmMs": 3416.1339109999826,
+          "calls": [
+            {
+              "name": "run_sql",
+              "sentBytes": 104,
+              "receivedBytes": 167,
+              "isError": false,
+              "ms": 1.8859919999958947,
+              "args": "{\"sql\":\"SELECT source, COUNT(*) as count FROM v_quarter GROUP BY source\"}",
+              "result": "{\"rowCount\":4,\"truncated\":false,\"rows\":[{\"source\":\"FMP\",\"count\":40},{\"source\":\"SEC\",\"count\":174},{\"source\":\"Yahoo\",\"count\":71},{\"source\":\"Yahoo + empresa\",\"count\":2}]}"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2159,
+          "cachedTokens": 2046,
+          "completionTokens": 170,
+          "llmMs": 3692.4964080000063,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "source_counts",
+      "volume": "pequeno",
+      "kind": "code-exec",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A contagem de trimestres por fonte de dados é:\n\n- **FMP**: 40 trimestres\n- **SEC**: 174 trimestres\n- **Yahoo**: 71 trimestres\n- **Yahoo + empresa**: 2 trimestres",
+      "error": null,
+      "steps": 7,
+      "toolCalls": 6,
+      "toolErrors": 2,
+      "inputTokens": 8378,
+      "newInputTokens": 1432,
+      "outputTokens": 667,
+      "peakContext": 1683,
+      "toolResultBytes": 1784,
+      "ms": 18614,
+      "trace": [
+        {
+          "promptTokens": 791,
+          "cachedTokens": 275,
+          "completionTokens": 152,
+          "llmMs": 4623.055297999992,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 0.7170149999437854,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 904,
+          "cachedTokens": 787,
+          "completionTokens": 97,
+          "llmMs": 2436.541743000038,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 208,
+              "receivedBytes": 103,
+              "isError": true,
+              "ms": 30.410832999972627,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\nconsole.log(await runSql({ query: \\\"SELECT source, COUNT(*) as count FROM earnings GROUP BY source\\\" }));\"}",
+              "result": "\nError: Parâmetro obrigatório ausente: sql\n\n[falhou (código 1) · 1 chamadas de ferramenta · 29 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1020,
+          "cachedTokens": 900,
+          "completionTokens": 76,
+          "llmMs": 2120.993949000025,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 72,
+              "receivedBytes": 448,
+              "isError": false,
+              "ms": 0.9525549999671057,
+              "args": "{\"query\":\"runSql\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"runSql\",\"import\":\"import { runSql } from '../servers/earnings/index.js';\",\"description\":\"Consulta SQLite somente leitura (SELECT ou WITH) sobre as views v_company, v_quarter, v_ttm e v_latest. No máximo 200 linhas; use ORDER BY e LIMIT. Veja get_ontology para o significado das colunas.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"sql\":{\"type\":\"string\",\"description\":\"Uma única instr"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1184,
+          "cachedTokens": 1016,
+          "completionTokens": 85,
+          "llmMs": 2327.063453000039,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 206,
+              "receivedBytes": 90,
+              "isError": true,
+              "ms": 30.45337100001052,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\nconsole.log(await runSql({ sql: \\\"SELECT source, COUNT(*) as count FROM earnings GROUP BY source\\\" }));\"}",
+              "result": "\nError: no such table: earnings\n\n[falhou (código 1) · 1 chamadas de ferramenta · 29 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1296,
+          "cachedTokens": 1180,
+          "completionTokens": 81,
+          "llmMs": 2212.1851089999545,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 79,
+              "receivedBytes": 616,
+              "isError": false,
+              "ms": 0.7791420000139624,
+              "args": "{\"query\":\"ontology\",\"detail\":\"description\"}",
+              "result": "[{\"function\":\"getOntology\",\"import\":\"import { getOntology } from '../servers/earnings/index.js';\",\"description\":\"Dicionário dos dados: convenções (unidades, datas fiscais), fontes e suas limitações, entidades, métricas e regras. Consulte antes de interpretar lucro operacional, TTM ou dados de Hong Kong.\"},{\"function\":\"runSql\",\"import\":\"import { runSql } from '../servers/earnings/index.js';\",\"descr"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1500,
+          "cachedTokens": 1292,
+          "completionTokens": 117,
+          "llmMs": 2891.6293499999447,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 207,
+              "receivedBytes": 243,
+              "isError": false,
+              "ms": 30.7517499999376,
+              "args": "{\"code\":\"import { runSql } from '../servers/earnings/index.js';\\nconsole.log(await runSql({ sql: \\\"SELECT source, COUNT(*) as count FROM v_quarter GROUP BY source\\\" }));\"}",
+              "result": "{\n  rowCount: 4,\n  truncated: false,\n  rows: [\n    { source: 'FMP', count: 40 },\n    { source: 'SEC', count: 174 },\n    { source: 'Yahoo', count: 71 },\n    { source: 'Yahoo + empresa', count: 2 }\n  ]\n}\n[ok · 1 chamadas de ferramenta · 30 ms]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1683,
+          "cachedTokens": 1496,
+          "completionTokens": 59,
+          "llmMs": 1907.8939900000114,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "quality",
+      "volume": "médio",
+      "kind": "traditional",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "Não há erros. As regras que encontraram avisos são:\n\n1. **revenue_jump** – Receitas com variação a/a acima de +150% ou abaixo de -50% (ex.: SPCX, NVDA).\n2. **tax_rate_odd** – Alíquota efetiva de imposto fora de 0–60% (ex.: META, NVDA, AMD, CRM, INTU, SPCX, 09618.HK).\n3. **eps_surprise_extreme** – Surpresa de EPS acima de ±100% (ex.: SPCX).\n4. **missing_core** – Trimestres nos EUA sem receita, lucro líquido ou caixa operacional (ex.: SPCX).",
+      "error": null,
+      "steps": 2,
+      "toolCalls": 2,
+      "toolErrors": 0,
+      "inputTokens": 5158,
+      "newInputTokens": 1702,
+      "outputTokens": 487,
+      "peakContext": 3106,
+      "toolResultBytes": 2419,
+      "ms": 12322,
+      "trace": [
+        {
+          "promptTokens": 2052,
+          "cachedTokens": 1408,
+          "completionTokens": 278,
+          "llmMs": 6918.908467000001,
+          "calls": [
+            {
+              "name": "check_data_quality",
+              "sentBytes": 58,
+              "receivedBytes": 2,
+              "isError": false,
+              "ms": 8.830452000023797,
+              "args": "{\"level\":\"erro\"}",
+              "result": "[]"
+            },
+            {
+              "name": "check_data_quality",
+              "sentBytes": 59,
+              "receivedBytes": 2417,
+              "isError": false,
+              "ms": 6.9280600000638515,
+              "args": "{\"level\":\"aviso\"}",
+              "result": "[{\"id\":\"revenue_jump\",\"level\":\"aviso\",\"what\":\"Receita a/a acima de +150% ou abaixo de -50% (pode ser aquisição, desdobramento de unidade ou erro de fonte)\",\"rows\":[{\"symbol\":\"SPCX\",\"period_end\":\"2026-09-30\",\"detail\":\"a/a 161.4% (Yahoo)\"},{\"symbol\":\"NVDA\",\"period_end\":\"2023-10-29\",\"detail\":\"a/a 205.5% (SEC)\"},{\"symbol\":\"NVDA\",\"period_end\":\"2024-01-28\",\"detail\":\"a/a 265.3% (SEC)\"},{\"symbol\":\"NVDA\",\""
+            }
+          ]
+        },
+        {
+          "promptTokens": 3106,
+          "cachedTokens": 2048,
+          "completionTokens": 209,
+          "llmMs": 5386.965689999983,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "quality",
+      "volume": "médio",
+      "kind": "code-exec",
+      "trial": 1,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "Não há **erros** nos dados. Foram encontrados apenas **avisos** nas seguintes regras:\n\n- **revenue_jump**: Variação de receita acima de +150% ou abaixo de -50% (ex: SPCX, NVDA)\n- **tax_rate_odd**: Alíquota efetiva de imposto fora de 0–60% (ex: META, INTU, SPCX, 09618.HK, NVDA, AMD, CRM)\n- **eps_surprise_extreme**: Surpresa de EPS acima de ±100% (ex: SPCX)\n- **missing_core**: Trimestres sem receita, lucro líquido ou caixa operacional (ex: SPCX)",
+      "error": null,
+      "steps": 4,
+      "toolCalls": 3,
+      "toolErrors": 0,
+      "inputTokens": 5708,
+      "newInputTokens": 2568,
+      "outputTokens": 619,
+      "peakContext": 2831,
+      "toolResultBytes": 5099,
+      "ms": 16902,
+      "trace": [
+        {
+          "promptTokens": 793,
+          "cachedTokens": 275,
+          "completionTokens": 240,
+          "llmMs": 6160.090010000044,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 93,
+              "receivedBytes": 33,
+              "isError": false,
+              "ms": 0.8477689999854192,
+              "args": "{\"query\":\"quality check validation rule\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"checkDataQuality\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 859,
+          "cachedTokens": 789,
+          "completionTokens": 107,
+          "llmMs": 2573.440852000029,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 82,
+              "receivedBytes": 1322,
+              "isError": false,
+              "ms": 0.944535999908112,
+              "args": "{\"query\":\"checkDataQuality\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"checkDataQuality\",\"import\":\"import { checkDataQuality } from '../servers/earnings/index.js';\",\"description\":\"Roda as regras de qualidade dos dados e devolve só as que encontraram problemas (nível erro/aviso, descrição e linhas suspeitas).\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"level\":{\"type\":\"string\",\"description\":\"Filtra por nível: 'erro' ou 'aviso'; padrão ambos\",\"enum\":[\"e"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1225,
+          "cachedTokens": 855,
+          "completionTokens": 111,
+          "llmMs": 2932.0069919999223,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 204,
+              "receivedBytes": 3744,
+              "isError": false,
+              "ms": 39.381328999996185,
+              "args": "{\"code\":\"import { checkDataQuality } from '../servers/earnings/index.js';\\n\\nconst results = await checkDataQuality();\\nconsole.log(JSON.stringify(results, null, 2));\"}",
+              "result": "[\n  {\n    \"id\": \"revenue_jump\",\n    \"level\": \"aviso\",\n    \"what\": \"Receita a/a acima de +150% ou abaixo de -50% (pode ser aquisição, desdobramento de unidade ou erro de fonte)\",\n    \"rows\": [\n      {\n        \"symbol\": \"SPCX\",\n        \"period_end\": \"2026-09-30\",\n        \"detail\": \"a/a 161.4% (Yahoo)\"\n      },\n      {\n        \"symbol\": \"NVDA\",\n        \"period_end\": \"2023-10-29\",\n        \"detail\": \"a"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2831,
+          "cachedTokens": 1221,
+          "completionTokens": 161,
+          "llmMs": 5195.134912999929,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "quality",
+      "volume": "médio",
+      "kind": "traditional",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "Não há erros nos dados. As regras que geraram avisos são:\n\n1. `revenue_jump` (variação de receita a/a acima de ±50%)\n2. `tax_rate_odd` (alíquota efetiva fora de 0–60%)\n3. `eps_surprise_extreme` (surpresa de EPS acima de ±100%)\n4. `missing_core` (trimestres sem dados essenciais de receita, lucro ou caixa)",
+      "error": null,
+      "steps": 3,
+      "toolCalls": 2,
+      "toolErrors": 0,
+      "inputTokens": 7268,
+      "newInputTokens": 1718,
+      "outputTokens": 451,
+      "peakContext": 3118,
+      "toolResultBytes": 2419,
+      "ms": 12416,
+      "trace": [
+        {
+          "promptTokens": 2052,
+          "cachedTokens": 1408,
+          "completionTokens": 162,
+          "llmMs": 5107.885702,
+          "calls": [
+            {
+              "name": "check_data_quality",
+              "sentBytes": 58,
+              "receivedBytes": 2,
+              "isError": false,
+              "ms": 7.978572000050917,
+              "args": "{\"level\":\"erro\"}",
+              "result": "[]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2098,
+          "cachedTokens": 2048,
+          "completionTokens": 43,
+          "llmMs": 1487.8810869998997,
+          "calls": [
+            {
+              "name": "check_data_quality",
+              "sentBytes": 59,
+              "receivedBytes": 2417,
+              "isError": false,
+              "ms": 7.789268000051379,
+              "args": "{\"level\":\"aviso\"}",
+              "result": "[{\"id\":\"revenue_jump\",\"level\":\"aviso\",\"what\":\"Receita a/a acima de +150% ou abaixo de -50% (pode ser aquisição, desdobramento de unidade ou erro de fonte)\",\"rows\":[{\"symbol\":\"SPCX\",\"period_end\":\"2026-09-30\",\"detail\":\"a/a 161.4% (Yahoo)\"},{\"symbol\":\"NVDA\",\"period_end\":\"2023-10-29\",\"detail\":\"a/a 205.5% (SEC)\"},{\"symbol\":\"NVDA\",\"period_end\":\"2024-01-28\",\"detail\":\"a/a 265.3% (SEC)\"},{\"symbol\":\"NVDA\",\""
+            }
+          ]
+        },
+        {
+          "promptTokens": 3118,
+          "cachedTokens": 2094,
+          "completionTokens": 246,
+          "llmMs": 5804.802971999976,
+          "calls": []
+        }
+      ]
+    },
+    {
+      "task": "quality",
+      "volume": "médio",
+      "kind": "code-exec",
+      "trial": 2,
+      "correct": true,
+      "missing": [],
+      "forbidden": [],
+      "answer": "A verificação de qualidade dos dados foi concluída. Não há **erros**, mas foram encontrados **avisos** nas seguintes regras:\n\n- **revenue_jump**: Receita a/a acima de +150% ou abaixo de -50% (ex: SPCX, NVDA)\n- **tax_rate_odd**: Alíquota efetiva de imposto fora de 0–60% (ex: META, INTU, SPCX, 09618.HK, NVDA, AMD, CRM)\n- **eps_surprise_extreme**: Surpresa de EPS acima de ±100% (ex: SPCX)\n- **missing_core**: Trimestre sem receita, lucro líquido ou caixa operacional (ex: SPCX)",
+      "error": null,
+      "steps": 4,
+      "toolCalls": 3,
+      "toolErrors": 0,
+      "inputTokens": 5843,
+      "newInputTokens": 2609,
+      "outputTokens": 584,
+      "peakContext": 2872,
+      "toolResultBytes": 5350,
+      "ms": 16298,
+      "trace": [
+        {
+          "promptTokens": 793,
+          "cachedTokens": 275,
+          "completionTokens": 209,
+          "llmMs": 5681.1065959999105,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 64,
+              "receivedBytes": 284,
+              "isError": false,
+              "ms": 0.8419490000233054,
+              "args": "{\"query\":\"\",\"detail\":\"name\"}",
+              "result": "[{\"function\":\"listCompanies\"},{\"function\":\"getCompanySnapshot\"},{\"function\":\"listLatest\"},{\"function\":\"rankCompanies\"},{\"function\":\"getQuarters\"},{\"function\":\"getTtm\"},{\"function\":\"getUpcomingEarnings\"},{\"function\":\"getOntology\"},{\"function\":\"checkDataQuality\"},{\"function\":\"runSql\"}]"
+            }
+          ]
+        },
+        {
+          "promptTokens": 906,
+          "cachedTokens": 789,
+          "completionTokens": 104,
+          "llmMs": 2566.622818000149,
+          "calls": [
+            {
+              "name": "search_tools",
+              "sentBytes": 82,
+              "receivedBytes": 1322,
+              "isError": false,
+              "ms": 0.786100999917835,
+              "args": "{\"query\":\"checkDataQuality\",\"detail\":\"schema\"}",
+              "result": "[{\"function\":\"checkDataQuality\",\"import\":\"import { checkDataQuality } from '../servers/earnings/index.js';\",\"description\":\"Roda as regras de qualidade dos dados e devolve só as que encontraram problemas (nível erro/aviso, descrição e linhas suspeitas).\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"level\":{\"type\":\"string\",\"description\":\"Filtra por nível: 'erro' ou 'aviso'; padrão ambos\",\"enum\":[\"e"
+            }
+          ]
+        },
+        {
+          "promptTokens": 1272,
+          "cachedTokens": 902,
+          "completionTokens": 102,
+          "llmMs": 2760.165053999983,
+          "calls": [
+            {
+              "name": "execute_code",
+              "sentBytes": 176,
+              "receivedBytes": 3744,
+              "isError": false,
+              "ms": 36.531051999889314,
+              "args": "{\"code\":\"import { checkDataQuality } from '../servers/earnings/index.js';\\nconsole.log(JSON.stringify(await checkDataQuality(), null, 2));\"}",
+              "result": "[\n  {\n    \"id\": \"revenue_jump\",\n    \"level\": \"aviso\",\n    \"what\": \"Receita a/a acima de +150% ou abaixo de -50% (pode ser aquisição, desdobramento de unidade ou erro de fonte)\",\n    \"rows\": [\n      {\n        \"symbol\": \"SPCX\",\n        \"period_end\": \"2026-09-30\",\n        \"detail\": \"a/a 161.4% (Yahoo)\"\n      },\n      {\n        \"symbol\": \"NVDA\",\n        \"period_end\": \"2023-10-29\",\n        \"detail\": \"a"
+            }
+          ]
+        },
+        {
+          "promptTokens": 2872,
+          "cachedTokens": 1268,
+          "completionTokens": 169,
+          "llmMs": 5251.991789999884,
+          "calls": []
+        }
+      ]
+    }
+  ]
+}

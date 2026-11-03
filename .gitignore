@@ -53,3 +53,7 @@ temp/
 
 # Dashboard: cache gerado pela atualização automática
 dashboard/data/cache/
+
+# MCP code-exec: módulos gerados e estado do sandbox (recriados ao subir o servidor)
+dashboard/mcp/code-exec/sandbox/
+dashboard/mcp/bench/results/*.log

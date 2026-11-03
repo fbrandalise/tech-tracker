@@ -1,0 +1,286 @@
+{
+  "date": "2026-11-03T16:53:20.825Z",
+  "node": "v26.4.0",
+  "results": [
+    {
+      "target": "code-exec",
+      "id": "read_etc_passwd",
+      "attack": "ler arquivo do sistema",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ERR_ACCESS_DENIED Access to this API has been restricted. Use --allow-fs-read  [ok · 0 chamadas de fer"
+    },
+    {
+      "target": "code-exec",
+      "id": "read_database_file",
+      "attack": "abrir o arquivo do banco",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ERR_ACCESS_DENIED Access to this API has been restricted. Use --allow-fs-read  [ok · 0 chamadas de fer"
+    },
+    {
+      "target": "code-exec",
+      "id": "open_sqlite_direct",
+      "attack": "abrir o banco com node:sqlite",
+      "verdict": "BLOQUEADO",
+      "detail": "file://<repo>/dashboard/mcp/code-exec/harden.mjs:9 const d"
+    },
+    {
+      "target": "code-exec",
+      "id": "read_dotenv",
+      "attack": "ler o .env do projeto",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ERR_ACCESS_DENIED Access to this API has been restricted. Use --allow-fs-read  [ok · 0 chamadas de fer"
+    },
+    {
+      "target": "code-exec",
+      "id": "read_proc_environ",
+      "attack": "ler /proc/<pai>/environ",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ERR_ACCESS_DENIED Access to this API has been restricted. Use --allow-fs-read  [ok · 0 chamadas de fer"
+    },
+    {
+      "target": "code-exec",
+      "id": "write_outside",
+      "attack": "gravar fora do workspace",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ERR_ACCESS_DENIED Access to this API has been restricted. Use --allow-fs-write [ok · 0 chamadas de fer"
+    },
+    {
+      "target": "code-exec",
+      "id": "tamper_servers",
+      "attack": "sobrescrever os módulos de ferramentas",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ERR_ACCESS_DENIED Access to this API has been restricted. Use --allow-fs-write [ok · 0 chamadas de fer"
+    },
+    {
+      "target": "code-exec",
+      "id": "symlink_escape",
+      "attack": "symlink no workspace apontando para fora",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ERR_ACCESS_DENIED fs.symlink API requires full fs.read and fs.write permission [ok · 0 chamadas de fer"
+    },
+    {
+      "target": "code-exec",
+      "id": "sqlite_via_require",
+      "attack": "node:sqlite via createRequire",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ERR_ACCESS_DENIED O módulo node:sqlite é bloqueado no sandbox [ok · 0 chamadas de ferramenta · 21 ms]"
+    },
+    {
+      "target": "code-exec",
+      "id": "sqlite_via_builtin",
+      "attack": "node:sqlite via process.getBuiltinModule",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ERR_ACCESS_DENIED O módulo node:sqlite é bloqueado no sandbox [ok · 0 chamadas de ferramenta · 22 ms]"
+    },
+    {
+      "target": "code-exec",
+      "id": "kill_other_process",
+      "attack": "process.kill de um processo alheio (pid do usuário)",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ERR_ACCESS_DENIED process.kill é bloqueado no sandbox [ok · 0 chamadas de ferramenta · 23 ms]"
+    },
+    {
+      "target": "code-exec",
+      "id": "spawn_process",
+      "attack": "executar comando (child_process)",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ERR_ACCESS_DENIED Access to this API has been restricted. Use --allow-child-pr [ok · 0 chamadas de fer"
+    },
+    {
+      "target": "code-exec",
+      "id": "worker_thread",
+      "attack": "criar worker thread",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ERR_ACCESS_DENIED Access to this API has been restricted. Use --allow-worker t [ok · 0 chamadas de fer"
+    },
+    {
+      "target": "code-exec",
+      "id": "native_addon",
+      "attack": "carregar addon nativo (dlopen)",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ERR_DLOPEN_DISABLED Cannot load native addon because loading addons is disabled. [ok · 0 chamadas de f"
+    },
+    {
+      "target": "code-exec",
+      "id": "network_egress",
+      "attack": "requisição HTTP para fora do sandbox",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED TypeError fetch failed [ok · 0 chamadas de ferramenta · 39 ms]"
+    },
+    {
+      "target": "code-exec",
+      "id": "env_secrets",
+      "attack": "ler variáveis de ambiente (chave de API)",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ambiente limpo: NODE_NO_WARNINGS [ok · 0 chamadas de ferramenta · 20 ms]"
+    },
+    {
+      "target": "code-exec",
+      "id": "infinite_loop",
+      "attack": "laço infinito",
+      "verdict": "BLOQUEADO",
+      "detail": "[falhou · 0 chamadas de ferramenta · 2007 ms · interrompido após 2000 ms]"
+    },
+    {
+      "target": "code-exec",
+      "id": "memory_bomb",
+      "attack": "estouro de memória",
+      "verdict": "BLOQUEADO",
+      "detail": " <--- Last few GCs --->  [157830:0x558705277000]      114 ms: Mark-Compact (reduce) 255.0 (257.3) -> 255.0 (25"
+    },
+    {
+      "target": "code-exec",
+      "id": "output_flood",
+      "attack": "10 MB de saída",
+      "verdict": "MITIGADO",
+      "detail": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    {
+      "target": "code-exec",
+      "id": "toolcall_flood",
+      "attack": "1000 chamadas de ferramenta em laço",
+      "verdict": "MITIGADO",
+      "detail": "BLOCKED depois de 500: Limite de 500 chamadas de ferramenta por execução [ok · 501 chamadas de ferramenta · 10"
+    },
+    {
+      "target": "code-exec",
+      "id": "disk_fill",
+      "attack": "gravar 80 MB no workspace",
+      "verdict": "MITIGADO",
+      "detail": "wrote [ok · 0 chamadas de ferramenta · 34 ms · workspace acima de 50 MB: apague arquivos]"
+    },
+    {
+      "target": "code-exec",
+      "id": "sql_write_from_sandbox",
+      "attack": "DROP TABLE via runSql dentro do sandbox",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED Só são permitidas instruções SELECT ou WITH [ok · 1 chamadas de ferramenta · 30 ms]"
+    },
+    {
+      "target": "traditional",
+      "id": "sql_drop",
+      "attack": "DROP TABLE",
+      "verdict": "BLOQUEADO",
+      "detail": "Só são permitidas instruções SELECT ou WITH"
+    },
+    {
+      "target": "traditional",
+      "id": "sql_attach",
+      "attack": "ATTACH DATABASE (cria arquivo)",
+      "verdict": "BLOQUEADO",
+      "detail": "Só são permitidas instruções SELECT ou WITH"
+    },
+    {
+      "target": "traditional",
+      "id": "sql_multi",
+      "attack": "duas instruções (SELECT; DROP)",
+      "verdict": "BLOQUEADO",
+      "detail": "Envie uma única instrução por chamada"
+    },
+    {
+      "target": "traditional",
+      "id": "sql_pragma",
+      "attack": "PRAGMA que escreve",
+      "verdict": "BLOQUEADO",
+      "detail": "Só são permitidas instruções SELECT ou WITH"
+    },
+    {
+      "target": "traditional",
+      "id": "sql_raw_tables",
+      "attack": "ler tabela bruta",
+      "verdict": "BLOQUEADO",
+      "detail": "access to quarters.symbol is prohibited"
+    },
+    {
+      "target": "code-exec",
+      "id": "sql_drop",
+      "attack": "DROP TABLE",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED Só são permitidas instruções SELECT ou WITH [ok · 1 chamadas de ferramenta · 29 ms]"
+    },
+    {
+      "target": "code-exec",
+      "id": "sql_attach",
+      "attack": "ATTACH DATABASE (cria arquivo)",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED Só são permitidas instruções SELECT ou WITH [ok · 1 chamadas de ferramenta · 29 ms]"
+    },
+    {
+      "target": "code-exec",
+      "id": "sql_multi",
+      "attack": "duas instruções (SELECT; DROP)",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED Envie uma única instrução por chamada [ok · 1 chamadas de ferramenta · 27 ms]"
+    },
+    {
+      "target": "code-exec",
+      "id": "sql_pragma",
+      "attack": "PRAGMA que escreve",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED Só são permitidas instruções SELECT ou WITH [ok · 1 chamadas de ferramenta · 26 ms]"
+    },
+    {
+      "target": "code-exec",
+      "id": "sql_raw_tables",
+      "attack": "ler tabela bruta",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED access to quarters.symbol is prohibited [ok · 1 chamadas de ferramenta · 46 ms]"
+    },
+    {
+      "target": "traditional",
+      "id": "metric_injection",
+      "attack": "texto livre no nome da coluna",
+      "verdict": "BLOQUEADO",
+      "detail": "Colunas inexistentes em v_latest: revenue_yoy; DROP TABLE x. Disponíveis: symbol, name, area, market"
+    },
+    {
+      "target": "traditional",
+      "id": "wrong_types",
+      "attack": "limit como texto",
+      "verdict": "BLOQUEADO",
+      "detail": "MCP error -32602: Input validation error: Invalid arguments for tool get_quarters: Invalid input: ex"
+    },
+    {
+      "target": "traditional",
+      "id": "huge_limit",
+      "attack": "limit = 1 bilhão",
+      "verdict": "MITIGADO",
+      "detail": "13016 bytes devolvidos"
+    },
+    {
+      "target": "traditional",
+      "id": "sql_cross_join",
+      "attack": "produto cartesiano de 4 views (bilhões de linhas)",
+      "verdict": "BLOQUEADO",
+      "detail": "A consulta passou de 5s e foi cancelada. Use filtros, LIMIT e evite produtos cartesianos"
+    },
+    {
+      "target": "code-exec",
+      "id": "sql_cross_join",
+      "attack": "produto cartesiano de 4 views (bilhões de linhas)",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED A consulta passou de 5s e foi cancelada. Use filtros, LIMIT  [ok · 1 chamadas de f"
+    },
+    {
+      "target": "traditional",
+      "id": "sql_infinite_recursion",
+      "attack": "CTE recursiva sem fim",
+      "verdict": "BLOQUEADO",
+      "detail": "not authorized"
+    },
+    {
+      "target": "code-exec",
+      "id": "sql_infinite_recursion",
+      "attack": "CTE recursiva sem fim",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED not authorized [ok · 1 chamadas de ferramenta · 45 ms]"
+    },
+    {
+      "target": "code-exec",
+      "id": "kill_parent",
+      "attack": "process.kill(ppid) no servidor MCP",
+      "verdict": "BLOQUEADO",
+      "detail": "BLOCKED ERR_ACCESS_DENIED [ok · 0 chamadas de ferramenta · 21 ms]"
+    }
+  ]
+}
