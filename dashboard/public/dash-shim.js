@@ -53,15 +53,16 @@
     try { const q = new URLSearchParams(location.search).get('lang'); if (q) return q === 'en'; const v = localStorage.getItem('lx-lang'); if (v) return v === 'en'; } catch (e) { /* ignore */ }
     return !String(navigator.language || 'pt').toLowerCase().startsWith('pt');
   })();
-  const SCRIPTS = ['i18n.js', 'content-en.js', 'metrics.js', 'page.js', 'compare.js', 'explore.js', 'calendar.js', 'news.js'];
+  const SCRIPTS = ['i18n.js', 'content-en.js', 'metrics.js', 'page.js', 'compare.js', 'explore.js', 'calendar.js', 'news.js', 'usage.js', 'ask.js'];
   const loadScripts = (list) => list.reduce((p, src) => p.then(() => new Promise((res, rej) => {
     const el = document.createElement('script'); el.src = src; el.onload = res; el.onerror = () => rej(new Error('Falha ao carregar ' + src));
     document.body.appendChild(el);
   })), Promise.resolve());
-  Promise.all([load('earnings.json'), load('news.json'), load('meta.json').catch(() => ({ fx: { USD: 1 } })), wantEn ? load('news-en.json').catch(() => ({})) : Promise.resolve({})])
-    .then(([rows, news, meta, newsEn]) => {
+  Promise.all([load('earnings.json'), load('news.json'), load('usage.json').catch(() => ({ companies: [] })), load('meta.json').catch(() => ({ fx: { USD: 1 } })), wantEn ? load('news-en.json').catch(() => ({})) : Promise.resolve({})])
+    .then(([rows, news, usage, meta, newsEn]) => {
       datasets.earnings = rows;
       datasets.news = news;
+      datasets.usage = usage;
       datasets.meta = meta;
       datasets.newsEn = newsEn;
       return loadScripts(SCRIPTS);

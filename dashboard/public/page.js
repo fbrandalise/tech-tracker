@@ -414,8 +414,8 @@ dash.draw('chart-react', (el) => barChart(el, 'reactPct', t('m.reactPct'), { fmt
 // ---- abas (a aba selecionada fica no hash)
 (function () {
   const tabs = [...document.querySelectorAll('.lx-tabs [data-tab]')];
-  const HASH = { results: '', explore: '#explore', calendar: '#calendar', news: '#news' };
-  const FROM = { '#explore': 'explore', '#explorar': 'explore', '#calendar': 'calendar', '#calendario': 'calendar', '#news': 'news', '#novidades': 'news' };
+  const HASH = { results: '', explore: '#explore', calendar: '#calendar', news: '#news', usage: '#usage' };
+  const FROM = { '#explore': 'explore', '#explorar': 'explore', '#calendar': 'calendar', '#calendario': 'calendar', '#news': 'news', '#novidades': 'news', '#usage': 'usage', '#uso': 'usage' };
   const show = (name) => {
     tabs.forEach((b) => {
       const on = b.dataset.tab === name;

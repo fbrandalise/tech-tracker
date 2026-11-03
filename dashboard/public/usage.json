@@ -1,0 +1,1062 @@
+{
+ "asOf": "2026-10-30",
+ "companies": [
+  {
+   "symbol": "META",
+   "name": "Meta",
+   "market": "EUA",
+   "period": [
+    "Set/2026",
+    "Sep 2026"
+   ],
+   "metrics": [
+    {
+     "l": [
+      "Pessoas ativas por dia na família de apps (DAP)",
+      "Family daily active people (DAP)"
+     ],
+     "v": 3640,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "yoy": 3,
+     "per": [
+      "Set/2026",
+      "Sep 2026"
+     ],
+     "n": [
+      "Pessoas únicas estimadas que usaram Facebook, Instagram, Messenger ou WhatsApp no dia; margem de erro de cerca de 3%.",
+      "Estimated unique people who used Facebook, Instagram, Messenger or WhatsApp in a day; margin of error around 3%."
+     ]
+    },
+    {
+     "l": [
+      "Impressões de anúncios entregues",
+      "Ad impressions delivered"
+     ],
+     "v": null,
+     "u": [
+      "",
+      ""
+     ],
+     "conf": "primária",
+     "kind": "engajamento",
+     "yoy": 10,
+     "n": [
+      "Variação anual no 3T26; o preço médio por anúncio subiu 14%.",
+      "Year-over-year change in Q3 2026; average price per ad rose 14%."
+     ]
+    }
+   ],
+   "insight": [
+    "Crescimento de 3% em uma base de 3,6 bilhões é saturação: o motor agora é monetização por pessoa (preço por anúncio +14%), não novos usuários. A empresa diz que Threads já passou o X em usuários mensais ativos, sem divulgar o número.",
+    "Growth of 3% on a 3.6 billion base is saturation: the engine is now monetization per person (price per ad +14%), not new users. The company says Threads has passed X in monthly actives, without giving the number."
+   ],
+   "source": {
+    "label": "Meta: resultados do 3T26 e 10-Q",
+    "url": "https://about.fb.com/ja/news/2026/10/2026_third_quarter_result/"
+   }
+  },
+  {
+   "symbol": "GOOGL",
+   "name": "Alphabet",
+   "market": "EUA",
+   "period": [
+    "3T26",
+    "Q3 2026"
+   ],
+   "metrics": [
+    {
+     "l": [
+      "App Gemini: usuários",
+      "Gemini app users"
+     ],
+     "v": 1000,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "transcrição",
+     "kind": "uso",
+     "per": [
+      "3T26",
+      "Q3 2026"
+     ],
+     "n": [
+      "A empresa fala em “1 bilhão de usuários” sem separar ativos mensais de diários e sem definir o critério. No 2T26 eram 950 milhões de ativos mensais.",
+      "The company says “1 billion users” without separating monthly from daily actives or defining the criterion. In Q2 2026 it was 950 million monthly actives."
+     ]
+    },
+    {
+     "l": [
+      "Tokens processados pela API própria",
+      "Tokens processed by first-party API"
+     ],
+     "v": 32,
+     "u": [
+      "bilhões por minuto",
+      "billion per minute"
+     ],
+     "conf": "transcrição",
+     "kind": "uso",
+     "n": [
+      "+40% sobre o trimestre anterior e mais de 4 vezes o ano anterior.",
+      "+40% vs. the prior quarter and more than 4x a year earlier."
+     ]
+    },
+    {
+     "l": [
+      "Assinantes de YouTube Music e Premium",
+      "YouTube Music and Premium subscribers"
+     ],
+     "v": 150,
+     "u": [
+      "milhões (mais de)",
+      "million (over)"
+     ],
+     "conf": "transcrição",
+     "kind": "uso",
+     "n": [
+      "Inclui períodos de teste, segundo o CEO; o diretor de YouTube atribuiu o número só ao Premium.",
+      "Includes trial users per the CEO; YouTube's head attributed the number to Premium alone."
+     ]
+    },
+    {
+     "l": [
+      "Buscas visuais",
+      "Visual searches"
+     ],
+     "v": 50,
+     "u": [
+      "bilhões por mês (mais de)",
+      "billion per month (over)"
+     ],
+     "conf": "transcrição",
+     "kind": "uso"
+    },
+    {
+     "l": [
+      "Licenças de trabalho do conhecimento com IA vendidas",
+      "Knowledge-work AI seats sold"
+     ],
+     "v": 100,
+     "u": [
+      "milhões (mais de)",
+      "million (over)"
+     ],
+     "conf": "transcrição",
+     "kind": "comercial"
+    }
+   ],
+   "insight": [
+    "O dado de usuários mais importante, o Gemini, mudou de “ativos mensais” (950 mi) para “usuários” (1 bi) sem definição: não compare com o ChatGPT, que reporta ativos semanais.",
+    "The key user figure, Gemini, moved from “monthly actives” (950M) to “users” (1B) with no definition: do not compare it with ChatGPT, which reports weekly actives."
+   ],
+   "source": {
+    "label": "Transcrição da teleconferência do 3T26 (terceiros)",
+    "url": "https://www.fool.com/earnings/call-transcripts/2026/10/29/alphabet-googl-q3-2026-earnings-call-transcript/"
+   }
+  },
+  {
+   "symbol": "MSFT",
+   "name": "Microsoft",
+   "market": "EUA",
+   "period": [
+    "4T FY26 (jun/2026)",
+    "FY26 Q4 (Jun 2026)"
+   ],
+   "metrics": [
+    {
+     "l": [
+      "Assentos pagos do Microsoft 365 Copilot",
+      "Paid Microsoft 365 Copilot seats"
+     ],
+     "v": 30,
+     "u": [
+      "milhões (mais de)",
+      "million (over)"
+     ],
+     "conf": "imprensa",
+     "kind": "comercial",
+     "per": [
+      "4T FY26",
+      "FY26 Q4"
+     ],
+     "n": [
+      "Último número divulgado (jul/2026); o 1T FY27 não atualizou a contagem. Cerca de 20 milhões no trimestre anterior.",
+      "Last disclosed figure (Jul 2026); Q1 FY27 did not update the count. About 20 million in the prior quarter."
+     ]
+    },
+    {
+     "l": [
+      "Usuários do GitHub Copilot",
+      "GitHub Copilot users"
+     ],
+     "v": 50,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "imprensa",
+     "kind": "uso",
+     "n": [
+      "Citado na teleconferência de julho/2026 segundo a imprensa; a data exata não foi confirmada.",
+      "Cited on the July 2026 call per the press; exact date not confirmed."
+     ]
+    },
+    {
+     "l": [
+      "Clientes do Copilot consumindo créditos (cobrança por uso)",
+      "Copilot customers consuming credits (usage-based billing)"
+     ],
+     "v": null,
+     "u": [
+      "",
+      ""
+     ],
+     "conf": "imprensa",
+     "kind": "uso",
+     "yoy": 75,
+     "n": [
+      "Crescimento no trimestre, segundo o CEO (relatado pela Fortune).",
+      "Growth in the quarter per the CEO (reported by Fortune)."
+     ]
+    }
+   ],
+   "insight": [
+    "A Microsoft não divulga usuários ativos do Copilot, só assentos pagos, que medem venda e não uso. A mudança para cobrança por consumo é o sinal a acompanhar.",
+    "Microsoft does not disclose Copilot active users, only paid seats, which measure sales rather than usage. The shift to consumption billing is the signal to watch."
+   ],
+   "source": {
+    "label": "Microsoft: resultados do 1T FY27",
+    "url": "https://news.microsoft.com/source/2026/10/28/microsoft-announces-first-quarter-results-2/"
+   }
+  },
+  {
+   "symbol": "AMZN",
+   "name": "Amazon",
+   "market": "EUA",
+   "period": [
+    "3T26",
+    "Q3 2026"
+   ],
+   "metrics": [
+    {
+     "l": [
+      "Clientes que usaram o Alexa para compras",
+      "Customers who used Alexa for shopping"
+     ],
+     "v": 400,
+     "u": [
+      "milhões (mais de)",
+      "million (over)"
+     ],
+     "conf": "transcrição",
+     "kind": "uso",
+     "per": [
+      "últimos 12 meses",
+      "last 12 months"
+     ],
+     "n": [
+      "Quem usa gasta 50% a mais por pedido, segundo a Amazon.",
+      "Those who use it spend 50% more per order, per Amazon."
+     ]
+    },
+    {
+     "l": [
+      "Itens entregues a membros Prime em até 1 dia",
+      "Items delivered to Prime members same/next day"
+     ],
+     "v": 1.5,
+     "u": [
+      "bilhões (mais de)",
+      "billion (over)"
+     ],
+     "conf": "transcrição",
+     "kind": "uso",
+     "per": [
+      "3T26",
+      "Q3 2026"
+     ],
+     "n": [
+      "Recorde para um 3T.",
+      "Record for a Q3."
+     ]
+    }
+   ],
+   "insight": [
+    "Sem contagem de membros Prime nem de usuários do Alexa+. O número de 400 milhões cobre 12 meses, então mede alcance, não uso frequente.",
+    "No Prime member count and no Alexa+ user count. The 400 million figure covers 12 months, so it measures reach, not frequent use."
+   ],
+   "source": {
+    "label": "Transcrição da teleconferência do 3T26 (terceiros)",
+    "url": "https://www.benzinga.com/news/26/10/62724825/amazoncom-q3-2026-earnings-call-transcript"
+   }
+  },
+  {
+   "symbol": "AAPL",
+   "name": "Apple",
+   "market": "EUA",
+   "period": [
+    "3T FY26 (jun/2026)",
+    "FY26 Q3 (Jun 2026)"
+   ],
+   "metrics": [
+    {
+     "l": [
+      "Assinaturas pagas nas plataformas Apple",
+      "Paid subscriptions across Apple platforms"
+     ],
+     "v": 1500,
+     "u": [
+      "milhões (mais de)",
+      "million (over)"
+     ],
+     "conf": "imprensa",
+     "kind": "uso",
+     "n": [
+      "Divulgado na teleconferência de jul/2026. O marco anterior era 1 bilhão, cerca de três anos antes. Não achei a base instalada de dispositivos atualizada para 2026.",
+      "Disclosed on the July 2026 call. The previous milestone was 1 billion about three years earlier. I did not find an updated 2026 installed base."
+     ]
+    }
+   ],
+   "insight": [
+    "A Apple só atualiza esse número a cada alguns anos e não divulga receita por assinatura, então serve como marco, não como série trimestral.",
+    "Apple updates this number only every few years and does not disclose revenue per subscription, so it is a milestone, not a quarterly series."
+   ],
+   "source": {
+    "label": "Cobertura da teleconferência (imprensa)",
+    "url": "https://northeasttimes.com/2026/07/31/apple-hits-1-5-billion-paid-subscriptions-across-its-platforms/"
+   }
+  },
+  {
+   "symbol": "00700.HK",
+   "name": "Tencent",
+   "market": "Hong Kong",
+   "period": [
+    "2T26",
+    "Q2 2026"
+   ],
+   "metrics": [
+    {
+     "l": [
+      "Usuários ativos mensais de Weixin e WeChat",
+      "Combined MAU of Weixin and WeChat"
+     ],
+     "v": 1439,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "yoy": 2,
+     "prev": 1411,
+     "per": [
+      "30/06/2026",
+      "Jun 30, 2026"
+     ]
+    },
+    {
+     "l": [
+      "Usuários ativos mensais do QQ (celular)",
+      "Mobile device MAU of QQ"
+     ],
+     "v": 520,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "yoy": -2,
+     "prev": 532,
+     "per": [
+      "30/06/2026",
+      "Jun 30, 2026"
+     ]
+    },
+    {
+     "l": [
+      "Assinaturas pagas de serviços de valor agregado",
+      "Fee-based VAS subscriptions"
+     ],
+     "v": 259,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "primária",
+     "kind": "comercial",
+     "yoy": -2,
+     "prev": 264,
+     "n": [
+      "Média diária de assinaturas no trimestre.",
+      "Average daily subscriptions during the quarter."
+     ]
+    }
+   ],
+   "insight": [
+    "O Weixin cresce só 2% e o QQ encolhe: a Tencent depende de aumentar o uso por usuário e de IA (Hunyuan, Yuanbao, WorkBuddy), não de novos usuários. A empresa não divulga usuários ativos desses apps de IA.",
+    "Weixin grows only 2% and QQ is shrinking: Tencent depends on more use per user and on AI (Hunyuan, Yuanbao, WorkBuddy), not on new users. The company does not disclose active users for those AI apps."
+   ],
+   "source": {
+    "label": "Tencent: resultados do 2T26",
+    "url": "https://www.tencent.com/wp-content/uploads/2026/08/Tencent-Announces-2026-Second-Quarter-Results.pdf"
+   }
+  },
+  {
+   "symbol": "01810.HK",
+   "name": "Xiaomi",
+   "market": "Hong Kong",
+   "period": [
+    "2T26",
+    "Q2 2026"
+   ],
+   "metrics": [
+    {
+     "l": [
+      "Usuários ativos mensais globais",
+      "Global MAU"
+     ],
+     "v": 766.5,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "yoy": 4.8,
+     "per": [
+      "Jun/2026",
+      "Jun 2026"
+     ]
+    },
+    {
+     "l": [
+      "Usuários ativos mensais na China continental",
+      "MAU in the Chinese Mainland"
+     ],
+     "v": 197.7,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "yoy": 7.0,
+     "per": [
+      "Jun/2026",
+      "Jun 2026"
+     ]
+    },
+    {
+     "l": [
+      "Assistente de IA (Xiao Ai): usuários ativos mensais",
+      "AI Assistant (Xiao Ai) MAU"
+     ],
+     "v": 174.9,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "yoy": 14.2,
+     "per": [
+      "Jun/2026",
+      "Jun 2026"
+     ]
+    },
+    {
+     "l": [
+      "App Xiaomi Home: usuários ativos mensais",
+      "Xiaomi Home app MAU"
+     ],
+     "v": 124.1,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "yoy": 9.7,
+     "per": [
+      "Jun/2026",
+      "Jun 2026"
+     ]
+    },
+    {
+     "l": [
+      "TVs inteligentes: usuários ativos mensais",
+      "Smart TV MAU"
+     ],
+     "v": 76.9,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "yoy": 4.3,
+     "per": [
+      "Jun/2026",
+      "Jun 2026"
+     ]
+    },
+    {
+     "l": [
+      "Dispositivos IoT conectados (sem celulares e tablets)",
+      "Connected IoT devices (excl. phones and tablets)"
+     ],
+     "v": 1160.8,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "yoy": 17.4,
+     "per": [
+      "30/06/2026",
+      "Jun 30, 2026"
+     ]
+    },
+    {
+     "l": [
+      "Usuários com 5 ou mais dispositivos conectados",
+      "Users with 5+ connected devices"
+     ],
+     "v": 24.6,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "yoy": 20.2,
+     "per": [
+      "30/06/2026",
+      "Jun 30, 2026"
+     ]
+    },
+    {
+     "l": [
+      "Veículos elétricos entregues",
+      "EVs delivered"
+     ],
+     "v": 104199,
+     "u": [
+      "unidades",
+      "units"
+     ],
+     "conf": "primária",
+     "kind": "comercial",
+     "yoy": 28.2,
+     "per": [
+      "2T26",
+      "Q2 2026"
+     ]
+    }
+   ],
+   "insight": [
+    "É a empresa com mais métricas de uso divulgadas. O ecossistema cresce mais rápido que a base (IoT +17%, usuários com 5+ dispositivos +20% contra MAU +5%), o que sustenta a receita de serviços com margem de 76,8%, mesmo com as vendas de celulares em queda.",
+    "It is the company with the most disclosed usage metrics. The ecosystem grows faster than the base (IoT +17%, users with 5+ devices +20% vs. MAU +5%), which supports services revenue at a 76.8% margin even as phone sales fall."
+   ],
+   "source": {
+    "label": "Xiaomi: anúncio de resultados do 2T26 (HKEX)",
+    "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0818/2026081801014.pdf"
+   }
+  },
+  {
+   "symbol": "09988.HK",
+   "name": "Alibaba",
+   "market": "Hong Kong",
+   "period": [
+    "Trimestre de jun/2026",
+    "June quarter 2026"
+   ],
+   "metrics": [
+    {
+     "l": [
+      "Membros 88VIP (consumidores de maior gasto)",
+      "88VIP members (highest-spending consumers)"
+     ],
+     "v": 64,
+     "u": [
+      "milhões (cerca de)",
+      "million (about)"
+     ],
+     "conf": "primária",
+     "kind": "comercial",
+     "per": [
+      "30/06/2026",
+      "Jun 30, 2026"
+     ],
+     "n": [
+      "Crescimento de dois dígitos a/a segundo a empresa. Eram cerca de 59 milhões no trimestre de dezembro.",
+      "Double-digit YoY growth per the company. It was about 59 million in the December quarter."
+     ]
+    },
+    {
+     "l": [
+      "Usuários que já fizeram uma compra guiada por IA no app Qwen",
+      "Users who made an AI-driven purchase in the Qwen app"
+     ],
+     "v": 250,
+     "u": [
+      "milhões (acumulado)",
+      "million (cumulative)"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "n": [
+      "Acumulado desde o lançamento, não usuários ativos mensais. A empresa citou mais de 300 milhões de ativos mensais do Qwen em fevereiro.",
+      "Cumulative since launch, not monthly actives. The company cited over 300 million Qwen monthly actives in February."
+     ]
+    }
+   ],
+   "insight": [
+    "Faltam os usuários ativos mensais do Taobao e do Qwen neste trimestre: a empresa citou só que os ativos mensais do app Taobao aumentaram por causa do comércio por entrega rápida.",
+    "Taobao and Qwen monthly actives are missing this quarter: the company only said Taobao app monthly actives rose because of quick commerce."
+   ],
+   "source": {
+    "label": "Alibaba: resultados do trimestre de junho/2026 (6-K)",
+    "url": "https://www.sec.gov/Archives/edgar/data/0001577552/000110465926099220/tm2623667d1_ex99-1.htm"
+   }
+  },
+  {
+   "symbol": "09888.HK",
+   "name": "Baidu",
+   "market": "Hong Kong",
+   "period": [
+    "2T26",
+    "Q2 2026"
+   ],
+   "metrics": [
+    {
+     "l": [
+      "App Baidu: usuários ativos mensais",
+      "Baidu App MAU"
+     ],
+     "v": 644,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "per": [
+      "Jun/2026",
+      "Jun 2026"
+     ]
+    },
+    {
+     "l": [
+      "Assistente ERNIE: usuários ativos diários",
+      "ERNIE Assistant daily active users"
+     ],
+     "v": null,
+     "u": [
+      "",
+      ""
+     ],
+     "conf": "transcrição",
+     "kind": "uso",
+     "yoy": 83,
+     "n": [
+      "A empresa só informou a variação; as conversas diárias por usuário mais que triplicaram.",
+      "The company gave only the growth rate; daily conversation rounds per user more than tripled."
+     ]
+    },
+    {
+     "l": [
+      "Wenku e Drive: penetração de usuários diários de IA",
+      "Wenku and Drive AI DAU penetration"
+     ],
+     "v": null,
+     "u": [
+      "",
+      ""
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "yoy": 27.4,
+     "per": [
+      "Jun/2026",
+      "Jun 2026"
+     ]
+    },
+    {
+     "l": [
+      "Apollo Go: corridas totalmente sem motorista",
+      "Apollo Go fully driverless rides"
+     ],
+     "v": 1,
+     "u": [
+      "milhão no trimestre",
+      "million in the quarter"
+     ],
+     "conf": "transcrição",
+     "kind": "uso",
+     "n": [
+      "Acumulado acima de 23 milhões de corridas. Segundo a empresa, o volume foi afetado por ajustes operacionais em cidades chinesas por motivos regulatórios.",
+      "Cumulative above 23 million rides. The company said volume was affected by operational adjustments in some Chinese cities for regulatory reasons."
+     ]
+    },
+    {
+     "l": [
+      "Apollo Go: quilômetros totalmente sem motorista (acumulado)",
+      "Apollo Go fully driverless kilometers (cumulative)"
+     ],
+     "v": 240,
+     "u": [
+      "milhões (mais de)",
+      "million (over)"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "n": [
+      "Operação em 28 cidades.",
+      "Operating in 28 cities."
+     ]
+    }
+   ],
+   "insight": [
+    "O foco está em IA e robotáxi, mas o uso do ERNIE aparece só como variação percentual, sem base. O robotáxi teve queda de volume no trimestre.",
+    "The focus is AI and robotaxi, but ERNIE usage appears only as a percentage change, with no base. Robotaxi volume fell in the quarter."
+   ],
+   "source": {
+    "label": "Baidu: resultados do 2T26 (6-K)",
+    "url": "https://www.sec.gov/Archives/edgar/data/0001329099/000119312526355431/d112854dex991.htm"
+   }
+  },
+  {
+   "symbol": "03690.HK",
+   "name": "Meituan",
+   "market": "Hong Kong",
+   "period": [
+    "2T26",
+    "Q2 2026"
+   ],
+   "metrics": [],
+   "insight": [
+    "O anúncio de resultados do 1S26 não traz número de usuários transacionais ou ativos mensais; só descreve qualitativamente a frequência de compra e a aquisição de usuários mais jovens em entrega instantânea. O último MAU que encontrei é de 2025 (acima de 500 milhões no app), então não o usei.",
+    "The H1 2026 results announcement gives no transacting or monthly active user count; it only describes purchase frequency and younger-user acquisition in instant delivery qualitatively. The latest MAU I found is from 2025 (over 500 million on the app), so I did not use it."
+   ],
+   "source": {
+    "label": "Meituan: anúncio de resultados do 1S26 (HKEX)",
+    "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0828/2026082800435.pdf"
+   }
+  },
+  {
+   "symbol": "09618.HK",
+   "name": "JD.com",
+   "market": "Hong Kong",
+   "period": [
+    "2T26",
+    "Q2 2026"
+   ],
+   "metrics": [],
+   "insight": [
+    "O comunicado do 2T26 não traz contas de clientes ativos anuais nem usuários ativos trimestrais. Os números que circulam na imprensa são de períodos anteriores, então não incluí.",
+    "The Q2 2026 release gives no annual active customer accounts or quarterly active users. Figures circulating in the press are from earlier periods, so I did not include them."
+   ],
+   "source": {
+    "label": "JD.com: resultados do 2T26 (6-K)",
+    "url": "https://www.sec.gov/Archives/edgar/data/0001549802/000119312526347753/d143720dex991.htm"
+   }
+  },
+  {
+   "symbol": "SHOP",
+   "name": "Shopify",
+   "market": "EUA",
+   "period": [
+    "2T26",
+    "Q2 2026"
+   ],
+   "metrics": [
+    {
+     "l": [
+      "Volume bruto de mercadorias (GMV)",
+      "Gross merchandise volume (GMV)"
+     ],
+     "v": 115.6,
+     "u": [
+      "US$ bilhões",
+      "US$ billion"
+     ],
+     "conf": "primária",
+     "kind": "comercial",
+     "yoy": 32,
+     "prev": 87.8,
+     "per": [
+      "2T26",
+      "Q2 2026"
+     ],
+     "n": [
+      "Mede o quanto os lojistas vendem na plataforma. Não há contagem de lojistas nem de compradores.",
+      "Measures how much merchants sell on the platform. No merchant or buyer count is given."
+     ]
+    },
+    {
+     "l": [
+      "Receita recorrente mensal (MRR)",
+      "Monthly recurring revenue (MRR)"
+     ],
+     "v": 221,
+     "u": [
+      "US$ milhões",
+      "US$ million"
+     ],
+     "conf": "primária",
+     "kind": "comercial",
+     "yoy": 19.5,
+     "prev": 185,
+     "per": [
+      "2T26",
+      "Q2 2026"
+     ]
+    }
+   ],
+   "insight": [
+    "O Shopify mede uso pelo volume que passa na plataforma, não por usuários. O GMV cresce quase o dobro da assinatura (+32% contra +19%): o ganho vem de pagamentos e serviços sobre as vendas.",
+    "Shopify measures usage by volume through the platform, not users. GMV grows about 1.7x faster than subscriptions (+32% vs. +19%): the gain comes from payments and services on sales."
+   ],
+   "source": {
+    "label": "Shopify: resultados do 2T26",
+    "url": "https://www.sec.gov/Archives/edgar/data/0001594805/000159480526000046/exhibit991pressreleaseq220.htm"
+   }
+  },
+  {
+   "symbol": "INTU",
+   "name": "Intuit",
+   "market": "EUA",
+   "period": [
+    "Ano fiscal 2026",
+    "Fiscal year 2026"
+   ],
+   "metrics": [
+    {
+     "l": [
+      "Declarações federais no TurboTax (EUA)",
+      "TurboTax federal returns (US)"
+     ],
+     "v": 39.0,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "yoy": -2.3,
+     "prev": 39.9,
+     "per": [
+      "Ano fiscal 2026",
+      "Fiscal year 2026"
+     ],
+     "n": [
+      "34,9 milhões online (-2%) e 4,1 milhões no desktop (-7%).",
+      "34.9 million online (-2%) and 4.1 million desktop (-7%)."
+     ]
+    },
+    {
+     "l": [
+      "Clientes no mundo",
+      "Customers worldwide"
+     ],
+     "v": 100,
+     "u": [
+      "milhões (cerca de)",
+      "million (about)"
+     ],
+     "conf": "primária",
+     "kind": "uso",
+     "n": [
+      "Descrição da empresa, sem série trimestral.",
+      "Company boilerplate, no quarterly series."
+     ]
+    }
+   ],
+   "insight": [
+    "O número de declarações cai, mas a receita do TurboTax sobe 7% (TurboTax Live +37%): o crescimento vem de preço e serviço assistido, não de mais usuários.",
+    "The number of returns is falling, yet TurboTax revenue is up 7% (TurboTax Live +37%): growth comes from price and assisted service, not more users."
+   ],
+   "source": {
+    "label": "Intuit: resultados do 4T FY26",
+    "url": "https://www.sec.gov/Archives/edgar/data/0000896878/000089687826000029/fy26q4earningspressrelease.htm"
+   }
+  },
+  {
+   "symbol": "CRM",
+   "name": "Salesforce",
+   "market": "EUA",
+   "period": [
+    "2T FY27 (jul/2026)",
+    "FY27 Q2 (Jul 2026)"
+   ],
+   "metrics": [
+    {
+     "l": [
+      "Clientes pagantes do Agentforce em produção adicionados",
+      "Paying Agentforce customers added in production"
+     ],
+     "v": 2000,
+     "u": [
+      "no trimestre",
+      "in the quarter"
+     ],
+     "conf": "imprensa",
+     "kind": "comercial",
+     "n": [
+      "Alta de 70% sobre o trimestre anterior, segundo a imprensa.",
+      "Up 70% on the prior quarter, per the press."
+     ]
+    },
+    {
+     "l": [
+      "Unidades de trabalho agêntico",
+      "Agentic work units"
+     ],
+     "v": 3.2,
+     "u": [
+      "bilhões",
+      "billion"
+     ],
+     "conf": "imprensa",
+     "kind": "uso",
+     "n": [
+      "+97% sobre o trimestre anterior; número citado em análise do mercado, não no comunicado.",
+      "+97% vs. the prior quarter; cited in market analysis, not in the release."
+     ]
+    }
+   ],
+   "insight": [
+    "Os números de uso do Agentforce vêm de comentários e análises, não do comunicado, e a empresa mudou o que conta na métrica de receita recorrente, então a série não é comparável com trimestres anteriores.",
+    "Agentforce usage figures come from commentary and analysis, not the release, and the company changed what its recurring revenue metric counts, so the series is not comparable with earlier quarters."
+   ],
+   "source": {
+    "label": "Análise do 2T FY27 (terceiros)",
+    "url": "https://futurumgroup.com/insights/salesforce-q2-fy-2027-can-agentforce-drive-revenue-reacceleration/"
+   }
+  },
+  {
+   "symbol": "SPCX",
+   "name": "SpaceX",
+   "market": "EUA",
+   "period": [
+    "3T26",
+    "Q3 2026"
+   ],
+   "metrics": [
+    {
+     "l": [
+      "Assinantes de consumo do Starlink",
+      "Starlink consumer subscribers"
+     ],
+     "v": 13.6,
+     "u": [
+      "milhões",
+      "million"
+     ],
+     "conf": "imprensa",
+     "kind": "uso",
+     "yoy": 88.9,
+     "prev": 7.2,
+     "per": [
+      "30/09/2026",
+      "Sep 30, 2026"
+     ]
+    },
+    {
+     "l": [
+      "Receita média mensal por assinante (ARPU)",
+      "Monthly revenue per consumer subscriber (ARPU)"
+     ],
+     "v": 69,
+     "u": [
+      "US$ por mês",
+      "US$ per month"
+     ],
+     "conf": "imprensa",
+     "kind": "uso",
+     "yoy": -16.9,
+     "prev": 83,
+     "per": [
+      "3T26",
+      "Q3 2026"
+     ],
+     "n": [
+      "A base cresce quase o dobro, mas o preço médio cai: a expansão vem de planos mais baratos e de mercados novos.",
+      "The base nearly doubles, but the average price falls: expansion comes from cheaper plans and new markets."
+     ]
+    }
+   ],
+   "insight": [
+    "Os números vêm de cobertura de imprensa que não cita o documento de origem; confira no relatório da empresa antes de usar.",
+    "The numbers come from press coverage that does not name the source document; check the company filing before relying on them."
+   ],
+   "source": {
+    "label": "Cobertura de imprensa do 3T26",
+    "url": "https://newspaceeconomy.ca/?p=214672"
+   }
+  },
+  {
+   "symbol": "NVDA",
+   "name": "Nvidia",
+   "market": "EUA",
+   "period": [
+    "2T FY27",
+    "FY27 Q2"
+   ],
+   "metrics": [],
+   "insight": [
+    "Não divulga métricas de usuários nem de uso de produtos. O sinal de demanda está nos segmentos (Data Center) e não em usuários.",
+    "Does not disclose user or product-usage metrics. The demand signal is in the segments (Data Center), not in users."
+   ],
+   "source": {
+    "label": "Nvidia: resultados do 2T FY27",
+    "url": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027"
+   }
+  },
+  {
+   "symbol": "AMD",
+   "name": "AMD",
+   "market": "EUA",
+   "period": [
+    "2T26",
+    "Q2 2026"
+   ],
+   "metrics": [],
+   "insight": [
+    "Não divulga métricas de usuários nem de uso. Vende chips, e o sinal de demanda está nos segmentos.",
+    "Does not disclose user or usage metrics. It sells chips, and the demand signal is in the segments."
+   ],
+   "source": {
+    "label": "AMD: relações com investidores",
+    "url": "https://ir.amd.com/"
+   }
+  },
+  {
+   "symbol": "ORCL",
+   "name": "Oracle",
+   "market": "EUA",
+   "period": [
+    "1T FY27",
+    "FY27 Q1"
+   ],
+   "metrics": [],
+   "insight": [
+    "Não divulga usuários. O indicador de demanda é a carteira de obrigações de desempenho contratadas (RPO), que está no resumo de resultados, não em uso.",
+    "Does not disclose users. The demand indicator is remaining performance obligations (RPO), not usage."
+   ],
+   "source": {
+    "label": "Oracle: relações com investidores",
+    "url": "https://investor.oracle.com/"
+   }
+  }
+ ]
+}

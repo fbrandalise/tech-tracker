@@ -27,6 +27,7 @@
     <button type="button" role="tab" id="tab-btn-explore" aria-controls="tab-explore" aria-selected="false" data-tab="explore" data-i18n="tab.explore">Explorar</button>
     <button type="button" role="tab" id="tab-btn-calendar" aria-controls="tab-calendar" aria-selected="false" data-tab="calendar" data-i18n="tab.calendar">Calendário</button>
     <button type="button" role="tab" id="tab-btn-news" aria-controls="tab-news" aria-selected="false" data-tab="news" data-i18n="tab.news">Novidades de produtos</button>
+    <button type="button" role="tab" id="tab-btn-usage" aria-controls="tab-usage" aria-selected="false" data-tab="usage" data-i18n="tab.usage">Comportamento de uso de produtos</button>
   </nav>
 
   <!-- ===== Resultados ===== -->
@@ -119,6 +120,16 @@
 
   <!-- ===== Explorar ===== -->
   <div id="tab-explore" role="tabpanel" aria-labelledby="tab-btn-explore" class="lx-panel" hidden>
+    <section class="lx-card" id="ask-card" aria-labelledby="ask-h" hidden>
+      <h2 id="ask-h" data-i18n="ask.h">Pergunte aos dados</h2>
+      <p class="note" data-i18n="ask.note"></p>
+      <form class="lx-bar ask-form" id="ask-form">
+        <input type="text" id="ask-q" maxlength="500" autocomplete="off" data-i18n-aria="ask.h" aria-label="Pergunte aos dados">
+        <button type="submit" class="lx-btn" id="ask-go" data-i18n="ask.go">Perguntar</button>
+      </form>
+      <div class="chips" id="ask-ex" role="group"></div>
+      <div id="ask-out" class="ask-out" role="status" aria-live="polite"></div>
+    </section>
     <section class="lx-card" aria-labelledby="sc-h">
       <h2 id="sc-h" data-i18n="ex2.h">Explore os dados</h2>
       <p class="note" data-i18n="ex2.note"></p>
@@ -180,6 +191,28 @@
     </footer>
   </div>
 </div>
+
+  <!-- ===== Comportamento de uso ===== -->
+  <div id="tab-usage" role="tabpanel" aria-labelledby="tab-btn-usage" class="lx-panel" hidden>
+    <section class="lx-card" aria-labelledby="us-h">
+      <h2 id="us-h" data-i18n="us.h">Comportamento de uso de produtos</h2>
+      <p class="note" data-i18n="us.note"></p>
+      <div class="lx-bar">
+        <input id="us-q" type="search" data-i18n-ph="us.search" data-i18n-aria="us.search" placeholder="Buscar empresa ou métrica" aria-label="Buscar empresa ou métrica">
+        <select id="us-mkt" data-i18n-aria="mkt.aria" aria-label="Mercado">
+          <option value="" data-i18n="mkt.all">Todos os mercados</option>
+          <option value="EUA" data-i18n="mkt.us">EUA</option>
+          <option value="Hong Kong" data-i18n="mkt.hk">Hong Kong</option>
+        </select>
+        <select id="us-kind" data-i18n-aria="us.kind.aria" aria-label="Tipo de métrica"></select>
+        <span class="count"><span data-draw="us-count">—</span> <span data-i18n="us.n">empresas</span></span>
+      </div>
+      <div class="nw-list" data-draw="us-list"></div>
+    </section>
+    <footer class="lx-foot">
+      <p data-i18n="us.foot"></p>
+    </footer>
+  </div>
 
 <script src="/vendor/d3.min.js"></script>
 <script src="dash-shim.js"></script>

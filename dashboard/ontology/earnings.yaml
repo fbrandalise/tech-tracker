@@ -1,0 +1,228 @@
+# Ontologia do painel de resultados trimestrais.
+# Descreve o que cada entidade e métrica significa, de onde vem o dado e as armadilhas conhecidas.
+# O SQL das perguntas de exemplo roda contra as views (v_company, v_quarter, v_ttm, v_latest), que ficam
+# no banco SQLite (pipeline/db.js, migração 2) e já entregam tudo em USD e em bilhões.
+# Nunca consulte as tabelas brutas para responder perguntas: elas misturam moedas e unidades.
+# Teste: node ontology/check.js [pasta_de_dados]
+# Documentação e casos de uso: ontology/README.md
+
+version: 1
+language: pt-BR            # os sinônimos em inglês estão em cada item
+database: data/cache/earnings.db   # SQLite; DB_PATH sobrescreve
+
+conventions:
+  units: "Nas views, valores em bilhões de USD (sufixo _usd_b). Margens e variações em % com 1 casa."
+  native_values: "Campos *_native ficam na moeda de reporte da empresa (USD ou CNY), sem conversão."
+  currency: "Conversão pelo câmbio da última coleta (v_company.fx_to_usd). Não é o câmbio da época do trimestre."
+  period: "period_end é o fim do trimestre FISCAL. Os fechos diferem entre empresas (NVDA em jan/abr/jul/out, MSFT em mar/jun/set/dez). Nunca compare por rótulo Q1/Q2, compare por data."
+  same_quarter_last_year: "Trimestre com period_end entre -1 ano -7 dias e -1 ano +7 dias."
+  market_values: "market = 'EUA' ou 'Hong Kong'."
+  as_of: "v_company.as_of é o momento da última coleta. Preço, valor de mercado e múltiplos são dessa data."
+
+sources:
+  FMP:
+    covers: "empresas dos EUA com fmp=true, últimos 5 trimestres"
+    priority: 1
+    note: "Fonte principal. Tem EPS real e estimado."
+  Yahoo:
+    covers: "todas, ~5 trimestres; Hong Kong só tem receita e lucro nos trimestres de junho"
+    priority: 2
+    note: "Completa lacunas do FMP. O lucro operacional (oi) é AJUSTADO, não GAAP."
+  "Yahoo + empresa":
+    note: "Yahoo corrigido por ajuste manual de data/overrides.json (valores do release da empresa)."
+  SEC:
+    covers: "empresas dos EUA com 10-Q/10-K, ~5 anos (carga histórica)"
+    priority: 3
+    note: "Só cria trimestres antigos ou preenche campos vazios, nunca sobrescreve. Lucro operacional é GAAP. Sem EPS. Q4 derivado (ano menos 9 meses). Alguns 10-K marcam o valor do ano inteiro num período de 3 meses (ORCL em 2021 e 2022); o backfill descarta esse caso."
+
+entities:
+  Company:
+    view: v_company
+    key: [symbol]
+    description: "Empresa acompanhada."
+    fields:
+      symbol: {meaning: "Ticker (Hong Kong no formato 00700.HK)"}
+      name: {meaning: "Nome"}
+      area: {meaning: "Área de atuação"}
+      market: {meaning: "EUA ou Hong Kong"}
+      currency: {meaning: "Moeda de reporte"}
+      fx_to_usd: {meaning: "USD por 1 unidade da moeda de reporte, da última coleta"}
+  Quarter:
+    view: v_quarter
+    key: [symbol, period_end]
+    description: "Um trimestre fiscal de uma empresa, com margens e variação a/a calculadas."
+    fields:
+      source: {meaning: "De onde veio o dado: FMP, Yahoo, SEC ou Yahoo + empresa. Informe sempre que a pergunta envolver lucro operacional."}
+      eps_native: {meaning: "EPS diluído na moeda da empresa", caveat: "Vazio nos trimestres vindos do SEC e comum de faltar em Hong Kong."}
+      operating_income_usd_b: {meaning: "Lucro operacional", caveat: "SEC=GAAP, Yahoo=ajustado. Diverge em CRM, ORCL, INTU e SPCX."}
+      revenue_usd_b: {meaning: "Receita do trimestre"}
+      gross_profit_usd_b: {meaning: "Lucro bruto"}
+      net_income_usd_b: {meaning: "Lucro líquido do trimestre"}
+      ocf_usd_b: {meaning: "Caixa gerado pelas operações do trimestre (fluxo de caixa operacional)"}
+      rd_usd_b: {meaning: "Despesa com pesquisa e desenvolvimento"}
+      sbc_usd_b: {meaning: "Remuneração em ações (stock-based compensation)"}
+      cash_usd_b: {meaning: "Caixa e equivalentes no fim do trimestre", caveat: "A definição varia por fonte (no SEC inclui aplicações de curto prazo). Compare entre empresas com cuidado."}
+      debt_usd_b: {meaning: "Dívida financeira no fim do trimestre", caveat: "Mesma ressalva de cash_usd_b; vazia quando a fonte não informa."}
+  TtmQuarter:
+    view: v_ttm
+    key: [symbol, period_end]
+    description: "Soma dos 4 últimos trimestres terminando em period_end."
+    caveat: "Só existe com 4 trimestres consecutivos (intervalo < 300 dias) com receita e lucro. Tencent, Xiaomi e Meituan não têm; para elas use v_latest.ttm_*."
+  Latest:
+    view: v_latest
+    key: [symbol]
+    description: "A linha da empresa como aparece no painel: último trimestre reportado, estimativas, reação do preço, valuation, próximo resultado."
+    fields:
+      report_date: {meaning: "Data em que o resultado foi divulgado"}
+      next_earnings: {meaning: "Próxima divulgação (pode ser estimada)"}
+      price_reaction_pct: {meaning: "Variação do preço entre o fechamento anterior e o seguinte à divulgação"}
+      ttm_source: {meaning: "'4 trimestres' ou 'Yahoo (12 meses)' (quando não há 4 trimestres seguidos)"}
+      financials_source: {meaning: "Origem dos financeiros do último trimestre (o mesmo que Quarter.source)"}
+      revenue_usd_b: {meaning: "Receita do último trimestre (igual à de v_quarter no mesmo period_end)"}
+      net_income_usd_b: {meaning: "Lucro líquido do último trimestre (igual ao de v_quarter)"}
+      eps_native: {meaning: "EPS diluído real do último trimestre, na moeda da empresa"}
+      eps_estimate_native: {meaning: "EPS esperado pelo consenso antes da divulgação, na moeda da empresa"}
+      price_native: {meaning: "Preço da ação na última coleta (v_company.as_of), na moeda da empresa"}
+      ev_usd_b: {meaning: "Valor da empresa (valor de mercado + dívida - caixa), na última coleta"}
+      employees: {meaning: "Número de funcionários informado na última coleta"}
+
+relationships:
+  - {from: Quarter, to: Company, on: symbol, cardinality: "N:1"}
+  - {from: TtmQuarter, to: Company, on: symbol, cardinality: "N:1"}
+  - {from: Latest, to: Company, on: symbol, cardinality: "1:1"}
+  - {from: Latest, to: Quarter, on: "symbol e period_end (±7 dias)", cardinality: "1:1", note: "O Latest é o último Quarter da empresa"}
+
+metrics:
+  net_margin:
+    label: {pt: "Margem líquida", en: "Net margin"}
+    formula: "net_income / revenue * 100"
+    where: [v_quarter, v_latest]
+    synonyms: ["margem de lucro", "lucro sobre receita", "profit margin"]
+  gross_margin:
+    label: {pt: "Margem bruta", en: "Gross margin"}
+    formula: "gross_profit / revenue * 100"
+    where: [v_quarter, v_latest]
+  operating_margin:
+    label: {pt: "Margem operacional", en: "Operating margin"}
+    formula: "operating_income / revenue * 100"
+    where: [v_quarter, v_latest]
+    caveat: "Ver diferença GAAP x ajustado em Quarter.operating_income_usd_b."
+  revenue_yoy:
+    label: {pt: "Crescimento da receita a/a", en: "Revenue growth YoY"}
+    formula: "(receita / receita do mesmo trimestre do ano anterior - 1) * 100"
+    where: [v_quarter, v_latest]
+    synonyms: ["crescimento", "growth", "variação anual"]
+    caveat: "Vazio quando o trimestre do ano anterior não está no banco (Hong Kong fora de junho)."
+  net_income_yoy:
+    label: {pt: "Crescimento do lucro a/a", en: "Net income growth YoY"}
+    formula: "(lucro - lucro anterior) / |lucro anterior| * 100"
+    where: [v_quarter, v_latest]
+  fcf:
+    label: {pt: "Fluxo de caixa livre", en: "Free cash flow"}
+    formula: "ocf - capex"
+    columns: [fcf_usd_b, fcf_margin]
+    synonyms: ["FCF", "caixa livre"]
+    note: "capex é guardado como valor positivo."
+  capex_pct:
+    label: {pt: "Capex sobre receita", en: "Capex to revenue"}
+    formula: "capex / revenue * 100"
+    synonyms: ["intensidade de capital", "investimento", "capex"]
+  rd_pct:
+    label: {pt: "P&D sobre receita", en: "R&D to revenue"}
+    formula: "rd / revenue * 100"
+    where: [v_quarter]
+    synonyms: ["intensidade de pesquisa", "R&D intensity"]
+  sbc_pct:
+    label: {pt: "Remuneração em ações sobre receita", en: "SBC to revenue"}
+    formula: "sbc / revenue * 100"
+    where: [v_quarter]
+  net_cash:
+    label: {pt: "Caixa líquido", en: "Net cash"}
+    formula: "cash - debt"
+    columns: [net_cash_usd_b]
+    note: "Negativo significa dívida líquida."
+  tax_rate:
+    label: {pt: "Alíquota efetiva", en: "Effective tax rate"}
+    formula: "tax / pretax * 100"
+    rule: "Só quando o lucro antes dos impostos é positivo."
+  eps_surprise_pct:
+    label: {pt: "Surpresa de EPS", en: "EPS surprise"}
+    formula: "(eps_real - eps_estimado) / |eps_estimado| * 100"
+    where: [v_latest]
+    synonyms: ["bateu o consenso", "beat", "miss"]
+  revenue_surprise_pct:
+    label: {pt: "Surpresa de receita", en: "Revenue surprise"}
+    where: [v_latest]
+  ttm:
+    label: {pt: "12 meses (TTM)", en: "Trailing twelve months"}
+    columns: [ttm_revenue_usd_b, ttm_net_income_usd_b, ttm_ebitda_usd_b]
+    rule: "Soma de 4 trimestres consecutivos; senão o 12 meses do Yahoo (ttm_source em v_latest)."
+  pe:
+    label: {pt: "P/L", en: "P/E"}
+    formula: "valor de mercado em USD / lucro TTM em USD"
+    where: [v_latest]
+    rule: "Só quando o lucro TTM é positivo. forward_pe é o múltiplo sobre o lucro projetado (só EUA)."
+  ev_ebitda:
+    label: {pt: "EV/EBITDA", en: "EV/EBITDA"}
+    formula: "(valor de mercado + dívida - caixa) / EBITDA TTM"
+    where: [v_latest]
+    note: "ev_revenue e ps seguem a mesma lógica sobre a receita TTM."
+  price_reaction_pct:
+    label: {pt: "Reação do preço", en: "Price reaction"}
+    where: [v_latest]
+    synonyms: ["reação da ação", "movimento pós-resultado"]
+
+rules:
+  - "Sempre responda em USD usando as views; só use *_native quando a pergunta for explicitamente na moeda da empresa."
+  - "Ao comparar empresas num mesmo 'trimestre', use o period_end mais próximo de cada uma (até 46 dias) e diga as datas."
+  - "Informe a fonte (source) quando citar lucro operacional ou comparar períodos de fontes diferentes."
+  - "Hong Kong: receita e lucro só nos trimestres de junho. Não calcule YoY nem TTM fora disso; diga que não há dado."
+  - "EPS de trimestres antigos (SEC) não existe. Não estime."
+  - "Valor de mercado, preço e múltiplos são de v_company.as_of, não do fim do trimestre."
+  - "SQL: só SELECT ou WITH sobre as views v_* (tabelas brutas, sqlite_master, PRAGMA e ATTACH são negados). CTE recursiva é negada. A consulta é cancelada após 5 s e devolve no máximo 200 linhas: agregue no SQL."
+  - "Trimestre anterior: LAG(coluna) OVER (PARTITION BY symbol ORDER BY period_end) com ordem CRESCENTE. Com ORDER BY period_end DESC o LAG compara com o trimestre SEGUINTE."
+  - "Últimos N trimestres de cada empresa: ROW_NUMBER() OVER (PARTITION BY symbol ORDER BY period_end DESC) <= N. A média de todos os trimestres não é a dos últimos N."
+  - "Contagens (ex.: trimestres por fonte): agregue com GROUP BY em v_quarter. Ferramentas que listam trimestres truncam em um limite padrão (get_quarters devolve 8 por padrão, no máximo 40); nunca conte linhas de uma lista truncada."
+
+# Avisos de npm run quality que NÃO indicam erro (situação em 2026-11-03). Rode `npm run quality` para a situação atual.
+known_anomalies:
+  - "Crescimento de receita a/a acima de +150%: NVDA de 2023-10 a 2024-04 (+205% a +265%) é plausível, a receita mais que triplicou com a demanda por IA. SPCX em 2026-09 (+161%) não foi verificado."
+  - "Alíquota efetiva fora de 0-60% é frequente (benefícios fiscais e trimestres atípicos, ex.: META 87,5% em 2025-09, NVDA negativa em 2022) e não indica erro de dado."
+  - "SPCX: 2025-03-31 sem receita e lucro, e 2025-06-30 sem caixa operacional (limitação do Yahoo)."
+  - "SPCX: surpresa de EPS de +112% em 2026-09 (real 0,35 contra estimado 0,16); não foi verificada."
+
+examples:
+  - question: "Quais empresas mais cresceram a receita no último trimestre?"
+    sql: |
+      SELECT name, period_end, revenue_yoy FROM v_latest
+      WHERE revenue_yoy IS NOT NULL ORDER BY revenue_yoy DESC LIMIT 5
+  - question: "Como evoluiu a margem líquida da Nvidia nos últimos 8 trimestres?"
+    sql: |
+      SELECT period_end, net_margin, source FROM v_quarter
+      WHERE symbol = 'NVDA' ORDER BY period_end DESC LIMIT 8
+  - question: "Quais empresas tiveram fluxo de caixa livre negativo no último trimestre?"
+    sql: |
+      SELECT name, fcf_usd_b, fcf_margin FROM v_latest WHERE fcf_usd_b < 0 ORDER BY fcf_usd_b
+  - question: "Quanto cada big tech investe em capex em relação à receita?"
+    sql: |
+      SELECT name, capex_pct, capex_usd_b FROM v_quarter q
+      WHERE period_end = (SELECT MAX(period_end) FROM v_quarter WHERE symbol = q.symbol) AND capex_pct IS NOT NULL
+      ORDER BY capex_pct DESC
+  - question: "Quais são as 5 maiores por valor de mercado e qual o P/L delas?"
+    sql: |
+      SELECT name, market_cap_usd_b, pe, forward_pe FROM v_latest
+      ORDER BY market_cap_usd_b DESC LIMIT 5
+  - question: "Quem bateu a estimativa de EPS e como o preço reagiu?"
+    sql: |
+      SELECT name, eps_surprise_pct, price_reaction_pct FROM v_latest
+      WHERE eps_surprise_pct > 0 ORDER BY eps_surprise_pct DESC
+  - question: "Quando é o próximo resultado de cada empresa?"
+    sql: |
+      SELECT name, next_earnings FROM v_latest WHERE next_earnings IS NOT NULL ORDER BY next_earnings
+  - question: "Qual a receita dos últimos 12 meses da Tencent?"
+    sql: |
+      SELECT name, ttm_revenue_usd_b, ttm_source FROM v_latest WHERE symbol = '00700.HK'
+  - question: "Quais trimestres do banco vieram do SEC e de onde vêm os demais?"
+    sql: |
+      SELECT source, COUNT(*) AS trimestres, MIN(period_end) AS de, MAX(period_end) AS ate
+      FROM v_quarter GROUP BY source ORDER BY trimestres DESC

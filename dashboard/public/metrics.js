@@ -159,7 +159,8 @@ function convertRow(r, rates) {
   const o = { ...r, currency: 'USD', origCurrency: r.currency };
   const sc = (k) => { if (o[k] != null) o[k] = +(o[k] * f).toFixed(4); };
   MONEY_B.forEach(sc); PER_SHARE.forEach(sc);
-  o.hist = (r.hist || []).map((h) => ({ ...h, rev: h.rev == null ? null : h.rev * f, ni: h.ni == null ? null : h.ni * f, gp: h.gp == null ? null : h.gp * f, oi: h.oi == null ? null : h.oi * f, eps: h.eps == null ? null : h.eps * f }));
+  const histUsd = (list) => (list || []).map((h) => ({ ...h, rev: h.rev == null ? null : h.rev * f, ni: h.ni == null ? null : h.ni * f, gp: h.gp == null ? null : h.gp * f, oi: h.oi == null ? null : h.oi * f, eps: h.eps == null ? null : h.eps * f }));
+  o.hist = histUsd(r.hist); o.histAll = histUsd(r.histAll);
   o.epsHist = (r.epsHist || []).map((h) => ({ ...h, a: h.a == null ? null : h.a * f, e: h.e == null ? null : h.e * f }));
   if (r.seg) o.seg = { ...r.seg, g: r.seg.g.map((g) => ({ ...g, i: g.i.map((x) => segMap(x, f)) })) };
   return o;

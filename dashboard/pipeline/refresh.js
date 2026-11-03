@@ -3,27 +3,16 @@
  * Coleta e monta os dados do painel.
  *   - FMP (/stable) para as empresas dos EUA que o plano gratuito libera (chave em FMP_API_KEY)
  *   - Yahoo Finance para o resto e para histórico, valuation, preço e calendário
- *   - data/segments.json, data/overrides.json e data/news.json são curados à mão
- * Saída: <OUT_DIR>/earnings.json e meta.json
+ *   - data/companies.json, segments.json, overrides.json e news.json são curados à mão (espelhados no banco)
+ * Saída: banco SQLite <OUT_DIR>/earnings.db (ver db.js) + exportação de earnings.json e meta.json
  * Uso:  node pipeline/refresh.js [pasta_de_saida]   (padrão: data/cache)
  */
 const fs = require('fs');
 const path = require('path');
+const store = require('./db');
 
 const DATA = path.join(__dirname, '..', 'data');
-const readJson = (f, fallback) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch (e) { return fallback; } };
-const loadEnvFile = () => {
-  // .env local (opcional): procura na pasta do painel e na raiz do repositório
-  for (const dir of [path.join(__dirname, '..'), path.join(__dirname, '..', '..')]) {
-    const f = path.join(dir, '.env');
-    if (!fs.existsSync(f)) continue;
-    for (const line of fs.readFileSync(f, 'utf8').split('\n')) {
-      const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
-      if (m && process.env[m[1]] === undefined) process.env[m[1]] = m[2].replace(/^['"]|['"]$/g, '');
-    }
-  }
-};
-loadEnvFile();
+require('./env').loadEnvFile();
 
 const FMP_KEY = process.env.FMP_API_KEY || '';
 let yf;
@@ -50,7 +39,7 @@ const log = (...a) => { if (!process.env.QUIET) console.log(...a); };
 
 // guarda a última resposta boa do FMP; se ele falhar (limite diário, instabilidade) reaproveita a guardada
 const fmpStore = { data: {}, dirty: false, stale: new Set() };
-const loadFmpStore = (outDir) => { fmpStore.data = readJson(path.join(outDir, 'fmp-cache.json'), null) || readJson(path.join(DATA, 'fmp-cache.json'), {}); fmpStore.dirty = false; fmpStore.stale = new Set(); };
+const loadFmpStore = (db) => { fmpStore.data = store.getFmpCache(db); fmpStore.dirty = false; fmpStore.stale = new Set(); };
 async function fmpLive(sym, kind, fetcher, maxAgeHours) {
   const slot = (fmpStore.data[sym] ||= {});
   if (maxAgeHours && slot[kind] && slot[kind + 'At'] && (Date.now() - new Date(slot[kind + 'At']).getTime()) < maxAgeHours * 36e5) return slot[kind];
@@ -143,7 +132,7 @@ async function priceReaction(ys, reportDate) {
 }
 
 // ---------- coleta de uma empresa
-async function collect(c, ov, state, today) {
+async function collect(c, ov, state, today, dbQuarters = []) {
   const ys = c.y;
   const useFmp = c.market === 'EUA' && c.fmp;   // sem chave ou com o FMP fora do ar, usa os dados guardados da última coleta boa
   const sum1 = await yahoo().quoteSummary(ys, { modules: ['earningsHistory', 'calendarEvents', 'financialData', 'summaryDetail', 'defaultKeyStatistics', 'price', 'assetProfile'] }, { validateResult: false }).catch(() => ({}));
@@ -170,6 +159,8 @@ async function collect(c, ov, state, today) {
     }
     quarters.sort((a, b) => a.date.localeCompare(b.date));
   }
+  // trimestres anteriores guardados no banco (carga do SEC e coletas passadas): só alimentam o histórico exibido
+  const history = mergeQuarters(quarters, dbQuarters);
   const cur = near(quarters, periodEnd) || {};
   const prev = near(quarters, shiftYear(periodEnd, -1)) || {};
   const ovActive = ov && ov.periodEnd && periodEnd && Math.abs(day(ov.periodEnd) - day(periodEnd)) <= 7;
@@ -227,7 +218,7 @@ async function collect(c, ov, state, today) {
   // reação do preço
   const react = await priceReaction(ys, reportDate);
 
-  return { c, ov: ovActive ? ov : null, quarters, cur, prev, periodEnd, currency, epsActual, epsEstimate, revEstimate, reportDate, nextEarnings, nextEps, nextRev, nextEstimated, epsHist, emp, react, sum1, useFmp, ttmY };
+  return { c, ov: ovActive ? ov : null, quarters, history, cur, prev, periodEnd, currency, epsActual, epsEstimate, revEstimate, reportDate, nextEarnings, nextEps, nextRev, nextEstimated, epsHist, emp, react, sum1, useFmp, ttmY };
 }
 
 // ---------- monta a linha
@@ -277,8 +268,11 @@ function buildRow(raw, fx, segs) {
     ttmRevB: bil(ttmRev), ttmNiB: bil(ttmNi), ttmEbitdaB: bil(ttmEbitda), ttmSrc: ttmRev == null ? null : (ttmFromY ? 'Yahoo (12 meses)' : '4 trimestres'),
   };
 
-  // histórico: últimos 9 trimestres com receita
-  const hist = quarters.filter((q) => q.rev != null).slice(-9).map((q) => ({ d: q.date, rev: bil(q.rev), ni: bil(q.ni), gp: bil(q.gp), oi: bil(q.oi), eps: p2(q.eps) }));
+  // histórico: hist = últimos 9 trimestres com receita (detalhe da empresa); histAll = tudo que há, até 40 (aba Explorar).
+  // Trimestres mais novos que o atual ficam de fora para não aparecerem à frente da tabela.
+  const histQ = (raw.history || quarters).filter((q) => q.rev != null && day(q.date) <= day(raw.periodEnd) + 7)
+    .map((q) => ({ d: q.date, rev: bil(q.rev), ni: bil(q.ni), gp: bil(q.gp), oi: bil(q.oi), eps: p2(q.eps) }));
+  const hist = histQ.slice(-9), histAll = histQ.slice(-40);
 
   const row = {
     symbol: c.symbol, name: c.name, area: c.area, market: c.market, currency: raw.currency,
@@ -303,7 +297,7 @@ function buildRow(raw, fx, segs) {
     ...val,
     reactPct: raw.react ? raw.react.pct : null, reactFrom: raw.react ? raw.react.from : null, reactTo: raw.react ? raw.react.to : null, reactFromC: raw.react ? raw.react.c0 : null, reactToC: raw.react ? raw.react.c1 : null,
     nextEarnings: raw.nextEarnings, nextEstimated: raw.nextEstimated, nextEps: p2(raw.nextEps), nextRevB: bil(raw.nextRev),
-    hist, epsHist: raw.epsHist.slice(-6),
+    hist, histAll, epsHist: raw.epsHist.slice(-6),
     prov: { fin: [cur.src, prev.src].filter(Boolean).filter((v, i, a) => a.indexOf(v) === i).join(' + ') || null, eps: raw.useFmp ? 'FMP' : 'Yahoo', val: 'Yahoo', emp: emp ? emp.source : null },
     seg: segs[c.symbol] || null,
   };
@@ -326,28 +320,37 @@ function buildRow(raw, fx, segs) {
 
 // ---------- segmentos (curados)
 const segConv = (it) => ({ n: it.name, v: bil(it.rev), p: it.prev == null ? null : bil(it.prev), y: it.yoy ?? null, a: it.approx ? 1 : 0, c: it.children ? it.children.map(segConv) : undefined });
-const loadSegments = () => {
-  const raw = readJson(path.join(DATA, 'segments.json'), {});
+const loadSegments = (raw) => {
   const out = {};
   for (const [sym, s] of Object.entries(raw)) out[sym] = { g: s.groups.map((g) => ({ t: g.title, i: g.items.map(segConv) })), note: s.note || null, src: s.source };
   return out;
 };
 
 // ---------- principal
-async function refresh(outDir) {
+async function refresh(outDir, { db: shared } = {}) {
   const t0 = Date.now();
-  const companies = readJson(path.join(DATA, 'companies.json'), []);
-  const overrides = readJson(path.join(DATA, 'overrides.json'), {});
-  const segs = loadSegments();
-  const prevRows = readJson(path.join(outDir, 'earnings.json'), null) || readJson(path.join(__dirname, '..', 'public', 'earnings.json'), []);
-  const state = readJson(path.join(outDir, 'state.json'), null) || readJson(path.join(DATA, 'state.json'), {});
+  const db = shared || store.open(process.env.DB_PATH || path.join(outDir, 'earnings.db'));
+  try {
+    return await run(db, outDir, t0);
+  } finally { if (!shared) db.close(); }
+}
+
+async function run(db, outDir, t0) {
+  store.syncCuration(db);
+  store.importLegacy(db, outDir);
+  const companies = store.getCompanies(db);
+  const overrides = store.getOverrides(db);
+  const segs = loadSegments(store.getSegments(db));
+  const prevRows = store.getLatest(db)?.rows || [];
+  const dbQuarters = store.getQuarterHistory(db);
+  const state = store.getState(db);
   const today = new Date().toISOString().slice(0, 10);
-  loadFmpStore(outDir);
+  loadFmpStore(db);
 
   const raws = [];
   for (const c of companies) {
     try {
-      const raw = await collect(c, overrides[c.symbol], state, today);
+      const raw = await collect(c, overrides[c.symbol], state, today, dbQuarters[c.symbol]);
       raws.push(raw);
       log('ok  ', c.symbol, raw.periodEnd);
     } catch (e) {
@@ -382,12 +385,14 @@ async function refresh(outDir) {
   if (rows.length < Math.ceil(companies.length / 2)) throw new Error('coleta incompleta: ' + rows.length + ' de ' + companies.length);
 
   const meta = { generatedAt: new Date().toISOString(), fx, fxNote: 'Câmbio do Yahoo Finance no momento da coleta.', companies: rows.length, failed, usedFmp: !!FMP_KEY, fmpStale: [...fmpStore.stale], seconds: Math.round((Date.now() - t0) / 1000) };
+  const quarters = Object.fromEntries(raws.filter((r) => !r.failed).map((r) => [r.c.symbol, r.quarters]));
+  store.saveRun(db, { meta, rows, state: newState, quarters, fmpCache: fmpStore.dirty ? fmpStore.data : {} });
+
+  // exportação de compatibilidade (leitura por quem ainda consome os arquivos)
   fs.mkdirSync(outDir, { recursive: true });
   const write = (name, obj) => { const f = path.join(outDir, name); fs.writeFileSync(f + '.tmp', JSON.stringify(obj)); fs.renameSync(f + '.tmp', f); };
   write('earnings.json', rows);
   write('meta.json', meta);
-  write('state.json', newState);
-  if (fmpStore.dirty) write('fmp-cache.json', fmpStore.data);
   return { rows, meta };
 }
 
