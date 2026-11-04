@@ -72,6 +72,20 @@ Desligada por padrão. Para ligar, ponha `ANTHROPIC_API_KEY` e `ENABLE_ASK=1` no
 ### Servidores MCP para agentes de IA
 Dois servidores (tradicional e com execução de código) dão a um agente acesso de leitura aos dados, mais uma bateria que os compara com um LLM real. Ver [mcp/README.md](mcp/README.md) e a comparação em [mcp/docs/benchmark.md](mcp/docs/benchmark.md).
 
+## Curadoria de novidades de produtos
+
+`data/news.json` (e a cópia estática `public/news.json`) é curado à mão e sincronizado com o banco a cada subida. Cada empresa tem `insight` e `items`; cada item tem `date`, `title`, `summary`, `category`, `status`, `source`, `url` e `confidence` (`primária` ou `imprensa`). Campos opcionais que a aba Novidades usa:
+
+| Campo | Para quê |
+|---|---|
+| `link.segment` | Nome de um segmento de `data/segments.json` da mesma empresa. O item mostra a receita, o a/a e a participação desse segmento |
+| `link.usage` | Índice de uma métrica de `public/usage.json` da mesma empresa. O item mostra o valor da métrica |
+| `link.by` | `inferido` quando o vínculo foi sugerido pelo painel (mostra um aviso na tela); use `curadoria` quando você mesmo conferiu |
+| `stages` | `{ "announced": "AAAA-MM-DD", "beta": "AAAA-MM-DD", "ga": "AAAA-MM-DD" }`, todos opcionais. Mostra a maturidade e os dias entre o anúncio e a disponibilidade |
+| `category` | Além das existentes, `Preço` (mudança de preço, plano ou limite, com antes e depois no `summary`) e `Estratégia` (prioridade declarada pela gestão, com a citação e a fonte) |
+
+A tela tem duas visões (por empresa e linha do tempo por mês), filtro por categoria e a marcação de "Novo": cada navegador guarda o que já viu (`localStorage`), e a primeira visita não marca nada. Nenhum dado de `stages`, `Preço` ou `Estratégia` foi preenchido ainda: os mecanismos existem, mas o conteúdo precisa ser conferido em fonte primária.
+
 ## Segurança
 
 - **SQL escrito por terceiros** (modelo, agentes): só `SELECT`/`WITH`, banco somente leitura, só as views `v_*` (autorizador do SQLite), processo filho com limite de 5 s e no máximo 200 linhas. É compartilhado por `ask` e pelos MCPs: [pipeline/safe-sql.js](pipeline/safe-sql.js).

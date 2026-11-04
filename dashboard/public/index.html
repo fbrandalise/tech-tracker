@@ -182,6 +182,13 @@
           <option value="Hong Kong" data-i18n="mkt.hk">Hong Kong</option>
         </select>
         <select id="nw-cat" data-i18n-aria="nw.cat.aria" aria-label="Categoria"></select>
+        <div class="lx-seg" data-kind="nwview" role="group" data-i18n-aria="nw.view.aria" aria-label="Visão">
+          <button type="button" data-v="company" aria-pressed="true" data-i18n="nw.view.company">Por empresa</button>
+          <button type="button" data-v="timeline" aria-pressed="false" data-i18n="nw.view.timeline">Linha do tempo</button>
+        </div>
+        <label class="nw-only"><input type="checkbox" id="nw-new"> <span data-i18n="nw.onlynew">Só novos</span></label>
+        <button type="button" id="nw-seen" class="nw-btn" data-i18n="nw.markseen">Marcar tudo como visto</button>
+        <span class="nw-newcount" data-draw="nw-new-count" hidden></span>
         <span class="count"><span data-draw="nw-count">—</span> <span data-i18n="count">empresas</span></span>
       </div>
       <div class="nw-list" data-draw="nw-list"></div>

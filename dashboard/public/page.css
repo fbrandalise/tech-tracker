@@ -82,6 +82,22 @@
   .nw-meta a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
   .nw-meta a:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
   .nw-empty { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); padding: var(--cds-pad-lg) 0; }
+  .nw-only { display: inline-flex; gap: 6px; align-items: center; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .nw-btn { font: inherit; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); background: var(--color-bg); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: 6px 10px; cursor: pointer; }
+  .nw-btn:hover { color: var(--color-fg); }
+  .nw-btn:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .nw-newcount { font-size: var(--cds-font-size-caption); color: var(--color-ok); font-weight: var(--cds-font-weight-medium); }
+  .nw-new-badge { margin-left: 8px; font-size: 11px; font-weight: var(--cds-font-weight-medium); color: var(--color-ok); border: 1px solid var(--color-ok); border-radius: 999px; padding: 0 6px; vertical-align: 1px; }
+  .nw-links { display: flex; flex-wrap: wrap; gap: 4px 6px; margin-top: 6px; font-size: 11px; font-variant-numeric: tabular-nums; align-items: center; }
+  .nw-link { border: 1px solid var(--color-border-line); border-radius: 999px; padding: 1px 8px; background: var(--color-panel); color: var(--color-fg-muted); }
+  .nw-link.up { color: var(--color-ok); }
+  .nw-link.down { color: var(--color-bad); }
+  .nw-by { color: var(--color-fg-muted); cursor: help; }
+  .nw-stages { margin-top: 4px; font-size: 11px; color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+  .nw-co-tag { display: inline-block; margin-right: 8px; font-size: 11px; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); text-transform: uppercase; letter-spacing: .04em; }
+  .nw-list.nw-tl-on { display: block; }
+  .nw-tl-m { margin: 18px 0 8px; font-size: var(--cds-font-size-caption); font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); }
+  .nw-tl-m:first-child { margin-top: 0; }
   @media (max-width: 560px) { .nw-item { grid-template-columns: 1fr; } }
 
   .lx-seg { display: inline-flex; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); overflow: hidden; }
