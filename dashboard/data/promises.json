@@ -1,0 +1,222 @@
+[
+ {
+  "id": "nvda-vera-rubin",
+  "symbol": "NVDA",
+  "product": "Vera Rubin (envios em produção)",
+  "said": {
+   "date": "2026-05-31",
+   "text": "Os envios em produção do Vera Rubin começam neste outono.",
+   "label": "outono de 2026",
+   "targetDate": "2026-12-21",
+   "source": "Nvidia Newsroom",
+   "url": "https://nvidianews.nvidia.com/news/vera-rubin-full-production-agentic-ai-factory",
+   "text_en": "Production shipments of Vera Rubin start this fall.",
+   "label_en": "fall 2026"
+  },
+  "delivered": {
+   "date": "2026-10-27",
+   "text": "O NVL72 e a CPU Vera ficaram em disponibilidade geral na Oracle Cloud.",
+   "source": "Nvidia Newsroom",
+   "url": "https://nvidianews.nvidia.com/news/nvidia-and-oracle-expand-nvidia-vera-rubin-to-multi-gigawatt-scale-and-bring-nvidia-vera-cpu-to-oracle-cloud-infrastructure",
+   "text_en": "The NVL72 and the Vera CPU became generally available on Oracle Cloud."
+  },
+  "product_en": "Vera Rubin (production shipments)"
+ },
+ {
+  "id": "amd-helios-openai",
+  "symbol": "AMD",
+  "product": "Helios na OpenAI",
+  "said": {
+   "date": "2026-07-23",
+   "text": "A OpenAI planeja colocar o Helios no ar a partir do 4º trimestre de 2026.",
+   "label": "a partir do 4T26",
+   "targetDate": "2026-12-31",
+   "source": "AMD Investor Relations",
+   "url": "https://ir.amd.com/news-events/press-releases/detail/1294/aai-2026-amd-delivers-full-stack-compute-for-the-agentic-ai-era",
+   "text_en": "OpenAI plans to bring Helios online starting in Q4 2026.",
+   "label_en": "starting Q4 2026"
+  },
+  "delivered": {
+   "date": "2026-11-03",
+   "text": "A AMD diz que a OpenAI, a Anthropic, a Meta, a Microsoft e a Oracle já rodam cargas nos primeiros racks Helios.",
+   "source": "AMD (resultado do 3T26)",
+   "url": "https://newsroom.amd.com/news/amd-reports-third-quarter-2026-earnings/",
+   "text_en": "AMD says OpenAI, Anthropic, Meta, Microsoft and Oracle are already running workloads on the first Helios racks."
+  },
+  "product_en": "Helios at OpenAI"
+ },
+ {
+  "id": "orcl-mi450",
+  "symbol": "ORCL",
+  "product": "Racks Helios com MI450 na OCI",
+  "said": {
+   "date": "2025-10-14",
+   "text": "Implantação inicial de 50 mil GPUs a partir do 3º trimestre de 2026, com expansão em 2027.",
+   "label": "3T26",
+   "targetDate": "2026-09-30",
+   "source": "Oracle",
+   "url": "https://www.oracle.com/news/announcement/ai-world-oracle-and-amd-expand-partnership-to-help-customers-achieve-next-generation-ai-scale-2025-10-14/",
+   "text_en": "Initial deployment of 50,000 GPUs starting in Q3 2026, expanding in 2027.",
+   "label_en": "Q3 2026"
+  },
+  "delivered": {
+   "partial": true,
+   "date": "2026-11-03",
+   "text": "A AMD diz que a OCI já roda cargas nos primeiros racks Helios; a Oracle não confirmou quantas GPUs estão no ar.",
+   "source": "AMD (resultado do 3T26)",
+   "url": "https://newsroom.amd.com/news/amd-reports-third-quarter-2026-earnings/",
+   "text_en": "AMD says OCI is already running workloads on the first Helios racks; Oracle has not confirmed how many GPUs are live."
+  },
+  "product_en": "Helios racks with MI450 on OCI"
+ },
+ {
+  "id": "meta-muse-glasses",
+  "symbol": "META",
+  "product": "Muse nos óculos de IA",
+  "said": {
+   "date": "2026-09-23",
+   "text": "O Muse chega aos óculos de IA nos próximos meses, ativado pelo nome do agente.",
+   "label": "próximos meses",
+   "targetDate": null,
+   "source": "Meta (Connect 2026)",
+   "url": "https://www.meta.com/blog/meta-connect-2026-everything-we-announced/",
+   "text_en": "Muse comes to AI glasses in the next few months, activated by the agent's name.",
+   "label_en": "next few months"
+  },
+  "delivered": {
+   "partial": true,
+   "date": null,
+   "text": "A página de ajuda da Meta já descreve o Muse nos óculos como beta, sem o nome personalizado em todos os modelos.",
+   "source": "Central de ajuda da Meta",
+   "url": "https://www.meta.com/help/ai-glasses/1391796469223757/",
+   "text_en": "Meta's help page already describes Muse on the glasses as beta, without the custom name on every model."
+  },
+  "product_en": "Muse on AI glasses"
+ },
+ {
+  "id": "meta-vr-glasses",
+  "symbol": "META",
+  "product": "Meta VR Glasses (US$ 1.299,99)",
+  "said": {
+   "date": "2026-09-23",
+   "text": "Lançamento na primavera de 2027.",
+   "label": "primavera de 2027",
+   "targetDate": "2027-06-20",
+   "source": "Meta (Connect 2026)",
+   "url": "https://www.meta.com/blog/meta-connect-2026-everything-we-announced/",
+   "text_en": "Launch in spring 2027.",
+   "label_en": "spring 2027"
+  },
+  "delivered": null,
+  "product_en": "Meta VR Glasses ($1,299.99)"
+ },
+ {
+  "id": "meta-muse-charm",
+  "symbol": "META",
+  "product": "Muse Charm (detalhes de preço e data)",
+  "said": {
+   "date": "2026-09-23",
+   "text": "A Meta diz que dará mais informações ainda em 2026.",
+   "label": "ainda em 2026",
+   "targetDate": "2026-12-31",
+   "source": "Meta (Connect 2026)",
+   "url": "https://www.meta.com/blog/meta-connect-2026-everything-we-announced/",
+   "text_en": "Meta says it will share more later in 2026.",
+   "label_en": "later in 2026"
+  },
+  "delivered": null,
+  "product_en": "Muse Charm (price and date details)"
+ },
+ {
+  "id": "crm-slackforce",
+  "symbol": "CRM",
+  "product": "Slackforce",
+  "said": {
+   "date": "2026-10",
+   "text": "Disponibilidade geral em outubro.",
+   "label": "outubro de 2026",
+   "targetDate": "2026-10-31",
+   "source": "Salesforce (blog do Dreamforce 2026)",
+   "url": "https://www.salesforce.com/blog/dreamforce-2026-announcements/",
+   "text_en": "Generally available in October.",
+   "label_en": "October 2026"
+  },
+  "delivered": null,
+  "product_en": "Slackforce"
+ },
+ {
+  "id": "crm-agent-optimizer",
+  "symbol": "CRM",
+  "product": "Agent Optimizer",
+  "said": {
+   "date": "2026-10",
+   "text": "Disponibilidade geral em outubro.",
+   "label": "outubro de 2026",
+   "targetDate": "2026-10-31",
+   "source": "Salesforce (blog do Dreamforce 2026)",
+   "url": "https://www.salesforce.com/blog/dreamforce-2026-announcements/",
+   "text_en": "Generally available in October.",
+   "label_en": "October 2026"
+  },
+  "delivered": null,
+  "product_en": "Agent Optimizer"
+ },
+ {
+  "id": "crm-long-horizon",
+  "symbol": "CRM",
+  "product": "Agentes de longo horizonte",
+  "said": {
+   "date": "2026-10",
+   "text": "Piloto agora; disponibilidade geral em novembro de 2026.",
+   "label": "novembro de 2026",
+   "targetDate": "2026-11-30",
+   "source": "Salesforce (blog do Dreamforce 2026)",
+   "url": "https://www.salesforce.com/blog/dreamforce-2026-announcements/",
+   "text_en": "Pilot now; generally available in November 2026.",
+   "label_en": "November 2026"
+  },
+  "delivered": null,
+  "product_en": "Long-horizon agents"
+ },
+ {
+  "id": "crm-koa",
+  "symbol": "CRM",
+  "product": "Koa, modelo de raciocínio de CRM",
+  "said": {
+   "date": "2026-10",
+   "text": "Piloto agora; disponibilidade geral esperada no \"Winter 2026\".",
+   "label": "Winter 2026",
+   "targetDate": null,
+   "source": "Salesforce (blog do Dreamforce 2026)",
+   "url": "https://www.salesforce.com/blog/dreamforce-2026-announcements/",
+   "text_en": "Pilot now; general availability expected in \"Winter 2026\".",
+   "label_en": "Winter 2026"
+  },
+  "delivered": null,
+  "product_en": "Koa, the CRM reasoning model"
+ },
+ {
+  "id": "googl-carbon",
+  "symbol": "GOOGL",
+  "product": "Gemini 4 Carbon (acesso amplo)",
+  "said": {
+   "date": "2026-10-28",
+   "text": "O Google quer levar o Carbon a desenvolvedores, empresas e consumidores \"o mais rápido possível\", sem data.",
+   "label": "sem data",
+   "targetDate": null,
+   "source": "Google (blog)",
+   "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/",
+   "text_en": "Google wants to bring Carbon to developers, businesses and consumers \"as soon as possible\", with no date.",
+   "label_en": "no date"
+  },
+  "delivered": {
+   "partial": true,
+   "date": "2026-10-28",
+   "text": "Acesso restrito a defensores de segurança cibernética, ampliando aos poucos.",
+   "source": "Google (blog)",
+   "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/",
+   "text_en": "Access restricted to cyber defenders, expanding gradually."
+  },
+  "product_en": "Gemini 4 Carbon (broad access)"
+ }
+]

@@ -14,6 +14,10 @@ addDict({
   'nw.link.seg': 'Receita do segmento "{s}"', 'nw.link.of': '{p} da receita', 'nw.link.yoy': '{v} a/a', 'nw.link.use': 'Uso', 'nw.link.by': 'Vínculo sugerido por este painel; confira antes de usar.',
   'nw.stage.ann': 'Anunciado', 'nw.stage.beta': 'Beta', 'nw.stage.prod': 'Produção em escala', 'nw.stage.ga': 'Disponível', 'nw.stage.days': '{n} dias do anúncio à disponibilidade',
   'nw.tl.undated': 'Sem mês definido',
+  'nw.view.promises': 'Promessas', 'nw.view.strategy': 'Estratégia',
+  'nw.asp.audience': 'Público', 'nw.asp.rollout': 'Liberação', 'nw.asp.packaging': 'Empacotamento', 'nw.asp.depends': 'Depende de', 'nw.asp.replaces': 'Substitui',
+  'aud.consumidor': 'Consumidores', 'aud.empresa': 'Empresas', 'aud.desenvolvedor': 'Desenvolvedores',
+  'nw.cadence': 'Anúncio até disponibilidade: {n} dias (mediana de {k})',
 }, {
   'nw.h': 'Product news and insights',
   'nw.note': 'Compiled on 10/29/2026 from company releases and the press. Each item shows its source and whether it is primary (from the company itself) or press. The "Reading" is this dashboard\'s interpretation, not investment advice.',
@@ -29,6 +33,10 @@ addDict({
   'nw.link.seg': 'Revenue of the "{s}" segment', 'nw.link.of': '{p} of revenue', 'nw.link.yoy': '{v} YoY', 'nw.link.use': 'Usage', 'nw.link.by': 'Link suggested by this dashboard; check it before relying on it.',
   'nw.stage.ann': 'Announced', 'nw.stage.beta': 'Beta', 'nw.stage.prod': 'Volume production', 'nw.stage.ga': 'Available', 'nw.stage.days': '{n} days from announcement to availability',
   'nw.tl.undated': 'No month set',
+  'nw.view.promises': 'Promises', 'nw.view.strategy': 'Strategy',
+  'nw.asp.audience': 'Audience', 'nw.asp.rollout': 'Rollout', 'nw.asp.packaging': 'Packaging', 'nw.asp.depends': 'Depends on', 'nw.asp.replaces': 'Replaces',
+  'aud.consumidor': 'Consumers', 'aud.empresa': 'Businesses', 'aud.desenvolvedor': 'Developers',
+  'nw.cadence': 'Announcement to availability: {n} days (median of {k})',
 });
 
 const nwState = { q: '', mkt: '', cat: '', view: 'company', onlyNew: false };
@@ -140,6 +148,12 @@ function itemBody(co, i, withCo) {
   const chips = linkChips(co, i);
   if (chips.length) { const w = mk('div', 'nw-links'); w.append(...chips); body.appendChild(w); }
   const st = stageLine(i); if (st) body.appendChild(st);
+  const asp = [['audience', (i.audience || []).map((a) => t('aud.' + a)).join(', ')], ['rollout', i.rollout], ['packaging', i.packaging], ['depends', (i.depends || []).join(', ')], ['replaces', i.replaces]].filter(([, v]) => v);
+  if (asp.length) {
+    const w = mk('dl', 'nw-asp');
+    asp.forEach(([k, v]) => { w.append(mk('dt', null, t('nw.asp.' + k)), mk('dd', null, v)); });
+    body.appendChild(w);
+  }
   const meta = mk('div', 'nw-meta');
   meta.append(mk('span', 'nw-tag', t('st.' + i.status)), mk('span', 'nw-tag', t('cat.' + i.category)), mk('span', 'nw-tag' + (i.confidence === 'primária' ? ' prim' : ''), i.confidence === 'primária' ? t('nw.prim') : t('nw.press')));
   if (/^https:\/\//.test(i.url)) {
@@ -156,6 +170,9 @@ dash.draw('nw-new-count', (el) => { const n = nwSeen.fresh ? 0 : nwNewCount(); e
 dash.draw('nw-list', (el) => {
   nwSeedIfFresh();
   dash.draw('nw-new-count');
+  el.classList.toggle('nw-tl-on', nwState.view === 'timeline' || nwState.view === 'promises' || nwState.view === 'strategy');
+  if (nwState.view === 'promises') { nwDrawPromises(el, nwState); return; }
+  if (nwState.view === 'strategy') { nwDrawStrategy(el, nwState); return; }
   const cos = visibleNews();
   if (!cos.length) { el.replaceChildren(mk('p', 'nw-empty', t('nw.empty'))); return; }
 
@@ -197,6 +214,8 @@ dash.draw('nw-list', (el) => {
       card.appendChild(chips);
     }
 
+    const days = co.items.map((i) => (i.stages && i.stages.announced && i.stages.ga ? Math.round((Date.parse(i.stages.ga) - Date.parse(i.stages.announced)) / 864e5) : null)).filter((d) => d != null).sort((a, b) => a - b);
+    if (days.length) card.appendChild(mk('div', 'nw-cadence', t('nw.cadence', { n: f0.format(days[Math.floor((days.length - 1) / 2)]), k: days.length })));
     const read = mk('p', 'nw-read');
     read.append(mk('b', null, t('nw.read')), document.createTextNode(co.insight));
     card.appendChild(read);

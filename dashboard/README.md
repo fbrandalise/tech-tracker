@@ -86,6 +86,15 @@ Dois servidores (tradicional e com execução de código) dão a um agente acess
 
 A tela tem duas visões (por empresa e linha do tempo por mês), filtro por categoria e a marcação de "Novo": cada navegador guarda o que já viu (`localStorage`), e a primeira visita não marca nada. `stages` e `Preço` foram preenchidos só onde há fonte primária conferida (Nvidia Vera Rubin, Meta Ray-Ban Audio e Muse, Amazon Alexa Tablets, Google Gemini 4; preços de Salesforce, Microsoft e Google); `Estratégia` ainda está vazia. Todo preenchimento novo precisa de fonte primária e data.
 
+### Promessas e estratégia
+
+Duas curadorias à parte, lidas direto de `data/` (sem banco; editar o arquivo vale na próxima abertura da página). Cada linha tem fonte e data, e os textos têm campos `*_en` para a interface em inglês.
+
+- **`data/promises.json`:** o que a empresa disse que lançaria (`said`: data, texto, `label` e `targetDate` do prazo, fonte) e o que entregou (`delivered`, ou `null`; `partial: true` para entrega parcial). O status é calculado na tela: *cumprida no prazo*, *cumprida com atraso*, *parcial*, *em aberto*, *a confirmar* (prazo vencido sem prova de entrega, o que não prova atraso) e *sem prazo*.
+- **`data/strategy.json`:** por empresa, a `thesis` (pontos resumidos com palavras próprias do que a gestão disse no último comunicado, com fonte e data) e os `deals` (aquisições, parcerias e clientes; `checked: false` marca item de curadoria anterior ainda não conferido em fonte própria).
+- **Para onde vai o dinheiro** e **mudança na forma de reportar** não são curados: vêm dos dados de resultado (P&D e capex em % da receita) e das notas de segmentos.
+- Aspectos de lançamento opcionais em cada item de `news.json`: `audience` (`consumidor`, `empresa`, `desenvolvedor`), `rollout`, `packaging`, `depends` (lista) e `replaces`. A mediana de dias entre anúncio e disponibilidade aparece no cartão da empresa quando há 1 item ou mais com as duas datas em `stages`.
+
 ## Segurança
 
 - **SQL escrito por terceiros** (modelo, agentes): só `SELECT`/`WITH`, banco somente leitura, só as views `v_*` (autorizador do SQLite), processo filho com limite de 5 s e no máximo 200 linhas. É compartilhado por `ask` e pelos MCPs: [pipeline/safe-sql.js](pipeline/safe-sql.js).

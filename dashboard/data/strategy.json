@@ -1,0 +1,200 @@
+[
+ {
+  "symbol": "MSFT",
+  "thesis": {
+   "date": "2026-10-28",
+   "points": [
+    "Mais valor ao longo da pilha: capacidade, escolha do cliente, controle do usuário e eficiência de custo.",
+    "Inteligência própria do cliente: ajudar as organizações a construir e ser donas da sua IA.",
+    "Confiança por meio de agentes seguros.",
+    "Transformar inovação de produto em uso crescente e resultado medido."
+   ],
+   "note": "O comunicado não cita produtos futuros nem capex.",
+   "source": "Microsoft (resultado do 1T FY27)",
+   "url": "https://www.microsoft.com/en-us/investor/earnings/fy-2027-q1/press-release-webcast",
+   "points_en": [
+    "More value across the stack: capability, customer choice, user control and cost efficiency.",
+    "Customer-owned intelligence: helping organizations build and own their AI.",
+    "Trust through safe and secure agents.",
+    "Turning product innovation into growing use and measured results."
+   ],
+   "note_en": "The release does not name future products or capex."
+  },
+  "deals": []
+ },
+ {
+  "symbol": "GOOGL",
+  "thesis": {
+   "date": "2026-10-28",
+   "points": [
+    "Abordagem de pilha completa para sustentar o ritmo.",
+    "Usar os investimentos em IA para ampliar as buscas, inclusive as comerciais.",
+    "Atender a demanda por infraestrutura de IA, soluções e sistemas TPU do Google Cloud.",
+    "Liderar a fronteira com o Gemini 4 e ampliar o uso da API própria.",
+    "Crescer IA de consumo e assinaturas (app Gemini, YouTube Music e Premium)."
+   ],
+   "note": "Capex do 3T: US$ 51,4 bi (US$ 132,0 bi no ano). O comunicado não traz projeção de capex.",
+   "source": "Alphabet (8-K do 3T26)",
+   "url": "https://www.sec.gov/Archives/edgar/data/0001652044/000165204426000080/googexhibit991q32026.htm",
+   "points_en": [
+    "A full-stack approach to sustain momentum.",
+    "Use AI investments to grow searches, including commercial ones.",
+    "Meet demand for Google Cloud AI infrastructure, solutions and TPU systems.",
+    "Lead at the frontier with Gemini 4 and expand first-party API usage.",
+    "Grow consumer AI and subscriptions (Gemini app, YouTube Music and Premium)."
+   ],
+   "note_en": "Q3 capex: $51.4 B ($132.0 B year to date). The release gives no capex outlook."
+  },
+  "deals": []
+ },
+ {
+  "symbol": "META",
+  "thesis": {
+   "date": "2026-10-21",
+   "points": [
+    "\"Superinteligência pessoal para todos\", com o Muse e o Muse Wonder como primeiros modelos de fronteira.",
+    "Continuar investindo forte no negócio principal e em IA.",
+    "Capex de 2026 de US$ 135 a 145 bi e despesas totais de US$ 175 a 179 bi.",
+    "Perdas da Reality Labs devem cair para cerca de US$ 15 bi em 2027, com o gasto migrando para IA."
+   ],
+   "note": "O comunicado não menciona os óculos de IA.",
+   "source": "Meta (8-K do 3T26)",
+   "url": "https://www.sec.gov/Archives/edgar/data/0001326801/000162828026066700/meta-09302026xexhibit991.htm",
+   "points_en": [
+    "\"Personal superintelligence for everyone\", with Muse and Muse Wonder as the first frontier models.",
+    "Keep investing heavily in the core business and in AI.",
+    "2026 capex of $135 to 145 B and total expenses of $175 to 179 B.",
+    "Reality Labs losses should narrow to about $15 B in 2027, with spending shifting to AI."
+   ],
+   "note_en": "The release does not mention the AI glasses."
+  },
+  "deals": []
+ },
+ {
+  "symbol": "AMZN",
+  "thesis": {
+   "date": "2026-10-29",
+   "points": [
+    "O investimento em funcionalidades e infraestrutura da AWS está dando retorno, e o CEO projeta crescimento da AWS acima de 40% em 2027 e em 2028.",
+    "Capex em caixa de cerca de US$ 220 bi em 2026.",
+    "Projeção de vendas do 4T26: US$ 240 a 247 bi (+12% a +16%)."
+   ],
+   "note": "Trainium e agentes de IA aparecem como anúncios da empresa, não nas prioridades citadas pelo CEO.",
+   "source": "Amazon (resultado do 3T26)",
+   "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx",
+   "points_en": [
+    "Investment in AWS functionality and infrastructure is paying off, and the CEO projects AWS growth above 40% in 2027 and in 2028.",
+    "Cash capex of about $220 B in 2026.",
+    "Q4 sales outlook: $240 to 247 B (+12% to +16%)."
+   ],
+   "note_en": "Trainium and AI agents appear as company announcements, not in the CEO's stated priorities."
+  },
+  "deals": []
+ },
+ {
+  "symbol": "AMD",
+  "thesis": {
+   "date": "2026-11-03",
+   "points": [
+    "A demanda por Instinct e EPYC está se fortalecendo, e a CEO confia em sustentar o crescimento de receita e ampliar a rentabilidade.",
+    "Ampliar a presença na \"pilha de superinteligência\", com as aquisições da World Labs e da Taalas.",
+    "Projeção de receita do 4T26 de cerca de US$ 17 bi (±3%), com o avanço do Helios e do Venice."
+   ],
+   "note": "Sem projeção específica para o MI450 ou o Helios.",
+   "source": "AMD (resultado do 3T26)",
+   "url": "https://newsroom.amd.com/news/amd-reports-third-quarter-2026-earnings/",
+   "points_en": [
+    "Demand for Instinct and EPYC is strengthening, and the CEO is confident in sustaining revenue growth and expanding profitability.",
+    "Broaden presence in the \"superintelligence stack\", with the World Labs and Taalas acquisitions.",
+    "Q4 2026 revenue outlook of about $17 B (±3%), with the Helios and Venice ramp."
+   ],
+   "note_en": "No specific outlook for MI450 or Helios."
+  },
+  "deals": [
+   {
+    "date": "2026-09-28",
+    "kind": "aquisição",
+    "name": "World Labs",
+    "note": "Para avançar a computação de IA, segundo a AMD.",
+    "source": "AMD Investor Relations",
+    "url": "https://ir.amd.com/news-events/press-releases",
+    "confidence": "primária",
+    "checked": false,
+    "name_en": "World Labs",
+    "note_en": "To advance AI computing, according to AMD."
+   },
+   {
+    "date": "2026-11-03",
+    "kind": "aquisição",
+    "name": "Taalas",
+    "note": "Citada no comunicado de resultados do 3T26, sem detalhes de valor ou data da conclusão.",
+    "source": "AMD (resultado do 3T26)",
+    "url": "https://newsroom.amd.com/news/amd-reports-third-quarter-2026-earnings/",
+    "confidence": "primária",
+    "checked": true,
+    "name_en": "Taalas",
+    "note_en": "Cited in the Q3 2026 results release, with no detail on value or closing date."
+   },
+   {
+    "date": "2026-07-23",
+    "kind": "cliente",
+    "name": "Anthropic (até 2 GW de MI455X) e OpenAI (Helios a partir do 4T26)",
+    "note": "Compromissos de implantação em escala, segundo a AMD.",
+    "source": "AMD Investor Relations",
+    "url": "https://ir.amd.com/news-events/press-releases/detail/1294/aai-2026-amd-delivers-full-stack-compute-for-the-agentic-ai-era",
+    "confidence": "primária",
+    "checked": true,
+    "name_en": "Anthropic (up to 2 GW of MI455X) and OpenAI (Helios starting Q4 2026)",
+    "note_en": "Deployment commitments at scale, according to AMD."
+   }
+  ]
+ },
+ {
+  "symbol": "NVDA",
+  "thesis": null,
+  "deals": [
+   {
+    "date": "2026-10-27",
+    "kind": "parceria",
+    "name": "Oracle: Vera Rubin NVL72 e CPU Vera em disponibilidade geral na OCI",
+    "note": "A expansão a múltiplos gigawatts é plano anunciado.",
+    "source": "Nvidia Newsroom",
+    "url": "https://nvidianews.nvidia.com/news/nvidia-and-oracle-expand-nvidia-vera-rubin-to-multi-gigawatt-scale-and-bring-nvidia-vera-cpu-to-oracle-cloud-infrastructure",
+    "confidence": "primária",
+    "checked": true,
+    "name_en": "Oracle: Vera Rubin NVL72 and Vera CPU generally available on OCI",
+    "note_en": "Expansion to multiple gigawatts is an announced plan."
+   }
+  ]
+ },
+ {
+  "symbol": "SPCX",
+  "thesis": null,
+  "deals": [
+   {
+    "date": "2026-08-14",
+    "kind": "aquisição",
+    "name": "Cursor",
+    "note": "Valor implícito de US$ 60 bi, segundo o resultado do 3T26 da SpaceX.",
+    "source": "Release da SpaceX (3T26)",
+    "url": "https://ir.spacex.com/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf",
+    "confidence": "primária",
+    "checked": false,
+    "name_en": "Cursor",
+    "note_en": "Implied value of $60 B, according to SpaceX's Q3 2026 results."
+   },
+   {
+    "date": "2026-10-08",
+    "kind": "aquisição",
+    "name": "Licenças de espectro de 800 MHz",
+    "note": "Acordo para comprar as licenças (Conectividade).",
+    "source": "Release da SpaceX (3T26)",
+    "url": "https://ir.spacex.com/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf",
+    "confidence": "primária",
+    "checked": false,
+    "name_en": "800 MHz spectrum licenses",
+    "note_en": "Agreement to buy the licenses (Connectivity)."
+   }
+  ]
+ }
+]

@@ -60,6 +60,13 @@ http.createServer((req, res) => {
   if (url.pathname === '/api/ask') return handleAsk(req, res);
   const hist = url.pathname.match(/^\/api\/history\/([A-Za-z0-9.\-]{1,12})$/);
   if (hist) { if (!db) return json(res, 503, { error: 'banco indisponível' }); return json(res, 200, store.getHistory(db, hist[1].toUpperCase())); }
+  // curadorias lidas direto de data/ (promessas e estratégia): sem banco, a edição do arquivo vale na próxima abertura da página
+  if (url.pathname === '/promises.json' || url.pathname === '/strategy.json') {
+    return fs.readFile(path.join(__dirname, 'data', url.pathname.slice(1)), (err, data) => {
+      if (err) return json(res, 200, []);
+      res.writeHead(200, { 'Content-Type': TYPES['.json'], 'Cache-Control': 'no-cache', 'X-Content-Type-Options': 'nosniff' }).end(data);
+    });
+  }
   const brief = url.pathname.match(/^\/api\/briefing\/([A-Za-z0-9.\-]{1,12})$/);
   if (brief) {
     if (!db) return json(res, 503, { error: 'banco indisponível' });
