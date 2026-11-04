@@ -84,7 +84,7 @@ Dois servidores (tradicional e com execução de código) dão a um agente acess
 | `stages` | `{ "announced": "AAAA-MM-DD", "beta": "AAAA-MM-DD", "production": "AAAA-MM-DD", "ga": "AAAA-MM-DD" }`, todos opcionais. Mostra a maturidade e os dias entre o anúncio e a disponibilidade |
 | `category` | Além das existentes, `Preço` (mudança de preço, plano ou limite, com antes e depois no `summary`) e `Estratégia` (prioridade declarada pela gestão, com a citação e a fonte) |
 
-A tela tem duas visões (por empresa e linha do tempo por mês), filtro por categoria e a marcação de "Novo": cada navegador guarda o que já viu (`localStorage`), e a primeira visita não marca nada. `stages` e `Preço` foram preenchidos só onde há fonte primária conferida (Nvidia Vera Rubin; Salesforce e Microsoft em preço); `Estratégia` ainda está vazia. Todo preenchimento novo precisa de fonte primária e data.
+A tela tem duas visões (por empresa e linha do tempo por mês), filtro por categoria e a marcação de "Novo": cada navegador guarda o que já viu (`localStorage`), e a primeira visita não marca nada. `stages` e `Preço` foram preenchidos só onde há fonte primária conferida (Nvidia Vera Rubin, Meta Ray-Ban Audio e Muse, Amazon Alexa Tablets, Google Gemini 4; preços de Salesforce, Microsoft e Google); `Estratégia` ainda está vazia. Todo preenchimento novo precisa de fonte primária e data.
 
 ## Segurança
 
