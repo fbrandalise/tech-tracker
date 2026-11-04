@@ -4,7 +4,7 @@
  * 不需要 API Key，但准确性较低
  */
 
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');   // sem shell: o texto da busca nunca é interpretado como comando
 const path = require('path');
 
 /**
@@ -22,8 +22,7 @@ async function getEarningsCalendar(symbol = null, market = 'us') {
       searchQuery = `earnings calendar ${nextWeek} stock market`;
     }
     
-    const result = execSync(
-      `npx ts-node "${searchScript}" -q "${searchQuery}" --count 10`,
+    const result = execFileSync('npx', ['ts-node', searchScript, '-q', searchQuery, '--count', '10'],
       { encoding: 'utf8', timeout: 60000 }
     );
     
@@ -51,8 +50,7 @@ async function getCompanyEarnings(symbol, market = 'us') {
     const results = [];
     for (const query of queries) {
       try {
-        const result = execSync(
-          `npx ts-node "${searchScript}" -q "${query}" --count 5`,
+        const result = execFileSync('npx', ['ts-node', searchScript, '-q', query, '--count', '5'],
           { encoding: 'utf8', timeout: 60000 }
         );
         results.push(result);
@@ -76,8 +74,7 @@ async function getCompanyInfo(symbol, market = 'us') {
     const searchScript = path.join(__dirname, '../../coze-web-search/scripts/search.ts');
     
     const query = `${symbol} company profile sector industry`;
-    const result = execSync(
-      `npx ts-node "${searchScript}" -q "${query}" --count 5`,
+    const result = execFileSync('npx', ['ts-node', searchScript, '-q', query, '--count', '5'],
       { encoding: 'utf8', timeout: 60000 }
     );
     

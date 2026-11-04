@@ -3,7 +3,7 @@
  * 接入真实财报数据源
  */
 
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');   // sem shell: o texto da busca nunca é interpretado como comando
 const fs = require('fs');
 const path = require('path');
 const {
@@ -65,8 +65,7 @@ async function getRealEarningsCalendar(symbol = null, market = 'us') {
   
   try {
     const searchScript = path.join(__dirname, '../../coze-web-search/scripts/search.ts');
-    const result = execSync(
-      `npx ts-node "${searchScript}" -q "${searchQuery}" --count 15`,
+    const result = execFileSync('npx', ['ts-node', searchScript, '-q', searchQuery, '--count', '15'],
       { encoding: 'utf8', timeout: 60000 }
     );
     
@@ -228,8 +227,7 @@ async function getRealCompanyEarnings(symbol, market = 'us') {
   for (const query of queries) {
     try {
       const searchScript = path.join(__dirname, '../../coze-web-search/scripts/search.ts');
-      const result = execSync(
-        `npx ts-node "${searchScript}" -q "${query}" --count 10`,
+      const result = execFileSync('npx', ['ts-node', searchScript, '-q', query, '--count', '10'],
         { encoding: 'utf8', timeout: 60000 }
       );
       results.push(result);

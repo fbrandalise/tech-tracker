@@ -3,7 +3,6 @@
  * 动态查询板块内龙头企业，生成投资推荐
  */
 
-const { execSync } = require('child_process');
 const path = require('path');
 const { getCompanyEarnings, getCompanyInfo } = require('./data-source-factory');
 

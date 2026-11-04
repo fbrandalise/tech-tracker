@@ -8,7 +8,6 @@
  * - 美股: https://hq.sinajs.cn/list=gb_nvda
  */
 
-const { execSync } = require('child_process');
 
 /**
  * 转换股票代码为新浪财经格式
@@ -126,15 +125,14 @@ function parseSinaData(data, symbol, market) {
 async function getCompanyInfo(symbol, market = 'us') {
   try {
     const sinaSymbol = formatSinaSymbol(symbol, market);
-    const url = `https://hq.sinajs.cn/list=${sinaSymbol}`;
+    const url = `https://hq.sinajs.cn/list=${encodeURIComponent(sinaSymbol)}`;
     
     console.log(`  📡 请求: ${url}`);
     
-    const result = execSync(
-      `curl -s "${url}" -H "Referer: https://finance.sina.com.cn" --connect-timeout 10 --max-time 15 | iconv -f gb2312 -t utf-8 2>/dev/null || curl -s "${url}" -H "Referer: https://finance.sina.com.cn" --connect-timeout 10 --max-time 15`,
-      { encoding: 'utf8', shell: '/bin/bash' }
-    );
-    
+    // fetch em vez de curl via shell: o símbolo vem do usuário e não pode chegar a um shell
+    const resp = await fetch(url, { headers: { Referer: 'https://finance.sina.com.cn' }, signal: AbortSignal.timeout(15000) });
+    const result = new TextDecoder('gb18030').decode(await resp.arrayBuffer());
+
     const data = parseSinaData(result, symbol, market);
     
     if (!data) {

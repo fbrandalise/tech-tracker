@@ -65,16 +65,19 @@ http.createServer((req, res) => {
   }
   if (url.pathname === '/vendor/d3.min.js') file = D3;
   else {
-    const rel = path.normalize(decodeURIComponent(url.pathname)).replace(/^(\.\.[/\\])+/, '');
-    file = path.join(PUBLIC, rel === '/' || rel === '\\' ? 'index.html' : rel);
-    if (!file.startsWith(PUBLIC)) { res.writeHead(403).end('Forbidden'); return; }
+    let decoded;
+    try { decoded = decodeURIComponent(url.pathname); } catch { res.writeHead(400).end('Bad request'); return; }   // %-sequência inválida não pode derrubar o processo
+    if (decoded.includes('\0')) { res.writeHead(400).end('Bad request'); return; }
+    file = path.join(PUBLIC, decoded === '/' ? 'index.html' : decoded);
+    if (file !== PUBLIC && !file.startsWith(PUBLIC + path.sep)) { res.writeHead(403).end('Forbidden'); return; }
   }
   fs.readFile(file, (err, data) => {
     if (err) { res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }).end('Não encontrado'); return; }
     res.writeHead(200, {
       'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream',
       'Cache-Control': file === D3 ? 'public, max-age=86400' : 'no-cache',
-      'X-Content-Type-Options': 'nosniff'
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY', 'Referrer-Policy': 'no-referrer'
     }).end(data);
   });
 }).listen(PORT, '0.0.0.0', () => console.log(`Dashboard em http://0.0.0.0:${PORT}`));
