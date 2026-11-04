@@ -1,10 +1,12 @@
 # Tech Tracker
 
+**[Português](#tech-tracker) | [English](#english)**
+
 Painel de resultados trimestrais de empresas de tecnologia, com uma base de dados consultável por pessoas **e por agentes de IA**.
 
 Coleta balanços de fontes públicas, reconcilia as diferenças entre elas, guarda tudo num banco SQLite e expõe os dados de quatro formas: um **dashboard web**, **perguntas em linguagem natural**, **controle de qualidade automático** e **servidores MCP** (um tradicional e outro com execução de código, comparados por uma bateria de testes com um LLM real).
 
-> Documentação em português. Código e identificadores em inglês/português, como no restante do projeto.
+> Documentação em português; a tradução para o inglês está [no final deste arquivo](#english). Os documentos em `dashboard/` estão apenas em português.
 
 ## O que resolve
 
@@ -202,3 +204,211 @@ Para repetir o benchmark é preciso um `llama-server` (ou outra API compatível 
 ## Licença
 
 MIT. Ver [LICENSE](LICENSE).
+
+---
+
+<a name="english"></a>
+# Tech Tracker (English)
+
+A quarterly-earnings dashboard for tech companies, backed by a database that both people **and AI agents** can query.
+
+It collects financial statements from public sources, reconciles the differences between them, stores everything in SQLite, and exposes the data four ways: a **web dashboard**, **natural-language questions**, **automated data-quality checks**, and **MCP servers** (a traditional one and a code-execution one, compared by a benchmark run with a real LLM).
+
+> Documentation is in Portuguese; this section is the English translation of this README. The documents under `dashboard/` are Portuguese only.
+
+## The problem it solves
+
+Following the earnings of a dozen companies looks easy until you look at the data:
+
+| Problem | How the project handles it |
+|---|---|
+| Every source says something different. FMP, Yahoo and the SEC differ in currency, fiscal calendar and definitions (Yahoo's operating income is *adjusted*, the SEC's is *GAAP*). | Explicit source priority, per-quarter source tracking, and an **ontology** that documents every column and the known pitfalls. |
+| Free APIs only show ~5 quarters. | **Historical backfill** of ~5 years straight from SEC EDGAR (10-Q/10-K), which never overwrites the other sources. |
+| Financial data fails silently (e.g. a full year stored as a quarter). | **19 quality rules** (accounting identities, duplicates, impossible margins, revenue spikes). They already caught a real Oracle error. |
+| An LLM writing SQL can get the data dictionary wrong, or be dangerous. | Ontology in the prompt + **safe SQL execution** (views only, read-only, time and row limits). |
+| How to give an agent access to the data: classic MCP tools or code execution? | **Both servers** built on the same capabilities, plus a **benchmark** with a real LLM comparing cost, context, time and accuracy. |
+
+## Overview
+
+18 companies (12 US, 6 Hong Kong), with revenue, profits, margins, cash, estimates, price reaction, valuation and earnings calendar.
+
+Dashboard tabs: **Results**, **Explore** (full history, a trend chart with all companies and, optionally, natural-language questions), **Calendar**, **Product news** and **Product usage behavior**.
+
+## Architecture
+
+```
+ FMP ─────┐
+ Yahoo ───┼─▶ pipeline/refresh.js ─┐
+ SEC ─────┘   pipeline/backfill-sec.js
+                                   ▼
+ data/*.json ──(curation, at start)─▶  SQLite (WAL)  data/cache/earnings.db
+ (companies, overrides,                tables: companies, quarters, snapshots, ...
+  segments, news)                      views:  v_company · v_quarter · v_ttm · v_latest
+                                       (all in USD billions, margins and changes precomputed)
+                                                   │
+        ┌──────────────┬──────────────┬────────────┼───────────────┬───────────────────┐
+        ▼              ▼              ▼            ▼               ▼                   ▼
+    server.js     pipeline/       pipeline/    ontology/      pipeline/            mcp/
+    + public/     ask.js          quality.js   earnings.yaml  safe-sql.js     ┌──────┴───────┐
+    (dashboard)   (natural-       (19 rules)   (data          (shared safe    traditional  code-exec
+                  language Q&A)                 dictionary)    SQL)            10 tools     2 tools +
+                                                                                             sandbox
+```
+
+Core principle: **the `v_*` views are the only read interface**. The ontology describes the views, `ask` and the MCP servers only see the views, and the SQLite authorizer enforces it instead of asking nicely in the prompt.
+
+## Components
+
+### 1. Collection and storage (`dashboard/pipeline/`)
+
+- **`refresh.js`**: periodic collection (default every 12 h) from FMP and Yahoo Finance, converting to USD and applying manual adjustments from company releases (`data/overrides.json`).
+- **`backfill-sec.js`**: ~5 years of history from SEC EDGAR (XBRL). Rebuilds quarters from cumulative values, computes Q4 (year − 9 months) and filters out mis-tagged facts.
+- **`db.js`**: Node's built-in SQLite (`node:sqlite`), WAL mode, migrations via `PRAGMA user_version`, USD views.
+- Versioned curation in `dashboard/data/*.json`, mirrored into the database on every start.
+
+### 2. Web dashboard (`dashboard/server.js`, `dashboard/public/`)
+
+Framework-free Node server, plain JavaScript front end with d3 for the trend chart. Routes: `/earnings.json`, `/meta.json`, `/news.json`, `/health`, `/api/history/:symbol`, `/api/ask`. Portuguese/English, light/dark theme.
+
+### 3. Ontology (`dashboard/ontology/`)
+
+`earnings.yaml` describes conventions (units, fiscal dates, FX), sources, entities and columns, 17 metrics (with PT/EN synonyms), interpretation and SQL rules, known anomalies and 9 example questions with SQL. `check.js` fails when the ontology goes stale: broken examples, nonexistent columns, **or view columns with no description**. See [ontology/README.md](dashboard/ontology/README.md).
+
+### 4. Natural-language questions (`pipeline/ask.js`)
+
+Optional, off by default. The model (Claude API) receives the ontology, writes SQL over the views, and the answer shows the queries used so you can check them.
+
+### 5. Safe SQL (`pipeline/safe-sql.js`)
+
+Shared by `ask` and the MCP servers. Four barriers: a single `SELECT`/`WITH` statement only; database opened read-only; a SQLite authorizer that only allows the `v_*` views (denies recursive CTEs, `PRAGMA`, `ATTACH`); execution in a child process with a 5 s limit (SIGKILL) and at most 200 rows.
+
+### 6. Quality control (`pipeline/quality.js`)
+
+`npm run quality` runs 19 rules (error/warning) against the database. Text or `--json` output; `--strict` also fails on warnings, for CI use.
+
+### 7. MCP servers (`dashboard/mcp/`)
+
+Two servers with the **same ten capabilities** (list companies, snapshot, ranking, history, TTM, upcoming earnings, ontology, quality, free SQL), generated from one registry (`lib/tools.js`), so the comparison measures the *way of exposing* rather than *what is exposed*.
+
+| | Traditional | Code execution |
+|---|---|---|
+| Advertised tools | 10 | 2 (`search_tools`, `execute_code`) |
+| Who chains the calls | The model, one per turn | The code the model writes, in one turn |
+| Intermediate data | In the model's context | In the sandbox |
+| Isolation | Read-only database | Sandbox: `node --permission` + Linux namespaces (no network, can't see other processes) + memory, time and output limits |
+
+The second follows the pattern in [Code execution with MCP](https://www.anthropic.com/research/code-execution-with-mcp): tools as importable modules, progressive discovery and filtering data inside the sandbox. A battery of **40 attacks** on the sandbox and the SQL layer (0 open) ships with the project.
+
+### 8. Benchmark (`dashboard/mcp/bench/`)
+
+A real LLM (quantized Qwen3.6-35B-A3B on a local `llama-server`) drives each server through 10 tasks, with ground truth computed by independent SQL and an automatic grader, in three configurations. Summary:
+
+| Configuration | Correct (trad. × code-exec) | Input tokens | Better one |
+|---|---|---:|---|
+| With `run_sql` | 18/20 × 16/20 | 8.4k × 16.9k | Traditional (cost, steps, time) |
+| Without `run_sql` | 12/20 × 17/20 | 40.3k × 11.8k | Code exec (on everything) |
+| With `run_sql` + reasoning | 18/20 × 16/20 | 7.3k × 14.3k | Traditional (cost and steps) |
+
+Honest reading: code execution pays off when the traditional server would need turn-by-turn loops; a free-SQL tool captures nearly all of that benefit with no sandbox. Accuracy differences are not statistically significant (small sample, one local model). Method, limits and recommendation in [mcp/docs/benchmark.md](dashboard/mcp/docs/benchmark.md) (Portuguese).
+
+### 9. Legacy CLI (`scripts/`, `SKILL.md`)
+
+Inherited from the original project: a terminal earnings calendar for the US, Hong Kong and A-share markets, packaged as an agent skill. It works independently of the dashboard (`node scripts/index.js preview`) and uses `.config/watchlist.json`.
+
+## Stack
+
+| Layer | Technology |
+|---|---|
+| Runtime | Node.js ≥ 22.13 (no framework, no build step) |
+| Database | SQLite via `node:sqlite` (WAL, views, `setAuthorizer`) |
+| Data sources | Financial Modeling Prep, Yahoo Finance (`yahoo-finance2`), SEC EDGAR (XBRL) |
+| Front end | Plain HTML/CSS/JS, d3 |
+| AI | Claude API (`@anthropic-ai/sdk`) for natural-language questions |
+| Agents | MCP (`@modelcontextprotocol/sdk`, stdio) with zod |
+| Isolation | `node --permission`, Linux namespaces (`unshare`) |
+| Tests | Ontology (`check.js`), data quality, 40 security attacks, benchmark with a local LLM (`llama-server`) |
+
+## Clone and run locally
+
+Requirements: **Node.js ≥ 22.13** and git. Linux for the full `code-exec` MCP sandbox isolation (without `unshare` it falls back to a weaker mode).
+
+```bash
+git clone https://github.com/fbrandalise/tech-tracker.git
+cd tech-tracker/dashboard
+npm install
+npm start                      # http://localhost:3000
+```
+
+On start, the server creates the database at `dashboard/data/cache/earnings.db` and runs the first collection five seconds later. The page shows data from the last completed collection.
+
+To get the **~5-year history** for US companies (free APIs only return 5 quarters), run once:
+
+```bash
+npm run backfill               # options: -- --symbols NVDA,MSFT --years 6 --dry-run
+npm run quality                # check the loaded data
+```
+
+### Configuration (optional)
+
+Create `dashboard/.env` (kept out of git) or use environment variables:
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `PORT` | `3000` | Server port |
+| `REFRESH_HOURS` | `12` | Automatic collection interval; `0` disables it |
+| `FMP_API_KEY` | empty | [Financial Modeling Prep](https://financialmodelingprep.com/developer) key (the free plan is enough). Without it, Yahoo only |
+| `SEC_USER_AGENT` | generic | Identification (name and contact) sent to the SEC during backfill, as their policy requires |
+| `ENABLE_ASK` + `ANTHROPIC_API_KEY` | off | Turns on the "Ask the data" box in the Explore tab |
+
+> The server listens on `0.0.0.0` and has no authentication or HTTPS. Use it on a trusted network or behind a proxy. With `ENABLE_ASK=1`, anyone who can reach the port spends your API key. See [SECURITY.md](SECURITY.md).
+
+### Commands
+
+| Command (in `dashboard/`) | What it does |
+|---|---|
+| `npm start` | Server + automatic refresh |
+| `npm run refresh` | One collection, without starting the server |
+| `npm run backfill` | Historical load from the SEC |
+| `npm run quality` | Data-quality rules |
+| `npm run ask -- "question" --sql` | Natural-language question from the terminal |
+| `node ontology/check.js` | Check the ontology against the database |
+| `node mcp/bench/security.js` | 40 attacks on the MCP servers |
+
+### Using the MCP servers with an agent
+
+After the first collection (they need the database), register them in Claude Code with a `.mcp.json` at the repository root:
+
+```json
+{
+  "mcpServers": {
+    "earnings-traditional": { "command": "node", "args": ["dashboard/mcp/traditional/server.js"] },
+    "earnings-code-exec":   { "command": "node", "args": ["dashboard/mcp/code-exec/server.js"] }
+  }
+}
+```
+
+To repeat the benchmark you need a `llama-server` (or another OpenAI-compatible API) at `http://127.0.0.1:8080`; see [mcp/README.md](dashboard/mcp/README.md).
+
+## Documentation (Portuguese)
+
+| Document | Contents |
+|---|---|
+| [dashboard/README.md](dashboard/README.md) | Operating the dashboard: commands, configuration, security |
+| [dashboard/ontology/README.md](dashboard/ontology/README.md) | Data model, sources, conventions, use cases, maintenance |
+| [dashboard/mcp/README.md](dashboard/mcp/README.md) | How to run and test the MCP servers |
+| [dashboard/mcp/docs/design.md](dashboard/mcp/docs/design.md) | MCP architecture, isolation layers, residual risks |
+| [dashboard/mcp/docs/benchmark.md](dashboard/mcp/docs/benchmark.md) | Traditional × code-exec comparison |
+| [dashboard/mcp/docs/implementation-log.md](dashboard/mcp/docs/implementation-log.md) | Implementation diary: decisions, failures and fixes |
+
+## Known limitations
+
+- Hong Kong has few history points: Yahoo only provides revenue and profit for the June quarters.
+- Operating income differs between the SEC (GAAP) and Yahoo (adjusted) for some companies; always state the source when citing it.
+- Quarters coming from the SEC have no EPS (XBRL is not split-adjusted).
+- The `code-exec` sandbox is not a barrier against a vulnerable kernel; for sensitive data, run it in a container (residual risks in [design.md](dashboard/mcp/docs/design.md)).
+- The benchmark applies to one quantized local model and a small dataset.
+- The data is not investment advice.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
