@@ -12,7 +12,7 @@ addDict({
   'cat.Preço': 'Preço', 'cat.Estratégia': 'Estratégia',
   'nw.view.aria': 'Visão', 'nw.view.company': 'Por empresa', 'nw.view.timeline': 'Linha do tempo', 'nw.onlynew': 'Só novos', 'nw.markseen': 'Marcar tudo como visto', 'nw.new': 'Novo', 'nw.newcount': '{n} novos',
   'nw.link.seg': 'Receita do segmento "{s}"', 'nw.link.of': '{p} da receita', 'nw.link.yoy': '{v} a/a', 'nw.link.use': 'Uso', 'nw.link.by': 'Vínculo sugerido por este painel; confira antes de usar.',
-  'nw.stage.ann': 'Anunciado', 'nw.stage.beta': 'Beta', 'nw.stage.ga': 'Disponível', 'nw.stage.days': '{n} dias do anúncio à disponibilidade',
+  'nw.stage.ann': 'Anunciado', 'nw.stage.beta': 'Beta', 'nw.stage.prod': 'Produção em escala', 'nw.stage.ga': 'Disponível', 'nw.stage.days': '{n} dias do anúncio à disponibilidade',
   'nw.tl.undated': 'Sem mês definido',
 }, {
   'nw.h': 'Product news and insights',
@@ -27,7 +27,7 @@ addDict({
   'cat.Preço': 'Pricing', 'cat.Estratégia': 'Strategy',
   'nw.view.aria': 'View', 'nw.view.company': 'By company', 'nw.view.timeline': 'Timeline', 'nw.onlynew': 'New only', 'nw.markseen': 'Mark all as seen', 'nw.new': 'New', 'nw.newcount': '{n} new',
   'nw.link.seg': 'Revenue of the "{s}" segment', 'nw.link.of': '{p} of revenue', 'nw.link.yoy': '{v} YoY', 'nw.link.use': 'Usage', 'nw.link.by': 'Link suggested by this dashboard; check it before relying on it.',
-  'nw.stage.ann': 'Announced', 'nw.stage.beta': 'Beta', 'nw.stage.ga': 'Available', 'nw.stage.days': '{n} days from announcement to availability',
+  'nw.stage.ann': 'Announced', 'nw.stage.beta': 'Beta', 'nw.stage.prod': 'Volume production', 'nw.stage.ga': 'Available', 'nw.stage.days': '{n} days from announcement to availability',
   'nw.tl.undated': 'No month set',
 });
 
@@ -121,10 +121,10 @@ function linkChips(co, i) {
   return out;
 }
 
-// maturidade: só aparece quando o item traz as datas de cada estágio (stages: { announced, beta, ga }, formato AAAA-MM-DD)
+// maturidade: só aparece quando o item traz as datas de cada estágio (stages: { announced, beta, production, ga }, formato AAAA-MM-DD)
 function stageLine(i) {
-  const s = i.stages; if (!s || !(s.announced || s.beta || s.ga)) return null;
-  const steps = [['announced', 'ann'], ['beta', 'beta'], ['ga', 'ga']].filter(([k]) => s[k]).map(([k, n]) => t('nw.stage.' + n) + ' ' + date(s[k]));
+  const s = i.stages; if (!s || !(s.announced || s.beta || s.production || s.ga)) return null;
+  const steps = [['announced', 'ann'], ['beta', 'beta'], ['production', 'prod'], ['ga', 'ga']].filter(([k]) => s[k]).map(([k, n]) => t('nw.stage.' + n) + ' ' + date(s[k]));
   let txt = steps.join(' → ');
   if (s.announced && s.ga) txt += ' · ' + t('nw.stage.days', { n: Math.round((Date.parse(s.ga) - Date.parse(s.announced)) / 864e5) });
   return mk('div', 'nw-stages', txt);
