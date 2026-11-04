@@ -151,7 +151,23 @@
  },
  {
   "symbol": "NVDA",
-  "thesis": null,
+  "thesis": {
+   "date": "2026-08-26",
+   "points": [
+    "A IA chegou a um ponto de virada, com uso real e lucrativo e demanda acelerando de laboratórios de IA, startups e IA física.",
+    "A construção de infraestrutura segue a plena velocidade, e o Vera Rubin foi feito para este momento.",
+    "Projeção do 3T FY27: receita de US$ 108,0 bi (±2%), sem contar receita de computação de data center na China; margem bruta de 74,0% (±0,5 p.p.)."
+   ],
+   "points_en": [
+    "AI has reached a turning point, with real and profitable usage and accelerating demand from AI labs, startups and physical AI.",
+    "The infrastructure buildout is proceeding at full speed, and Vera Rubin was built for this moment.",
+    "Q3 FY27 outlook: revenue of $108.0 B (±2%), assuming no China data center compute revenue; gross margin of 74.0% (±0.5 pp)."
+   ],
+   "note": "O Vera Rubin está \"em plena produção\", com racks em ampliação em CoreWeave, Google Cloud, Azure, OCI e Nebius.",
+   "note_en": "Vera Rubin is \"in full production\", with racks ramping at CoreWeave, Google Cloud, Azure, OCI and Nebius.",
+   "source": "Nvidia (resultado do 2T FY27)",
+   "url": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027"
+  },
   "deals": [
    {
     "date": "2026-10-27",
@@ -196,5 +212,154 @@
     "note_en": "Agreement to buy the licenses (Connectivity)."
    }
   ]
+ },
+ {
+  "symbol": "CRM",
+  "thesis": {
+   "date": "2026-08-26",
+   "points": [
+    "A IA já entrega valor em toda a plataforma, com forte demanda por produtos de IA e de dados.",
+    "Posicionar o AIforce como a camada corporativa que dá a cada agente, modelo e interface acesso a dados, fluxos, regras de negócio, ações e governança da Salesforce.",
+    "Projeção do ano fiscal de 2027: receita de US$ 46,1 a 46,4 bi (+11% a +12%), margem operacional não-GAAP de 34,3% e capex de cerca de 1,5% da receita."
+   ],
+   "points_en": [
+    "AI is already delivering value across the whole platform, with strong demand for AI and data products.",
+    "Position AIforce as the enterprise layer that gives every agent, model and interface access to Salesforce data, workflows, business logic, actions and governance.",
+    "FY27 outlook: revenue of $46.1 to 46.4 B (+11% to +12%), non-GAAP operating margin of 34.3% and capex of about 1.5% of revenue."
+   ],
+   "note": "O comunicado não dá datas de lançamento de produtos.",
+   "note_en": "The release gives no product launch dates.",
+   "source": "Salesforce (resultado do 2T FY27)",
+   "url": "https://investor.salesforce.com/news/news-details/2026/Salesforce-Delivers-Record-Second-Quarter-Fiscal-2027-Results/"
+  },
+  "deals": []
+ },
+ {
+  "symbol": "ORCL",
+  "thesis": {
+   "date": "2026-09",
+   "points": [
+    "Receita de nuvem de US$ 11,6 bi no trimestre, contra US$ 7,2 bi um ano antes.",
+    "Capex de US$ 28,5 bi no trimestre, contra US$ 8,5 bi.",
+    "Obrigações de desempenho remanescentes de US$ 664 bi em 31/08/2026, com cerca de 13% a reconhecer nos próximos 12 meses."
+   ],
+   "points_en": [
+    "Cloud revenue of $11.6 B in the quarter, against $7.2 B a year earlier.",
+    "Capex of $28.5 B in the quarter, against $8.5 B.",
+    "Remaining performance obligations of $664 B at 08/31/2026, with about 13% to be recognized in the next 12 months."
+   ],
+   "note": "Não são falas da gestão: o trecho de MD&A não estava no texto que li, então são números do 10-Q, não a tese declarada.",
+   "note_en": "These are not management statements: the MD&A section was not in the text I read, so they are 10-Q figures, not a stated thesis.",
+   "source": "Oracle (10-Q do 1T FY27)",
+   "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526389274/orcl-20260831.htm"
+  },
+  "deals": []
+ },
+ {
+  "symbol": "SHOP",
+  "thesis": {
+   "date": "2026-08-05",
+   "points": [
+    "O presidente diz que a Shopify atende todo tipo de negócio e que a IA amplia o que ela pode fazer por eles.",
+    "Projeção do 3T26: receita crescendo na faixa de 30%, lucro bruto de 20% a quase 30%, despesas de 33% a 34% da receita e margem de fluxo de caixa livre de 17% a 22% (em linguagem da empresa: \"low-thirties\", \"mid-to-high twenties\", \"high-teens to low-twenties\")."
+   ],
+   "points_en": [
+    "The president says Shopify serves every type of business and that AI expands what it can do for them.",
+    "Q3 2026 outlook: revenue growing in the low-thirties percent range, gross profit in the mid-to-high twenties, operating expenses at 33% to 34% of revenue and a free cash flow margin in the high-teens to low-twenties."
+   ],
+   "note": "O comunicado não nomeia um CEO nem dá datas de produto.",
+   "note_en": "The release names no CEO and gives no product dates.",
+   "source": "Shopify (resultado do 2T26)",
+   "url": "https://www.sec.gov/Archives/edgar/data/0001594805/000159480526000046/exhibit991pressreleaseq220.htm"
+  },
+  "deals": []
+ },
+ {
+  "symbol": "INTU",
+  "thesis": {
+   "date": "2026-08-25",
+   "points": [
+    "Vencer como plataforma de especialistas movida por IA, construindo um sistema de inteligência financeira que faz mais do trabalho para consumidores, empresas e contadores.",
+    "Foco de curto prazo: escalar as \"Big Bets\", acelerar o crescimento de clientes e investir com critério para uma base mais forte no longo prazo.",
+    "Projeção do ano fiscal de 2027: receita de US$ 23,28 a 23,51 bi (+9% a +10%); Global Business Solutions +13% a +14%; TurboTax +2% a +3%; Credit Karma +11% a +13%."
+   ],
+   "points_en": [
+    "Win as an AI-driven expert platform, building a financial intelligence system that does more of the work for consumers, businesses and accountants.",
+    "Near-term focus: scale the \"Big Bets\", speed customer growth and invest deliberately for a stronger long-term base.",
+    "FY27 outlook: revenue of $23.28 to 23.51 B (+9% to +10%); Global Business Solutions +13% to +14%; TurboTax +2% to +3%; Credit Karma +11% to +13%."
+   ],
+   "note": "A partir de agora o lucro não-GAAP inclui a remuneração em ações. O comunicado não dá datas de produto.",
+   "note_en": "From now on non-GAAP profit includes share-based compensation. The release gives no product dates.",
+   "source": "Intuit (resultado do 4T FY26)",
+   "url": "https://www.sec.gov/Archives/edgar/data/0000896878/000089687826000029/fy26q4earningspressrelease.htm"
+  },
+  "deals": []
+ },
+ {
+  "symbol": "AAPL",
+  "thesis": {
+   "date": "2026-11-02",
+   "points": [
+    "O CEO descreve o \"conjunto mais ambicioso até agora\": iPhone Duo, iPhone 18 Pro e Pro Max, novo hardware para a casa, Touch no Mac e o novo Siri com IA no fim do ano.",
+    "Receita de US$ 114,5 bi (+12%) e receita de Serviços na máxima histórica; receita de US$ 479 bi no ano fiscal de 2026.",
+    "Retorno de US$ 28 bi aos acionistas no trimestre."
+   ],
+   "points_en": [
+    "The CEO describes the \"most ambitious lineup yet\": iPhone Duo, iPhone 18 Pro and Pro Max, new home hardware, Touch on Mac and the all-new Siri AI toward year end.",
+    "Revenue of $114.5 B (+12%) and Services revenue at an all-time high; fiscal 2026 revenue of $479 B.",
+    "$28 B returned to shareholders in the quarter."
+   ],
+   "note": "O EPS diluído de US$ 2,10 inclui US$ 0,05 de reembolsos de tarifas. O comunicado não dá projeção nem datas para o Siri e o hardware da casa.",
+   "note_en": "Diluted EPS of $2.10 includes $0.05 from tariff refunds. The release gives no outlook or dates for Siri and the home hardware.",
+   "source": "Apple (resultado do 4T FY26)",
+   "url": "https://www.apple.com/newsroom/2026/11/apple-reports-fourth-quarter-results/"
+  },
+  "deals": []
+ },
+ {
+  "symbol": "09988.HK",
+  "thesis": {
+   "date": "2026-08-20",
+   "points": [
+    "IA de pilha completa: modelos, agentes, infraestrutura de nuvem e chips próprios, com receita externa de nuvem crescendo 45%.",
+    "Os modelos Qwen são o centro da oferta, e o app Qwen está sendo integrado ao Taobao, ao Tmall e ao Taobao Instant Commerce.",
+    "Capex do trimestre de RMB 67,7 bi (+75%), ligado à demanda por infraestrutura de IA; sem projeção de capex futuro.",
+    "Relatório passa a ter quatro segmentos: E-commerce, Nuvem e Computação de IA, Laboratórios e Aplicações de IA e Outros."
+   ],
+   "points_en": [
+    "Full-stack AI: models, agents, cloud infrastructure and in-house chips, with external cloud revenue growing 45%.",
+    "Qwen models are the core of the offering, and the Qwen app is being integrated with Taobao, Tmall and Taobao Instant Commerce.",
+    "Quarterly capex of RMB 67.7 B (+75%), tied to AI infrastructure demand; no forward capex figure.",
+    "Reporting now has four segments: E-commerce, AI Cloud and Compute, AI Labs and Applications, and Others."
+   ],
+   "note": "Lançamentos citados: Qwen3.8-Max em agosto (com pesos abertos, três meses depois da versão anterior), QwenWork (agente corporativo) no trimestre e o assistente de compras Qwen em maio.",
+   "note_en": "Launches cited: Qwen3.8-Max in August (with open weights, within three months of the prior version), QwenWork (enterprise agent) this quarter and the Qwen Shopping Assistant in May.",
+   "source": "Alibaba (6-K do trimestre de junho/26)",
+   "url": "https://www.sec.gov/Archives/edgar/data/0001577552/000110465926099220/tm2623667d1_ex99-1.htm"
+  },
+  "deals": []
+ },
+ {
+  "symbol": "09888.HK",
+  "thesis": {
+   "date": "2026-08-18",
+   "points": [
+    "Passar de uma empresa de internet para uma empresa \"AI-first\", segundo o CEO Robin Li.",
+    "Receita de infraestrutura de nuvem de IA +50% (RMB 7,3 bi) e de nuvem de GPU +283%.",
+    "Apollo Go em 28 cidades, com operação comercial sem motorista em Dubai e testes em Londres, Hong Kong e Suíça (e um memorando no Cazaquistão).",
+    "Capex do trimestre de cerca de RMB 11,4 bi, contra RMB 3,8 bi um ano antes."
+   ],
+   "points_en": [
+    "Move from an internet company to an \"AI-first\" company, according to CEO Robin Li.",
+    "AI cloud infrastructure revenue +50% (RMB 7.3 B) and GPU cloud +283%.",
+    "Apollo Go in 28 cities, with driverless commercial operation in Dubai and tests in London, Hong Kong and Switzerland (and an MoU in Kazakhstan).",
+    "Quarterly capex of about RMB 11.4 B, against RMB 3.8 B a year earlier."
+   ],
+   "note": "O comunicado não cita o ERNIE nem datas de produto. A listagem dual em Hong Kong é esperada ainda em 2026.",
+   "note_en": "The release does not mention ERNIE or product dates. The dual listing in Hong Kong is expected within 2026.",
+   "source": "Baidu (6-K do 2T26)",
+   "url": "https://www.sec.gov/Archives/edgar/data/0001329099/000119312526355431/d112854dex991.htm"
+  },
+  "deals": []
  }
 ]

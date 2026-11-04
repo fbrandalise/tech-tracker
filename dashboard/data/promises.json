@@ -218,5 +218,39 @@
    "text_en": "Access restricted to cyber defenders, expanding gradually."
   },
   "product_en": "Gemini 4 Carbon (broad access)"
+ },
+ {
+  "id": "nvda-q3-guidance",
+  "symbol": "NVDA",
+  "product": "Projeção de receita do 3T FY27 (US$ 108,0 bi ±2%)",
+  "product_en": "Q3 FY27 revenue outlook ($108.0 B ±2%)",
+  "said": {
+   "date": "2026-08-26",
+   "text": "Receita de US$ 108,0 bi (±2%), sem receita de computação de data center na China. A divulgação está prevista para 17/11/2026.",
+   "text_en": "Revenue of $108.0 B (±2%), assuming no China data center compute revenue. The report is scheduled for 11/17/2026.",
+   "label": "resultado de 17/11/2026",
+   "label_en": "results on 11/17/2026",
+   "targetDate": "2026-11-17",
+   "source": "Nvidia (resultado do 2T FY27)",
+   "url": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027"
+  },
+  "delivered": null
+ },
+ {
+  "id": "baidu-hk-listing",
+  "symbol": "09888.HK",
+  "product": "Listagem dual primária em Hong Kong",
+  "product_en": "Dual primary listing in Hong Kong",
+  "said": {
+   "date": "2026-08-18",
+   "text": "Deve entrar em vigor ainda em 2026, sujeita à assembleia de 26/08/2026 e à aprovação da HKEX.",
+   "text_en": "Expected to take effect within 2026, subject to the 08/26/2026 shareholder meeting and HKEX approval.",
+   "label": "ainda em 2026",
+   "label_en": "within 2026",
+   "targetDate": "2026-12-31",
+   "source": "Baidu (6-K do 2T26)",
+   "url": "https://www.sec.gov/Archives/edgar/data/0001329099/000119312526355431/d112854dex991.htm"
+  },
+  "delivered": null
  }
 ]

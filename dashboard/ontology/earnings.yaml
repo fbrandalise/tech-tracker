@@ -210,6 +210,7 @@ known_anomalies:
   - "Alíquota efetiva fora de 0-60% é frequente (benefícios fiscais e trimestres atípicos, ex.: META 87,5% em 2025-09, NVDA negativa em 2022) e não indica erro de dado."
   - "SPCX: 2025-03-31 sem receita e lucro, e 2025-06-30 sem caixa operacional (limitação do Yahoo)."
   - "Segmentos (v_segment): AMD fica de fora (os nomes dos membros XBRL não correspondem aos valores). Amazon e Microsoft por produto, Salesforce e Oracle misturam cortes (axis_coverage_pct fora de 95-105); use o eixo segment. Apple por produto traz Product/Service no nível mais alto, e iPhone, Mac etc. como filhos. Situação em 2026-11-04."
+  - "AAPL 2026-09: v_latest.eps_native (2,05) e v_quarter.eps_native (2,10) diferem. O comunicado da Apple dá EPS diluído de US$ 2,10, que inclui US$ 0,05 de reembolsos de tarifas; o 2,05 parece excluir o efeito e é o que o painel compara com o consenso (1,99). Situação em 2026-11-04, não conferida contra a fonte do v_latest."
   - "SPCX: surpresa de EPS de +112% em 2026-09 (real 0,35 contra estimado 0,16); não foi verificada."
 
 examples:
