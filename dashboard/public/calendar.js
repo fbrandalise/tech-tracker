@@ -6,7 +6,7 @@ addDict({
   'cal.confirmed': 'Confirmada', 'cal.estimated': 'Estimada', 'cal.unknown': 'Da fonte',
   'cal.nodate': 'Sem data divulgada: {names}.', 'cal.empty': 'Nenhum resultado futuro nas fontes.',
   'cal.react.h': 'Reação do preço aos últimos resultados', 'cal.react.note': 'Variação da ação do fechamento do dia anterior à divulgação ao fechamento do dia seguinte. A janela de 2 dias mistura empresas que divulgam antes e depois do pregão; a data de divulgação de algumas empresas vem de comunicados.',
-  'cal.brief': 'Clique em uma empresa para ver o briefing.', 'cal.b.watch': 'O que observar', 'cal.b.eps': 'Histórico de acerto do EPS', 'cal.b.react': 'Última reação do preço', 'cal.b.reactNote': 'Só há a reação mais recente.', 'cal.b.trend': 'Tendência', 'cal.b.err': 'Não foi possível carregar o briefing.', 'cal.b.real': 'Real', 'cal.b.est': 'Estimado', 'cal.b.sup': 'Surpresa', 'cal.b.q': 'Trimestre', 'cal.b.rev': 'Receita', 'cal.b.yoy': 'a/a', 'cal.b.op': 'Margem op.', 'cal.b.rd': 'P&D', 'cal.b.disc': 'Calculado só com os números do banco, sem IA. Não é recomendação de investimento.',
+  'cal.brief': 'Clique em uma empresa para ver o briefing.', 'cal.b.watch': 'O que observar', 'cal.b.eps': 'Histórico de acerto do EPS', 'cal.b.react': 'Reação do preço a cada divulgação', 'cal.b.move': 'Reação (2 dias)', 'cal.b.trend': 'Tendência', 'cal.b.err': 'Não foi possível carregar o briefing.', 'cal.b.real': 'Real', 'cal.b.est': 'Estimado', 'cal.b.sup': 'Surpresa', 'cal.b.q': 'Trimestre', 'cal.b.rev': 'Receita', 'cal.b.yoy': 'a/a', 'cal.b.op': 'Margem op.', 'cal.b.rd': 'P&D', 'cal.b.disc': 'Calculado só com os números do banco, sem IA. Não é recomendação de investimento.',
   'cal.react.date': 'Divulgação', 'cal.react.move': 'Reação (2 dias)', 'cal.react.none': 'Sem preços para a janela da divulgação.',
 }, {
   'cal.h': 'Upcoming earnings', 'cal.note': 'Dates and consensus estimates from the sources (FMP and Yahoo). "Estimated" means the company has not confirmed the date yet.',
@@ -15,7 +15,7 @@ addDict({
   'cal.confirmed': 'Confirmed', 'cal.estimated': 'Estimated', 'cal.unknown': 'From source',
   'cal.nodate': 'No date announced: {names}.', 'cal.empty': 'No future earnings in the sources.',
   'cal.react.h': 'Price reaction to the latest results', 'cal.react.note': 'Stock move from the close before the report date to the close after it. The 2-day window mixes companies that report before and after the market; some report dates come from company releases.',
-  'cal.brief': 'Click a company to see its briefing.', 'cal.b.watch': 'What to watch', 'cal.b.eps': 'EPS beat history', 'cal.b.react': 'Latest price reaction', 'cal.b.reactNote': 'Only the most recent reaction is available.', 'cal.b.trend': 'Trend', 'cal.b.err': 'Could not load the briefing.', 'cal.b.real': 'Actual', 'cal.b.est': 'Estimate', 'cal.b.sup': 'Surprise', 'cal.b.q': 'Quarter', 'cal.b.rev': 'Revenue', 'cal.b.yoy': 'YoY', 'cal.b.op': 'Op. margin', 'cal.b.rd': 'R&D', 'cal.b.disc': 'Computed only from the database numbers, no AI. Not investment advice.',
+  'cal.brief': 'Click a company to see its briefing.', 'cal.b.watch': 'What to watch', 'cal.b.eps': 'EPS beat history', 'cal.b.react': 'Price reaction to each report', 'cal.b.move': 'Reaction (2 days)', 'cal.b.trend': 'Trend', 'cal.b.err': 'Could not load the briefing.', 'cal.b.real': 'Actual', 'cal.b.est': 'Estimate', 'cal.b.sup': 'Surprise', 'cal.b.q': 'Quarter', 'cal.b.rev': 'Revenue', 'cal.b.yoy': 'YoY', 'cal.b.op': 'Op. margin', 'cal.b.rd': 'R&D', 'cal.b.disc': 'Computed only from the database numbers, no AI. Not investment advice.',
   'cal.react.date': 'Reported', 'cal.react.move': 'Reaction (2 days)', 'cal.react.none': 'No prices for the report window.',
 });
 
@@ -44,7 +44,7 @@ async function fillBrief(box, symbol) {
   const ul = mk('ul', 'cal-brief-list'); b.watch.forEach((w) => ul.appendChild(mk('li', null, w))); out.push(ul);
   out.push(mk('h3', null, t('cal.b.eps')));
   out.push(briefTable([['cal.date', ''], ['cal.b.real', 'num'], ['cal.b.est', 'num'], ['cal.b.sup', 'num']], b.eps.map((x) => [date(x.date), f2.format(x.actual), f2.format(x.estimate), pct(x.surprisePct)])));
-  if (b.reaction) { out.push(mk('h3', null, t('cal.b.react'))); out.push(mk('p', 'note', date(b.reaction.report) + ': ' + pct(b.reaction.pct) + '. ' + t('cal.b.reactNote'))); }
+  if (b.reactions.length) { out.push(mk('h3', null, t('cal.b.react'))); out.push(briefTable([['cal.react.date', ''], ['cal.b.sup', 'num'], ['cal.b.move', 'num']], b.reactions.map((x) => [date(x.date), pct(x.epsSurprisePct), pct(x.pct)]))); }
   out.push(mk('h3', null, t('cal.b.trend')));
   out.push(briefTable([['cal.b.q', ''], ['cal.b.rev', 'num'], ['cal.b.yoy', 'num'], ['cal.b.op', 'num'], ['cal.b.rd', 'num']],
     b.trend.slice(-6).map((x) => [date(x.period_end), bn1(x.revenue), x.yoy == null ? '—' : pct(x.yoy), x.op == null ? '—' : bn1(x.op) + '%', x.rd == null ? '—' : bn1(x.rd) + '%'])));

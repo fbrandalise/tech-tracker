@@ -396,7 +396,7 @@ async function run(db, outDir, t0) {
   return { rows, meta };
 }
 
-module.exports = { refresh };
+module.exports = { refresh, priceReaction };
 
 if (require.main === module) {
   const out = path.resolve(process.argv[2] || path.join(DATA, 'cache'));

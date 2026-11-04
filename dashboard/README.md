@@ -22,6 +22,8 @@ O servidor escuta em `0.0.0.0` (acessível pela rede local). Se isso não for de
 | `npm start` | Servidor + atualização automática |
 | `npm run refresh` | Uma coleta de dados, sem subir o servidor |
 | `npm run backfill` | Carga histórica de ~5 anos de trimestres a partir do SEC EDGAR (empresas dos EUA). Opções: `-- --symbols NVDA,MSFT --years 6 --dry-run` |
+| `npm run briefing -- NVDA` | Briefing pré-divulgação de uma empresa (só números do banco, sem IA; `--json`). Também na aba Calendário, clicando numa linha |
+| `npm run backfill:reactions` | Grava a reação do preço a cada divulgação passada (Yahoo); o coletor passa a gravar a nova a cada divulgação |
 | `npm run quality` | 19 regras de qualidade dos dados (`--strict` falha também nos avisos; `--json`) |
 | `npm run ask -- "pergunta" --sql` | Pergunta em linguagem natural pela linha de comando (precisa de `ANTHROPIC_API_KEY`) |
 | `node ontology/check.js` | Confere que a ontologia ainda bate com o banco |
@@ -57,9 +59,9 @@ SEC ──┘   pipeline/backfill-sec.js        │  ▲                        
 ```
 
 - **Fontes:** FMP (principal, EUA), Yahoo Finance (completa lacunas; única fonte de Hong Kong) e SEC EDGAR (histórico dos EUA, nunca sobrescreve as outras). O significado de cada uma e as divergências conhecidas (ex.: lucro operacional GAAP × ajustado) estão em [ontology/README.md](ontology/README.md).
-- **Banco:** SQLite em modo WAL, com migrações por `PRAGMA user_version`. Tabelas: `companies`, `overrides`, `segments`, `news` (curadorias), `refresh_runs`, `earnings_snapshots`, `quarters`, `state` e `fmp_cache` (coletas). As quatro views `v_*` entregam tudo em bilhões de USD e são a interface de leitura para a ontologia, o `ask` e os MCPs.
+- **Banco:** SQLite em modo WAL, com migrações por `PRAGMA user_version`. Tabelas: `reactions` (reação do preço por divulgação; ainda não exposta nas views, então fora do `ask` e dos MCPs), `companies`, `overrides`, `segments`, `news` (curadorias), `refresh_runs`, `earnings_snapshots`, `quarters`, `state` e `fmp_cache` (coletas). As quatro views `v_*` entregam tudo em bilhões de USD e são a interface de leitura para a ontologia, o `ask` e os MCPs.
 - **Curadoria:** os JSONs em `data/` (`companies`, `overrides`, `segments`, `news`) continuam sendo a fonte versionada e são espelhados no banco a cada subida. `data/state.json` e `data/fmp-cache.json` são o estado da coleta anterior.
-- **Servidor** (`server.js`): arquivos estáticos de `public/` e `/earnings.json`, `/meta.json`, `/news.json` lidos do banco (com recuo para os arquivos estáticos). Rotas: `GET /health`, `GET /api/history/:symbol`, `GET|POST /api/ask`.
+- **Servidor** (`server.js`): arquivos estáticos de `public/` e `/earnings.json`, `/meta.json`, `/news.json` lidos do banco (com recuo para os arquivos estáticos). Rotas: `GET /health`, `GET /api/history/:symbol`, `GET /api/briefing/:symbol?lang=pt|en`, `GET|POST /api/ask`.
 
 ## Funções opcionais
 

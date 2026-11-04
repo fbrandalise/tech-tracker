@@ -167,6 +167,7 @@ Crie `dashboard/.env` (fora do git) ou use variáveis de ambiente:
 | `npm start` | Servidor + atualização automática |
 | `npm run refresh` | Uma coleta, sem subir o servidor |
 | `npm run backfill` | Carga histórica pelo SEC |
+| `npm run briefing -- NVDA` | Briefing pré-divulgação de uma empresa (também na aba Calendário) |
 | `npm run quality` | Regras de qualidade dos dados |
 | `npm run ask -- "pergunta" --sql` | Pergunta em linguagem natural pelo terminal |
 | `node ontology/check.js` | Confere a ontologia contra o banco |
@@ -381,6 +382,7 @@ Create `dashboard/.env` (kept out of git) or use environment variables:
 | `npm start` | Server + automatic refresh |
 | `npm run refresh` | One collection, without starting the server |
 | `npm run backfill` | Historical load from the SEC |
+| `npm run briefing -- NVDA` | Pre-earnings briefing for one company (also in the Calendar tab) |
 | `npm run quality` | Data-quality rules |
 | `npm run ask -- "question" --sql` | Natural-language question from the terminal |
 | `node ontology/check.js` | Check the ontology against the database |

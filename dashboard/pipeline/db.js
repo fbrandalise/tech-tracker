@@ -149,7 +149,13 @@ const MIGRATIONS = [`
     symbol TEXT NOT NULL, kind TEXT NOT NULL, payload TEXT NOT NULL, fetched_at TEXT NOT NULL,
     PRIMARY KEY (symbol, kind)
   );
-`, VIEWS_SQL];
+`, VIEWS_SQL, `
+  -- reação do preço a cada divulgação (fechamento do dia anterior ao fechamento do dia seguinte)
+  CREATE TABLE reactions (
+    symbol TEXT NOT NULL, report_date TEXT NOT NULL, from_date TEXT, to_date TEXT, pct REAL, close_before REAL, close_after REAL,
+    PRIMARY KEY (symbol, report_date)
+  );
+`];
 
 function open(file) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -230,11 +236,18 @@ function upsertQuarters(db, symbol, list, now) {
 }
 
 // ---------- resultado de uma coleta: tudo numa transação (ou grava tudo, ou nada)
+function saveReaction(db, symbol, reportDate, r) {
+  db.prepare('INSERT INTO reactions (symbol, report_date, from_date, to_date, pct, close_before, close_after) VALUES (?, ?, ?, ?, ?, ?, ?) ON CONFLICT (symbol, report_date) DO UPDATE SET from_date = excluded.from_date, to_date = excluded.to_date, pct = excluded.pct, close_before = excluded.close_before, close_after = excluded.close_after')
+    .run(symbol, reportDate, r.from ?? null, r.to ?? null, r.pct ?? null, r.c0 ?? null, r.c1 ?? null);
+}
+const getReactions = (db, symbol) => db.prepare('SELECT report_date, from_date, to_date, pct, close_before, close_after FROM reactions WHERE symbol = ? AND pct IS NOT NULL ORDER BY report_date DESC').all(symbol);
+
 function saveRun(db, { meta, rows, state, quarters, fmpCache }) {
   return tx(db, () => {
     const { lastInsertRowid: runId } = db.prepare('INSERT INTO refresh_runs (generated_at, seconds, companies, failed, used_fmp, fx, fmp_stale) VALUES (?, ?, ?, ?, ?, ?, ?)')
       .run(meta.generatedAt, meta.seconds, meta.companies, meta.failed, meta.usedFmp ? 1 : 0, JSON.stringify(meta.fx), JSON.stringify(meta.fmpStale));
     const snap = db.prepare('INSERT INTO earnings_snapshots (run_id, symbol, period_end, report_date, revenue_b, net_income_b, eps_actual, eps_estimate, data) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    for (const r of rows) if (r.reactPct != null && r.reportDate) saveReaction(db, r.symbol, r.reportDate, { from: r.reactFrom, to: r.reactTo, pct: r.reactPct, c0: r.reactFromC, c1: r.reactToC });
     for (const r of rows) snap.run(runId, r.symbol, r.periodEnd ?? null, r.reportDate ?? null, r.revenueB ?? null, r.netIncomeB ?? null, r.epsActual ?? null, r.epsEstimate ?? null, JSON.stringify(r));
 
     const st = db.prepare('INSERT INTO state (symbol, next_earnings, period_end) VALUES (?, ?, ?) ON CONFLICT (symbol) DO UPDATE SET next_earnings = excluded.next_earnings, period_end = excluded.period_end');
@@ -321,4 +334,4 @@ function saveState(db, state) {
   for (const [sym, s] of Object.entries(state)) st.run(sym, s.nextEarnings ?? null, s.periodEnd ?? null);
 }
 
-module.exports = { open, tx, syncCuration, importLegacy, saveRun, backfillQuarters, getCompanies, getOverrides, getSegments, getNews, getState, getFmpCache, getLatest, getHistory, getQuarterHistory, QUARTER_FIELDS };
+module.exports = { saveReaction, getReactions, open, tx, syncCuration, importLegacy, saveRun, backfillQuarters, getCompanies, getOverrides, getSegments, getNews, getState, getFmpCache, getLatest, getHistory, getQuarterHistory, QUARTER_FIELDS };

@@ -31,8 +31,10 @@ function briefing(db, symbol, lang = 'pt') {
   const eps = (row.epsHist || []).map((h) => ({ date: h.d, actual: h.a, estimate: h.e, surprisePct: h.e ? (h.a / h.e - 1) * 100 : null }));
   const beats = eps.filter((e) => e.actual > e.estimate).length;
 
-  // 3. reação do preço: só há a do último resultado (limitação conhecida, ver README)
-  const reaction = row.reactPct == null ? null : { pct: row.reactPct, from: row.reactFrom, to: row.reactTo, report: row.reportDate };
+  // 3. reação do preço a cada divulgação (tabela reactions), cruzada com a surpresa de EPS da mesma data
+  const surpByDate = new Map(eps.map((e) => [e.date, e.surprisePct]));
+  const reactions = store.getReactions(db, sym).map((x) => ({ date: x.report_date, from: x.from_date, to: x.to_date, pct: x.pct, epsSurprisePct: surpByDate.get(x.report_date) ?? null }));
+  const reaction = reactions[0] || null;
 
   // 4. tendência dos últimos trimestres (do mais antigo ao mais novo)
   const trend = [...q].reverse().filter((x) => x.revenue_usd_b != null).map((x) => ({ period_end: x.period_end, source: x.source, revenue: x.revenue_usd_b, yoy: x.revenue_yoy, gross: x.gross_margin, op: x.operating_margin, net: x.net_margin, rd: x.rd_pct, capex: x.capex_pct, fcf: x.fcf_margin }));
@@ -66,10 +68,18 @@ function briefing(db, symbol, lang = 'pt') {
   }
   if (row.revenueSurprisePct != null) watch.push(en ? `Last report revenue beat consensus by ${pct(row.revenueSurprisePct)}: the new consensus starts from a higher base.` : `Na última divulgação a receita superou o consenso em ${pct(row.revenueSurprisePct)}: o consenso novo já parte de uma base mais alta.`);
 
+  if (reactions.length >= 3) {
+    const avgAbs = reactions.reduce((s, x) => s + Math.abs(x.pct), 0) / reactions.length;
+    watch.push(en ? `Average price move after the last ${reactions.length} reports: ${num(avgAbs)}% (absolute, 2-day window).` : `Movimento médio do preço nas últimas ${reactions.length} divulgações: ${num(avgAbs)}% (absoluto, janela de 2 dias).`);
+    const beatFell = reactions.filter((x) => x.epsSurprisePct > 0 && x.pct < 0).length;
+    const beats2 = reactions.filter((x) => x.epsSurprisePct > 0).length;
+    if (beats2 >= 2 && beatFell >= 1) watch.push(en ? `Beating EPS did not guarantee a rise: the price fell after ${beatFell} of ${beats2} beats.` : `Bater o EPS não garantiu alta: o preço caiu em ${beatFell} de ${beats2} divulgações com EPS acima do esperado.`);
+  }
+
   // 6. segmentos do último trimestre (curadoria)
   const seg = row.seg?.g?.flatMap((g) => g.i.map((i) => ({ group: g.t, name: i.n, revenueB: i.v, prevB: i.p, yoy: i.y ?? (i.p ? (i.v / i.p - 1) * 100 : null) }))) || [];
 
-  return { symbol: sym, name: row.name, currency: row.currency, expected: exp, last: { period_end: row.periodEnd, report_date: row.reportDate, source: last?.source }, eps, reaction, trend, watch, segments: seg, segmentsNote: row.seg?.note || null, segmentsSource: row.seg?.src?.label || null, valuation: { pe: row.pe, fwdPe: row.fwdPe, evRevenue: row.evRev, mcapUsdB: row.mcapUsdB } };
+  return { symbol: sym, name: row.name, currency: row.currency, expected: exp, last: { period_end: row.periodEnd, report_date: row.reportDate, source: last?.source }, eps, reaction, reactions, trend, watch, segments: seg, segmentsNote: row.seg?.note || null, segmentsSource: row.seg?.src?.label || null, valuation: { pe: row.pe, fwdPe: row.fwdPe, evRevenue: row.evRev, mcapUsdB: row.mcapUsdB } };
 }
 
 function render(b) {
@@ -80,8 +90,7 @@ function render(b) {
   L.push(`**Consenso:** EPS ${num(e.eps, 2)} · receita ${e.revB != null ? `${num(e.revB)} bi` : '—'} (${b.currency})`, '');
   L.push('## O que observar', ...(b.watch.length ? b.watch.map((w) => `- ${w}`) : ['- Sem sinais calculáveis com os dados disponíveis.']), '');
   L.push('## Histórico de acerto do EPS', '| Data | Real | Estimado | Surpresa |', '|---|---:|---:|---:|', ...b.eps.map((x) => `| ${x.date} | ${num(x.actual, 2)} | ${num(x.estimate, 2)} | ${pct(x.surprisePct)} |`), '');
-  L.push('## Reação do preço');
-  L.push(b.reaction ? `Última divulgação (${b.reaction.report}): ${pct(b.reaction.pct)} entre ${b.reaction.from} e ${b.reaction.to}. **Só há a reação mais recente**: o histórico por divulgação ainda não é gravado.` : 'Sem dado.', '');
+  L.push('## Reação do preço', '| Divulgação | Surpresa EPS | Reação (2 dias) |', '|---|---:|---:|', ...b.reactions.map((x) => `| ${x.date} | ${pct(x.epsSurprisePct)} | ${pct(x.pct)} |`), '');
   L.push('## Tendência (US$ bi, % da receita)', '| Trimestre | Fonte | Receita | a/a | Margem bruta | Margem op. | P&D | Capex | FCF |', '|---|---|---:|---:|---:|---:|---:|---:|---:|');
   for (const x of b.trend) L.push(`| ${x.period_end} | ${x.source} | ${num(x.revenue)} | ${pct(x.yoy)} | ${num(x.gross)}% | ${num(x.op)}% | ${num(x.rd)}% | ${num(x.capex)}% | ${num(x.fcf)}% |`);
   L.push('');

@@ -9,7 +9,8 @@
     "backfill": "node pipeline/backfill-sec.js",
     "quality": "node pipeline/quality.js",
     "ask": "node pipeline/ask.js",
-    "briefing": "node pipeline/briefing.js"
+    "briefing": "node pipeline/briefing.js",
+    "backfill:reactions": "node pipeline/backfill-reactions.js"
   },
   "engines": {
     "node": ">=22.13"
