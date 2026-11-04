@@ -26,6 +26,12 @@ Acompanhar os resultados de uma dúzia de empresas parece simples até se olhar 
 
 Abas do dashboard: **Resultados**, **Explorar** (histórico completo, gráfico de tendência com todas as empresas e, opcionalmente, perguntas em linguagem natural), **Calendário**, **Novidades de produtos** e **Comportamento de uso de produtos**.
 
+| Resultados | Explorar |
+|---|---|
+| ![Aba Resultados: comparação do último trimestre](docs/img/results.png) | ![Aba Explorar: gráfico de dispersão entre duas métricas](docs/img/explore.png) |
+
+![Aba Calendário: próximas divulgações](docs/img/calendar.png)
+
 ## Arquitetura
 
 ```
@@ -233,6 +239,12 @@ Following the earnings of a dozen companies looks easy until you look at the dat
 18 companies (12 US, 6 Hong Kong), with revenue, profits, margins, cash, estimates, price reaction, valuation and earnings calendar.
 
 Dashboard tabs: **Results**, **Explore** (full history, a trend chart with all companies and, optionally, natural-language questions), **Calendar**, **Product news** and **Product usage behavior**.
+
+| Results | Explore |
+|---|---|
+| ![Results tab: latest-quarter comparison](docs/img/results.png) | ![Explore tab: scatter plot of two metrics](docs/img/explore.png) |
+
+![Calendar tab: upcoming earnings](docs/img/calendar.png)
 
 ## Architecture
 
