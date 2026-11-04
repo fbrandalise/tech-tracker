@@ -85,10 +85,27 @@ entities:
       price_native: {meaning: "Preço da ação na última coleta (v_company.as_of), na moeda da empresa"}
       ev_usd_b: {meaning: "Valor da empresa (valor de mercado + dívida - caixa), na última coleta"}
       employees: {meaning: "Número de funcionários informado na última coleta"}
+  Segment:
+    view: v_segment
+    key: [symbol, period_end, axis, segment]
+    description: "Receita por segmento (axis='segment') ou por produto/serviço (axis='product') de cada trimestre, só empresas dos EUA, extraída dos 10-Q/10-K do SEC. O valor do ano anterior é o que a empresa apresenta no mesmo arquivamento, então já vem reapresentado quando ela reorganiza os segmentos."
+    fields:
+      axis: {meaning: "'segment' (segmentos reportáveis) ou 'product' (produtos e serviços). São cortes diferentes da mesma receita: não some um com o outro."}
+      segment: {meaning: "Nome do segmento ou produto, derivado do nome do membro XBRL (ex.: 'Data Center')."}
+      parent_segment: {meaning: "Quando o segmento é parte de outro (ex.: Hyperscale dentro de Data Center), o nome do pai; vazio nos de nível mais alto. Para somar um corte, use só as linhas SEM parent_segment, senão há dupla contagem."}
+      taxonomy: {meaning: "Contador por empresa e eixo que sobe quando o conjunto de segmentos muda (a empresa reorganizou ou criou um segmento). Só vale para SEQUÊNCIAS: para comparar trimestres use a mesma taxonomy; a variação a/a já é válida mesmo assim."}
+      prev_year_revenue_usd_b: {meaning: "Receita do mesmo trimestre do ano anterior, como a empresa a apresenta no arquivamento atual (reapresentada se houve reorganização)"}
+      share_of_revenue_pct: {meaning: "Participação na receita total da empresa no trimestre. Com parent_segment, é a participação do próprio filho, não do pai."}
+      yoy_change_usd_b: {meaning: "Variação absoluta da receita contra o ano anterior"}
+      contribution_to_growth_pct: {meaning: "Quanto da variação absoluta da receita TOTAL da empresa veio deste segmento (100 = todo o crescimento). Pode passar de 100 ou ficar negativo quando outros segmentos encolhem."}
+      company_revenue_usd_b: {meaning: "Receita total da empresa no trimestre, usada como base dos percentuais do segmento (deve bater com v_quarter.revenue_usd_b)"}
+      axis_coverage_pct: {meaning: "Soma das participações dos segmentos de nível mais alto deste eixo no trimestre. Perto de 100 = o corte fecha a receita. Fora de 95 a 105 o eixo mistura cortes diferentes (ex.: Amazon por produto soma ~145%) ou faltam membros: NÃO some nem ranqueie esses segmentos."}
+      is_derived_q4: {meaning: "1 quando é o 4º trimestre, calculado como ano fechado (10-K) menos os 3 trimestres dos 10-Q; 0 quando vem direto de um 10-Q"}
 
 relationships:
   - {from: Quarter, to: Company, on: symbol, cardinality: "N:1"}
   - {from: TtmQuarter, to: Company, on: symbol, cardinality: "N:1"}
+  - {from: Segment, to: Company, on: symbol, cardinality: "N:1"}
   - {from: Latest, to: Company, on: symbol, cardinality: "1:1"}
   - {from: Latest, to: Quarter, on: "symbol e period_end (±7 dias)", cardinality: "1:1", note: "O Latest é o último Quarter da empresa"}
 
@@ -183,12 +200,16 @@ rules:
   - "Trimestre anterior: LAG(coluna) OVER (PARTITION BY symbol ORDER BY period_end) com ordem CRESCENTE. Com ORDER BY period_end DESC o LAG compara com o trimestre SEGUINTE."
   - "Últimos N trimestres de cada empresa: ROW_NUMBER() OVER (PARTITION BY symbol ORDER BY period_end DESC) <= N. A média de todos os trimestres não é a dos últimos N."
   - "Contagens (ex.: trimestres por fonte): agregue com GROUP BY em v_quarter. Ferramentas que listam trimestres truncam em um limite padrão (get_quarters devolve 8 por padrão, no máximo 40); nunca conte linhas de uma lista truncada."
+  - "Segmentos (v_segment): só EUA, vêm do SEC (sem Hong Kong). Para somar um eixo use WHERE parent_segment IS NULL. Não compare segmentos entre empresas pelo nome: as definições são de cada empresa."
+  - "Segmentos: antes de somar, ranquear ou calcular participação, filtre axis_coverage_pct BETWEEN 95 AND 105 e parent_segment IS NULL; fora disso o corte não é confiável e você deve dizer isso."
+  - "Segmentos: para crescimento use revenue_yoy (já usa o ano anterior reapresentado). Para uma série ao longo do tempo, filtre a mesma taxonomy; quando ela muda, avise que a definição mudou."
 
 # Avisos de npm run quality que NÃO indicam erro (situação em 2026-11-03). Rode `npm run quality` para a situação atual.
 known_anomalies:
   - "Crescimento de receita a/a acima de +150%: NVDA de 2023-10 a 2024-04 (+205% a +265%) é plausível, a receita mais que triplicou com a demanda por IA. SPCX em 2026-09 (+161%) não foi verificado."
   - "Alíquota efetiva fora de 0-60% é frequente (benefícios fiscais e trimestres atípicos, ex.: META 87,5% em 2025-09, NVDA negativa em 2022) e não indica erro de dado."
   - "SPCX: 2025-03-31 sem receita e lucro, e 2025-06-30 sem caixa operacional (limitação do Yahoo)."
+  - "Segmentos (v_segment): AMD fica de fora (os nomes dos membros XBRL não correspondem aos valores). Amazon e Microsoft por produto, Salesforce e Oracle misturam cortes (axis_coverage_pct fora de 95-105); use o eixo segment. Apple por produto traz Product/Service no nível mais alto, e iPhone, Mac etc. como filhos. Situação em 2026-11-04."
   - "SPCX: surpresa de EPS de +112% em 2026-09 (real 0,35 contra estimado 0,16); não foi verificada."
 
 examples:
@@ -226,3 +247,9 @@ examples:
     sql: |
       SELECT source, COUNT(*) AS trimestres, MIN(period_end) AS de, MAX(period_end) AS ate
       FROM v_quarter GROUP BY source ORDER BY trimestres DESC
+  - question: "Qual linha de produto mais contribuiu para o crescimento da Nvidia no último trimestre?"
+    sql: |
+      SELECT segment, revenue_usd_b, revenue_yoy, contribution_to_growth_pct FROM v_segment
+      WHERE symbol = 'NVDA' AND axis = 'product' AND parent_segment IS NULL AND axis_coverage_pct BETWEEN 95 AND 105
+        AND period_end = (SELECT MAX(period_end) FROM v_segment WHERE symbol = 'NVDA')
+      ORDER BY contribution_to_growth_pct DESC

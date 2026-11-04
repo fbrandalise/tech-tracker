@@ -137,7 +137,7 @@ const ALL_TOOLS = [
   },
   {
     name: 'run_sql',
-    description: `Consulta SQLite somente leitura (SELECT ou WITH) sobre as views v_company, v_quarter, v_ttm e v_latest. No máximo ${MAX_ROWS} linhas; use ORDER BY e LIMIT. Veja get_ontology para o significado das colunas.`,
+    description: `Consulta SQLite somente leitura (SELECT ou WITH) sobre as views v_company, v_quarter, v_ttm, v_latest e v_segment (receita por segmento). No máximo ${MAX_ROWS} linhas; use ORDER BY e LIMIT. Veja get_ontology para o significado das colunas.`,
     params: { sql: { type: 'string', description: 'Uma única instrução SELECT ou WITH', required: true } },
     handler: ({ sql }) => safeSql.runSql(DB_FILE(), sql),   // processo filho com tempo limite e autorizador (só views)
   },

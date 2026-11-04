@@ -70,7 +70,7 @@ Servidor Node sem framework, front-end em JavaScript puro com d3 para o gráfico
 
 ### 3. Ontologia (`dashboard/ontology/`)
 
-`earnings.yaml` descreve convenções (unidades, datas fiscais, câmbio), fontes, entidades e colunas, 17 métricas (com sinônimos PT/EN), regras de interpretação e de SQL, anomalias conhecidas e 9 perguntas de exemplo com SQL. `check.js` falha se a ontologia ficar velha: exemplos que quebram, colunas inexistentes **ou colunas das views sem descrição**. Ver [ontology/README.md](dashboard/ontology/README.md).
+`earnings.yaml` descreve convenções (unidades, datas fiscais, câmbio), fontes, entidades e colunas, 17 métricas (com sinônimos PT/EN), regras de interpretação e de SQL, anomalias conhecidas e 10 perguntas de exemplo com SQL. `check.js` falha se a ontologia ficar velha: exemplos que quebram, colunas inexistentes **ou colunas das views sem descrição**. Ver [ontology/README.md](dashboard/ontology/README.md).
 
 ### 4. Perguntas em linguagem natural (`pipeline/ask.js`)
 
@@ -168,6 +168,7 @@ Crie `dashboard/.env` (fora do git) ou use variáveis de ambiente:
 | `npm run refresh` | Uma coleta, sem subir o servidor |
 | `npm run backfill` | Carga histórica pelo SEC |
 | `npm run briefing -- NVDA` | Briefing pré-divulgação de uma empresa (também na aba Calendário) |
+| `npm run backfill:segments` | Receita por segmento/produto de ~5 anos pelo SEC |
 | `npm run quality` | Regras de qualidade dos dados |
 | `npm run ask -- "pergunta" --sql` | Pergunta em linguagem natural pelo terminal |
 | `node ontology/check.js` | Confere a ontologia contra o banco |
@@ -383,6 +384,7 @@ Create `dashboard/.env` (kept out of git) or use environment variables:
 | `npm run refresh` | One collection, without starting the server |
 | `npm run backfill` | Historical load from the SEC |
 | `npm run briefing -- NVDA` | Pre-earnings briefing for one company (also in the Calendar tab) |
+| `npm run backfill:segments` | ~5 years of revenue by segment/product from the SEC |
 | `npm run quality` | Data-quality rules |
 | `npm run ask -- "question" --sql` | Natural-language question from the terminal |
 | `node ontology/check.js` | Check the ontology against the database |

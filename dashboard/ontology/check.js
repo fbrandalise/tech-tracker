@@ -16,7 +16,7 @@ const fail = (msg) => { bad++; console.log('FALHA', msg); };
 
 // colunas das views
 const cols = new Set();
-for (const v of ['v_company', 'v_quarter', 'v_ttm', 'v_latest']) for (const c of db.prepare(`PRAGMA table_info(${v})`).all()) cols.add(c.name);
+for (const v of ['v_company', 'v_quarter', 'v_ttm', 'v_latest', 'v_segment']) for (const c of db.prepare(`PRAGMA table_info(${v})`).all()) cols.add(c.name);
 
 // exemplos: bloco "question:" seguido de "sql: |" com linhas indentadas
 const examples = [...text.matchAll(/- question: "(.+?)"\n\s+sql: \|\n((?:\s{6}.*\n?)+)/g)].map((m) => ({ q: m[1], sql: m[2].replace(/^\s{6}/gm, '').trim() }));

@@ -51,6 +51,12 @@ const RULES = [
   // ---- avisos: possível, mas confira ----
   { id: 'revenue_jump', level: 'aviso', what: 'Receita a/a acima de +150% ou abaixo de -50% (pode ser aquisição, desdobramento de unidade ou erro de fonte)',
     sql: `SELECT symbol, period_end, 'a/a ' || revenue_yoy || '% (' || source || ')' FROM v_quarter WHERE revenue_yoy > 150 OR revenue_yoy < -50` },
+  { id: 'segment_sum', level: 'aviso', what: 'Segmentos de nível mais alto de um eixo não somam ~100% da receita (membro faltando, eliminação entre segmentos ou marcação diferente no XBRL)',
+    sql: `SELECT DISTINCT symbol, period_end, axis || ': soma ' || axis_coverage_pct || '% da receita' FROM v_segment WHERE axis_coverage_pct < 95 OR axis_coverage_pct > 105` },
+  { id: 'segment_vs_quarter', level: 'aviso', what: 'Receita total usada nos segmentos difere da receita do trimestre em v_quarter em mais de 2%',
+    sql: `SELECT DISTINCT s.symbol, s.period_end, 'segmentos usam ' || s.company_revenue_usd_b || ' bi, v_quarter tem ' || q.revenue_usd_b FROM v_segment s
+          JOIN v_quarter q ON q.symbol = s.symbol AND q.period_end = s.period_end
+          WHERE s.company_revenue_usd_b IS NOT NULL AND ABS(s.company_revenue_usd_b - q.revenue_usd_b) > 0.02 * q.revenue_usd_b` },
   { id: 'net_margin_extreme', level: 'aviso', what: 'Margem líquida abaixo de -100% (prejuízo maior que a receita)',
     sql: `SELECT symbol, period_end, 'líquida ' || net_margin || '% (' || source || ')' FROM v_quarter WHERE net_margin < -100` },
   { id: 'tax_rate_odd', level: 'aviso', what: 'Alíquota efetiva fora de 0–60%',

@@ -130,3 +130,13 @@ Pergunta do usuário: "a ontologia está atualizada?". O `check.js` passava, mas
 Também corrigi a contagem de colunas de `v_latest` nas descrições das ferramentas e no `design.md` (diziam 35; são 36) e acrescentei `known_anomalies` ao enum de `get_ontology`.
 
 **Atenção à validade do benchmark:** essas duas edições em `mcp/lib/tools.js` vieram **depois** das três baterias, que rodaram com o texto "35 colunas" e sem a seção nova no enum. Não afetam os resultados: nenhuma tarefa usa `get_ontology`, e "35"→"36" tem o mesmo número de tokens. As definições medidas continuam as mesmas em tamanho.
+
+## 16. Segmentos históricos (depois do benchmark)
+
+Nova tabela `segment_quarters` e view `v_segment` (receita por segmento e por produto, empresas dos EUA, ~5 anos), carregadas por `pipeline/backfill-segments.js`. **A view entrou depois do benchmark** (a `run_sql` e o `ask` passaram a anunciar cinco views em vez de quatro, e o `get_ontology` ficou maior); os resultados de `benchmark.md` valem para o conjunto de quatro views.
+
+- **Fonte:** o `companyfacts` do SEC não traz dimensões, então a receita por segmento vem do iXBRL de cada 10-Q e 10-K (`pipeline/segments-xbrl.js`). Trimestres 1 a 3 vêm do 10-Q; o 4º é calculado (ano do 10-K menos os 3 trimestres) e marcado em `is_derived_q4`.
+- **Reorganizações:** o valor do ano anterior é o que a empresa apresenta no MESMO arquivamento, então já vem reapresentado; `taxonomy` sobe quando o conjunto de segmentos muda e vale para sequências, não para a/a.
+- **Hierarquia:** membros cuja receita é a soma de outros (Data Center = Hyperscale + Nuvens de IA) recebem `parent_member`, detectados por soma com tolerância de 0,1% (ou US$ 3 mi).
+- **Falhas encontradas pelas regras de qualidade novas** (`segment_sum`, `segment_vs_quarter`): (1) fatos vazios `<ix:nonFraction/>` autofechados eram pareados com o valor do fato seguinte; (2) a tolerância de 0,5% juntava segmentos que só se parecem (Europa + Japão + Ásia ≈ Américas na Apple); (3) o total derivado do percentual arredondado dava erro em segmentos pequenos, então a view passou a expor `company_revenue_usd_b`; (4) um comentário `//` no meio de uma linha engoliu o resto dela, o mesmo erro de antes.
+- **Limites assumidos:** a AMD foi excluída (os nomes dos membros XBRL não correspondem aos valores, mesmo depois de corrigir o parser); Amazon e Microsoft por produto, Salesforce e Oracle misturam cortes. Em vez de esconder, a view expõe `axis_coverage_pct` e a ontologia manda filtrar entre 95 e 105 antes de somar ou ranquear. Hong Kong não tem segmentos (sem 10-Q).

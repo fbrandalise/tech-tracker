@@ -8,7 +8,7 @@ Por que existe: os dados vêm de três fontes (FMP, Yahoo, SEC) com moedas, data
 
 | Arquivo | Função |
 |---|---|
-| `earnings.yaml` | A ontologia: convenções, fontes, entidades, relações, métricas, regras e 9 perguntas de exemplo com SQL |
+| `earnings.yaml` | A ontologia: convenções, fontes, entidades, relações, métricas, regras e 10 perguntas de exemplo com SQL |
 | `check.js` | Confere que a ontologia ainda bate com o banco: roda os exemplos, verifica as colunas citadas e **exige que toda coluna das views esteja documentada** (veja "Manutenção") |
 | `../pipeline/db.js` | Cria as views que a ontologia descreve (migração 2, constante `VIEWS_SQL`) |
 | `../pipeline/ask.js` | Usa a ontologia para responder perguntas em linguagem natural |
@@ -18,7 +18,7 @@ Por que existe: os dados vêm de três fontes (FMP, Yahoo, SEC) com moedas, data
 
 ## O que há no `earnings.yaml`
 
-`conventions` (unidades, datas fiscais, câmbio), `sources` (cobertura e limites de cada fonte), `entities` (as 4 views e o significado de cada coluna), `relationships`, `metrics` (17, com fórmula, sinônimos PT/EN e ressalvas), `rules` (regras de interpretação **e de SQL**, incluindo as armadilhas que fizeram o modelo errar nos testes), `known_anomalies` (avisos de `npm run quality` que não indicam erro de dado, com data da conferência) e `examples` (9 perguntas com SQL).
+`conventions` (unidades, datas fiscais, câmbio), `sources` (cobertura e limites de cada fonte), `entities` (as 5 views e o significado de cada coluna), `relationships`, `metrics` (17, com fórmula, sinônimos PT/EN e ressalvas), `rules` (regras de interpretação **e de SQL**, incluindo as armadilhas que fizeram o modelo errar nos testes), `known_anomalies` (avisos de `npm run quality` que não indicam erro de dado, com data da conferência) e `examples` (10 perguntas com SQL).
 
 ## Modelo de dados
 
@@ -30,9 +30,12 @@ v_quarter   1 linha por trimestre    (financeiros, margens, variação a/a, font
 v_ttm       soma dos 4 últimos trimestres terminando em cada period_end
 v_latest    1 linha por empresa como aparece no painel: último trimestre,
             estimativas, reação do preço, valuation, próximo resultado
+v_segment   receita por segmento ou produto, por trimestre (só EUA, vem do SEC):
+            a/a com o ano anterior reapresentado, participação, contribuição
+            ao crescimento e `taxonomy` (muda quando a empresa reorganiza)
 ```
 
-Relações: `v_quarter`, `v_ttm` e `v_latest` ligam a `v_company` por `symbol`. O `v_latest` é o último `v_quarter` da empresa (casando `period_end` com tolerância de ±7 dias).
+Relações: `v_quarter`, `v_ttm`, `v_segment` e `v_latest` ligam a `v_company` por `symbol`. O `v_latest` é o último `v_quarter` da empresa (casando `period_end` com tolerância de ±7 dias).
 
 ### Convenções que mais importam
 
@@ -79,7 +82,7 @@ Salvaguardas no SQL que o modelo escreve (`pipeline/safe-sql.js`, compartilhado 
 Além disso, há limite de perguntas por minuto e a resposta é exibida como texto, nunca como HTML. Atenção: o servidor escuta em `0.0.0.0`; com o recurso ligado, quem alcança a porta usa a sua chave. Resíduo conhecido do autorizador: leituras sem nome de coluna (`count(*)`, `MAX(id)`) das tabelas brutas continuam permitidas, porque as próprias views as usam; só vazam contagens.
 
 **2. Teste de consistência da ontologia**
-`node ontology/check.js` roda os 9 exemplos e verifica que toda coluna citada existe nas views. Roda sobre o banco real, então pega ontologia desatualizada depois de uma mudança nas views.
+`node ontology/check.js` roda os 10 exemplos e verifica que toda coluna citada existe nas views. Roda sobre o banco real, então pega ontologia desatualizada depois de uma mudança nas views.
 
 **3. Controle de qualidade dos dados**
 `npm run quality` executa 19 regras contra o banco (somente leitura), como identidades contábeis (FCF = caixa operacional − capex), duplicatas, margens impossíveis, lacunas no histórico e saltos de receita. Erros saem com código 1; avisos só com `--strict`; `--json` para integrar com outras ferramentas. Foi esse controle que revelou o erro de marcação da ORCL no SEC (ano inteiro gravado como trimestre).

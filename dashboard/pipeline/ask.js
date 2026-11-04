@@ -18,11 +18,11 @@ require('./env').loadEnvFile();
 const ONTOLOGY = path.join(__dirname, '..', 'ontology', 'earnings.yaml');
 const { MAX_ROWS } = safeSql;
 const MAX_STEPS = 6;
-const VIEWS = ['v_company', 'v_quarter', 'v_ttm', 'v_latest'];
+const VIEWS = ['v_company', 'v_quarter', 'v_ttm', 'v_latest', 'v_segment'];
 
 const TOOL = {
   name: 'run_sql',
-  description: 'Executa uma consulta SQLite (somente SELECT ou WITH) sobre as views v_company, v_quarter, v_ttm e v_latest e devolve as linhas em JSON. '
+  description: 'Executa uma consulta SQLite (somente SELECT ou WITH) sobre as views v_company, v_quarter, v_ttm, v_latest e v_segment e devolve as linhas em JSON. '
     + `Devolve no máximo ${MAX_ROWS} linhas; use ORDER BY e LIMIT. Em caso de erro de SQL, a mensagem volta para você corrigir.`,
   input_schema: { type: 'object', properties: { sql: { type: 'string', description: 'Uma única instrução SELECT ou WITH' } }, required: ['sql'], additionalProperties: false },
 };

@@ -66,7 +66,10 @@ function briefing(db, symbol, lang = 'pt') {
     const avg = pct(eps.reduce((s, e) => s + e.surprisePct, 0) / eps.length);
     watch.push(en ? `Beat the EPS estimate in ${beats} of ${eps.length} reports${eps.length === beats ? ' (all)' : ''}; average surprise ${avg}.` : `Bateu a estimativa de EPS em ${beats} de ${eps.length} divulgações${eps.length === beats ? ' (todas)' : ''}; surpresa média ${avg}.`);
   }
-  if (row.revenueSurprisePct != null) watch.push(en ? `Last report revenue beat consensus by ${pct(row.revenueSurprisePct)}: the new consensus starts from a higher base.` : `Na última divulgação a receita superou o consenso em ${pct(row.revenueSurprisePct)}: o consenso novo já parte de uma base mais alta.`);
+  if (row.revenueSurprisePct != null) {
+    const v = row.revenueSurprisePct, up = v >= 0, a = pct(Math.abs(v));
+    watch.push(en ? `Last report revenue ${up ? 'beat' : 'missed'} consensus by ${a}${up ? ': the new consensus starts from a higher base.' : '.'}` : `Na última divulgação a receita ficou ${a} ${up ? 'acima' : 'abaixo'} do consenso${up ? ': o consenso novo já parte de uma base mais alta.' : '.'}`);
+  }
 
   if (reactions.length >= 3) {
     const avgAbs = reactions.reduce((s, x) => s + Math.abs(x.pct), 0) / reactions.length;
@@ -76,10 +79,30 @@ function briefing(db, symbol, lang = 'pt') {
     if (beats2 >= 2 && beatFell >= 1) watch.push(en ? `Beating EPS did not guarantee a rise: the price fell after ${beatFell} of ${beats2} beats.` : `Bater o EPS não garantiu alta: o preço caiu em ${beatFell} de ${beats2} divulgações com EPS acima do esperado.`);
   }
 
-  // 6. segmentos do último trimestre (curadoria)
-  const seg = row.seg?.g?.flatMap((g) => g.i.map((i) => ({ group: g.t, name: i.n, revenueB: i.v, prevB: i.p, yoy: i.y ?? (i.p ? (i.v / i.p - 1) * 100 : null) }))) || [];
+  // 6. segmentos (SEC, histórico): eixo com mais membros de nível mais alto; só linhas sem pai, para não contar duas vezes
+  const segRows = db.prepare("SELECT period_end, axis, segment, taxonomy, revenue_usd_b, revenue_yoy, share_of_revenue_pct, contribution_to_growth_pct FROM v_segment WHERE symbol = ? AND parent_segment IS NULL ORDER BY period_end").all(sym);
+  // eixo: prefere produtos (o que interessa a quem faz produto) quando os de nível mais alto fecham ~100% da receita no último trimestre;
+  // senão usa os segmentos reportáveis. Eixos que misturam cortes (ex.: Amazon por produto soma 145%) não são usados.
+  const closes = (ax) => {
+    const rows = segRows.filter((r) => r.axis === ax);
+    if (new Set(rows.map((r) => r.segment)).size < 2) return false;
+    const last = rows[rows.length - 1].period_end;
+    const sum = rows.filter((r) => r.period_end === last).reduce((a, r) => a + (r.share_of_revenue_pct || 0), 0);
+    return sum >= 95 && sum <= 105;
+  };
+  const axis = closes('product') ? 'product' : closes('segment') ? 'segment' : null;
+  const seg = axis ? segRows.filter((r) => r.axis === axis) : [];
+  const segPeriods = [...new Set(seg.map((r) => r.period_end))].slice(-6);
+  const segLatest = seg.filter((r) => r.period_end === segPeriods[segPeriods.length - 1]).sort((a, b) => b.revenue_usd_b - a.revenue_usd_b);
+  if (segLatest.length >= 2) {
+    const top = [...segLatest].filter((x) => x.contribution_to_growth_pct != null).sort((a, b) => b.contribution_to_growth_pct - a.contribution_to_growth_pct)[0];
+    if (top) watch.push(en ? `${top.segment} drove ${num(top.contribution_to_growth_pct, 0)}% of the YoY revenue growth in the last reported quarter (${num(top.share_of_revenue_pct, 0)}% of revenue).` : `${top.segment} respondeu por ${num(top.contribution_to_growth_pct, 0)}% do crescimento a/a da receita no último trimestre (${num(top.share_of_revenue_pct, 0)}% da receita).`);
+    if (new Set(seg.filter((r) => segPeriods.includes(r.period_end)).map((r) => r.taxonomy)).size > 1) watch.push(en ? 'The company changed how it reports segments in the last 6 quarters: compare only the same segment definition across quarters.' : 'A empresa mudou a forma de reportar segmentos nos últimos 6 trimestres: compare só a mesma definição de segmento entre trimestres.');
+  }
+  const segments = { axis, periods: segPeriods, latest: segLatest.map((r) => ({ name: r.segment, revenueB: r.revenue_usd_b, yoy: r.revenue_yoy, sharePct: r.share_of_revenue_pct, contributionPct: r.contribution_to_growth_pct })),
+    history: [...new Set(seg.filter((r) => segPeriods.includes(r.period_end)).map((r) => r.segment))].map((name) => ({ name, values: segPeriods.map((pe) => seg.find((r) => r.period_end === pe && r.segment === name)?.revenue_usd_b ?? null) })) };
 
-  return { symbol: sym, name: row.name, currency: row.currency, expected: exp, last: { period_end: row.periodEnd, report_date: row.reportDate, source: last?.source }, eps, reaction, reactions, trend, watch, segments: seg, segmentsNote: row.seg?.note || null, segmentsSource: row.seg?.src?.label || null, valuation: { pe: row.pe, fwdPe: row.fwdPe, evRevenue: row.evRev, mcapUsdB: row.mcapUsdB } };
+  return { symbol: sym, name: row.name, currency: row.currency, expected: exp, last: { period_end: row.periodEnd, report_date: row.reportDate, source: last?.source }, eps, reaction, reactions, trend, watch, segments, segmentsNote: row.seg?.note || null, valuation: { pe: row.pe, fwdPe: row.fwdPe, evRevenue: row.evRev, mcapUsdB: row.mcapUsdB } };
 }
 
 function render(b) {
@@ -94,10 +117,9 @@ function render(b) {
   L.push('## Tendência (US$ bi, % da receita)', '| Trimestre | Fonte | Receita | a/a | Margem bruta | Margem op. | P&D | Capex | FCF |', '|---|---|---:|---:|---:|---:|---:|---:|---:|');
   for (const x of b.trend) L.push(`| ${x.period_end} | ${x.source} | ${num(x.revenue)} | ${pct(x.yoy)} | ${num(x.gross)}% | ${num(x.op)}% | ${num(x.rd)}% | ${num(x.capex)}% | ${num(x.fcf)}% |`);
   L.push('');
-  if (b.segments.length) {
-    L.push('## Segmentos (último trimestre, curadoria manual)', '| Segmento | Receita (US$ bi) | a/a |', '|---|---:|---:|');
-    for (const s of b.segments) L.push(`| ${s.name} | ${num(s.revenueB)} | ${pct(s.yoy, 0)} |`);
-    if (b.segmentsNote) L.push('', `_${b.segmentsNote}_`);
+  if (b.segments.axis) {
+    L.push(`## Segmentos (${b.segments.axis === 'segment' ? 'reportáveis' : 'produtos'}, SEC, US$ bi)`, `| Segmento | ${b.segments.periods.join(' | ')} | a/a | % da receita | Contribuição ao crescimento |`, `|---|${b.segments.periods.map(() => '---:').join('|')}|---:|---:|---:|`);
+    for (const h of b.segments.history) { const l = b.segments.latest.find((x) => x.name === h.name); L.push(`| ${h.name} | ${h.values.map((v) => num(v)).join(' | ')} | ${pct(l?.yoy)} | ${l ? num(l.sharePct, 0) + '%' : '—'} | ${l ? num(l.contributionPct, 0) + '%' : '—'} |`); }
     L.push('');
   }
   L.push('## Valuation', `P/L ${num(b.valuation.pe)} · P/L projetado ${num(b.valuation.fwdPe)} · EV/receita ${num(b.valuation.evRevenue)} · valor de mercado US$ ${num(b.valuation.mcapUsdB, 0)} bi`, '');

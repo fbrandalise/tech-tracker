@@ -10,6 +10,7 @@
     "quality": "node pipeline/quality.js",
     "ask": "node pipeline/ask.js",
     "briefing": "node pipeline/briefing.js",
+    "backfill:segments": "node pipeline/backfill-segments.js",
     "backfill:reactions": "node pipeline/backfill-reactions.js"
   },
   "engines": {

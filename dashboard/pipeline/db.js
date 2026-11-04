@@ -155,6 +155,55 @@ const MIGRATIONS = [`
     symbol TEXT NOT NULL, report_date TEXT NOT NULL, from_date TEXT, to_date TEXT, pct REAL, close_before REAL, close_after REAL,
     PRIMARY KEY (symbol, report_date)
   );
+`, `
+  -- receita por segmento/produto de cada trimestre, extraída do iXBRL dos 10-Q/10-K (valores em USD, não em bilhões)
+  -- prev_revenue é o valor do mesmo trimestre do ano anterior como a empresa o apresenta NO MESMO arquivamento, então já vem reapresentado
+  -- taxonomy: contador por (empresa, eixo) que sobe quando o conjunto de membros muda; vale só para sequências, não para a/a
+  CREATE TABLE segment_quarters (
+    symbol TEXT NOT NULL, period_end TEXT NOT NULL, axis TEXT NOT NULL, member TEXT NOT NULL,
+    label TEXT NOT NULL, parent_member TEXT, revenue REAL NOT NULL, prev_revenue REAL, total_revenue REAL, total_prev_revenue REAL,
+    taxonomy INTEGER NOT NULL, derived INTEGER NOT NULL DEFAULT 0, form TEXT, accession TEXT,
+    PRIMARY KEY (symbol, period_end, axis, member)
+  );
+  CREATE VIEW v_segment AS
+    SELECT s.symbol, s.period_end, s.axis, s.label AS segment, p.label AS parent_segment, s.taxonomy,
+           ROUND(s.revenue / 1e9, 3) AS revenue_usd_b, ROUND(s.prev_revenue / 1e9, 3) AS prev_year_revenue_usd_b,
+           ROUND((s.revenue / s.prev_revenue - 1) * 100, 1) AS revenue_yoy,
+           ROUND(s.revenue * 100.0 / s.total_revenue, 1) AS share_of_revenue_pct,
+           ROUND(s.revenue / 1e9 - s.prev_revenue / 1e9, 3) AS yoy_change_usd_b,
+           ROUND((s.revenue - s.prev_revenue) * 100.0 / NULLIF(s.total_revenue - s.total_prev_revenue, 0), 1) AS contribution_to_growth_pct,
+           s.derived AS is_derived_q4
+    FROM segment_quarters s
+    LEFT JOIN segment_quarters p ON p.symbol = s.symbol AND p.period_end = s.period_end AND p.axis = s.axis AND p.member = s.parent_member;
+`, `
+  -- receita total da empresa no trimestre, como usada nos percentuais (para conferir contra v_quarter sem erro de arredondamento)
+  DROP VIEW IF EXISTS v_segment;
+  CREATE VIEW v_segment AS
+    SELECT s.symbol, s.period_end, s.axis, s.label AS segment, p.label AS parent_segment, s.taxonomy,
+           ROUND(s.revenue / 1e9, 3) AS revenue_usd_b, ROUND(s.prev_revenue / 1e9, 3) AS prev_year_revenue_usd_b,
+           ROUND((s.revenue / s.prev_revenue - 1) * 100, 1) AS revenue_yoy,
+           ROUND(s.revenue * 100.0 / s.total_revenue, 1) AS share_of_revenue_pct,
+           ROUND(s.revenue / 1e9 - s.prev_revenue / 1e9, 3) AS yoy_change_usd_b,
+           ROUND((s.revenue - s.prev_revenue) * 100.0 / NULLIF(s.total_revenue - s.total_prev_revenue, 0), 1) AS contribution_to_growth_pct,
+           ROUND(s.total_revenue / 1e9, 3) AS company_revenue_usd_b,
+           s.derived AS is_derived_q4
+    FROM segment_quarters s
+    LEFT JOIN segment_quarters p ON p.symbol = s.symbol AND p.period_end = s.period_end AND p.axis = s.axis AND p.member = s.parent_member;
+`, `
+  -- axis_coverage_pct: soma das participações dos segmentos de nível mais alto do eixo no trimestre (deve ficar perto de 100)
+  DROP VIEW IF EXISTS v_segment;
+  CREATE VIEW v_segment AS
+    SELECT s.symbol, s.period_end, s.axis, s.label AS segment, p.label AS parent_segment, s.taxonomy,
+           ROUND(s.revenue / 1e9, 3) AS revenue_usd_b, ROUND(s.prev_revenue / 1e9, 3) AS prev_year_revenue_usd_b,
+           ROUND((s.revenue / s.prev_revenue - 1) * 100, 1) AS revenue_yoy,
+           ROUND(s.revenue * 100.0 / s.total_revenue, 1) AS share_of_revenue_pct,
+           ROUND(s.revenue / 1e9 - s.prev_revenue / 1e9, 3) AS yoy_change_usd_b,
+           ROUND((s.revenue - s.prev_revenue) * 100.0 / NULLIF(s.total_revenue - s.total_prev_revenue, 0), 1) AS contribution_to_growth_pct,
+           ROUND(s.total_revenue / 1e9, 3) AS company_revenue_usd_b,
+           ROUND(SUM(CASE WHEN s.parent_member IS NULL THEN s.revenue ELSE 0 END) OVER (PARTITION BY s.symbol, s.period_end, s.axis) * 100.0 / s.total_revenue, 1) AS axis_coverage_pct,
+           s.derived AS is_derived_q4
+    FROM segment_quarters s
+    LEFT JOIN segment_quarters p ON p.symbol = s.symbol AND p.period_end = s.period_end AND p.axis = s.axis AND p.member = s.parent_member;
 `];
 
 function open(file) {
