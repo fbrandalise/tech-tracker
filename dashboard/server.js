@@ -3,7 +3,8 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const store = require('./pipeline/db');
-const { ask } = require('./pipeline/ask');   // também carrega o .env
+const { ask } = require('./pipeline/ask');
+const { briefing } = require('./pipeline/briefing');   // também carrega o .env
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC = path.join(__dirname, 'public');
@@ -59,6 +60,12 @@ http.createServer((req, res) => {
   if (url.pathname === '/api/ask') return handleAsk(req, res);
   const hist = url.pathname.match(/^\/api\/history\/([A-Za-z0-9.\-]{1,12})$/);
   if (hist) { if (!db) return json(res, 503, { error: 'banco indisponível' }); return json(res, 200, store.getHistory(db, hist[1].toUpperCase())); }
+  const brief = url.pathname.match(/^\/api\/briefing\/([A-Za-z0-9.\-]{1,12})$/);
+  if (brief) {
+    if (!db) return json(res, 503, { error: 'banco indisponível' });
+    try { return json(res, 200, briefing(db, brief[1], url.searchParams.get('lang') === 'en' ? 'en' : 'pt')); }
+    catch (e) { return json(res, 404, { error: 'empresa desconhecida' }); }
+  }
   if (db && fromDb[url.pathname]) {
     let body; try { body = fromDb[url.pathname](); } catch (e) { console.error(e.message); }
     if (body) return json(res, 200, body);

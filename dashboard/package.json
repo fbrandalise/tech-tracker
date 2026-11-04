@@ -8,7 +8,8 @@
     "refresh": "node pipeline/refresh.js",
     "backfill": "node pipeline/backfill-sec.js",
     "quality": "node pipeline/quality.js",
-    "ask": "node pipeline/ask.js"
+    "ask": "node pipeline/ask.js",
+    "briefing": "node pipeline/briefing.js"
   },
   "engines": {
     "node": ">=22.13"

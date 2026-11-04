@@ -187,6 +187,13 @@
   /* ---- calendário */
   .lx .cal-t tr.soon td { background: color-mix(in srgb, var(--color-panel) 90%, var(--color-ok)); }
   .lx .cal-t .cal-m th { background: var(--color-bg); font-weight: var(--cds-font-weight-medium); color: var(--color-fg); text-align: left; }
+  .lx .cal-t tr.cal-click { cursor: pointer; }
+  .lx .cal-t tr.cal-click:hover td, .lx .cal-t tr.cal-click:focus-visible td { background: color-mix(in srgb, var(--color-panel) 94%, var(--color-fg)); }
+  .lx .cal-t tr.cal-brief td { white-space: normal; background: var(--color-bg); padding: 12px 16px; }
+  .lx .cal-brief-box h3 { font-size: var(--cds-font-size-caption); font-weight: var(--cds-font-weight-medium); margin: 12px 0 6px; }
+  .lx .cal-brief-box h3:first-child { margin-top: 0; }
+  .lx .cal-brief-scroll { overflow-x: auto; }
+  .lx .cal-brief-list { margin: 0; padding-left: 18px; }
   .lx .cal-t .cal-when { color: var(--color-fg-muted); }
   .lx .cal-t td.cal-bar { position: relative; min-width: 9rem; width: 30%; }
   .lx .cal-bar .axis { position: absolute; left: 50%; top: 4px; bottom: 4px; width: 1px; background: var(--cds-chart-axis); }
