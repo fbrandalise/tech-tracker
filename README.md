@@ -1,318 +1,204 @@
-# Earnings Tracker - AI财报追踪器
+# Tech Tracker
 
-> AI-powered earnings calendar tracker for US, HK, and CN markets with sector filtering.
-> 自动追踪美股、港股、A股三大市场财报，支持行业板块筛选的AI财报追踪器。
+Painel de resultados trimestrais de empresas de tecnologia, com uma base de dados consultável por pessoas **e por agentes de IA**.
 
-**[English](#english) | [中文](#中文)**
+Coleta balanços de fontes públicas, reconcilia as diferenças entre elas, guarda tudo num banco SQLite e expõe os dados de quatro formas: um **dashboard web**, **perguntas em linguagem natural**, **controle de qualidade automático** e **servidores MCP** (um tradicional e outro com execução de código, comparados por uma bateria de testes com um LLM real).
 
----
+> Documentação em português. Código e identificadores em inglês/português, como no restante do projeto.
 
-<a name="english"></a>
-## English
+## O que resolve
 
-### What is this?
+Acompanhar os resultados de uma dúzia de empresas parece simples até se olhar para os dados:
 
-Earnings Tracker is an AI-powered tool that automatically monitors earnings announcements across three major stock markets (US, Hong Kong, and China A-shares) with intelligent sector filtering.
+| Problema | Como o projeto resolve |
+|---|---|
+| Cada fonte diz uma coisa. FMP, Yahoo e SEC têm moedas, calendários fiscais e definições diferentes (o lucro operacional do Yahoo é *ajustado*, o do SEC é *GAAP*). | Prioridade explícita entre fontes, rastreio da origem de cada trimestre e uma **ontologia** que documenta o significado de cada coluna e as armadilhas conhecidas. |
+| As APIs gratuitas mostram só ~5 trimestres. | **Carga histórica** de ~5 anos direto do SEC EDGAR (10-Q/10-K), que nunca sobrescreve as outras fontes. |
+| Dados financeiros erram em silêncio (um ano inteiro gravado como trimestre, por exemplo). | **19 regras de qualidade** (identidades contábeis, duplicatas, margens impossíveis, saltos de receita). Já pegaram um erro real na Oracle. |
+| Um LLM que escreve SQL pode errar o dicionário de dados, ou ser perigoso. | Ontologia no prompt + **execução segura** do SQL (só views, somente leitura, tempo e linhas limitados). |
+| Como dar a um agente acesso aos dados: ferramentas MCP clássicas ou execução de código? | Os **dois servidores** implementados sobre as mesmas capacidades e um **benchmark** com um LLM real para comparar custo, contexto, tempo e acertos. |
 
-### Features
+## Visão geral
 
-- 🌍 **Three Markets**: US stocks 🇺🇸 | Hong Kong stocks 🇭🇰 | China A-shares 🇨🇳
-- 🏷️ **Sector Filtering**: 9 major sectors including Tech, Finance, Consumer, Healthcare
-- 🤖 **AI Summary**: Auto-generates structured earnings reports with key metrics
-- 📊 **Multi-Data Source**: Support for Mock, FMP, Alpha Vantage, Yahoo Finance, Polygon.io, Web Search
-- 📱 **Notifications**: Push to Feishu/Lark for mobile access
-- 💱 **Multi-Currency**: USD / HKD / CNY with proper timezone handling
+18 empresas (12 dos EUA e 6 de Hong Kong), com receita, lucros, margens, caixa, estimativas, reação do preço, valuation e calendário de divulgações.
 
-### Data Sources
+Abas do dashboard: **Resultados**, **Explorar** (histórico completo, gráfico de tendência com todas as empresas e, opcionalmente, perguntas em linguagem natural), **Calendário**, **Novidades de produtos** e **Comportamento de uso de produtos**.
 
-| Provider | API Key Required | Free Tier | Quality | Recommendation |
-|----------|-----------------|-----------|---------|----------------|
-| **Mock** | ❌ No | Unlimited | ⭐⭐ | Demo/Testing |
-| **FMP** | ✅ Yes | 250/day | ⭐⭐⭐⭐⭐ | **Recommended** |
-| **Alpha Vantage** | ✅ Yes | 500/day | ⭐⭐⭐⭐ | Good |
-| **Yahoo Finance** | ❌ No | Unlimited | ⭐⭐⭐ | Free but unstable |
-| **Polygon** | ✅ Yes | 5/min | ⭐⭐⭐⭐⭐ | Professional |
-| **Web Search** | ❌ No | Unlimited | ⭐⭐ | Fallback |
+## Arquitetura
 
-### Prerequisites
-
-- [ ] Node.js 18+ installed (`node --version`)
-- [ ] OpenClaw or compatible agent framework
-- [ ] (Optional) API Key for real data sources
-  - Copy `.env.example` to `.env` and fill in `ALPHA_VANTAGE_API_KEY` / `POLYGON_API_KEY`
-
-### Installation
-
-```bash
-# Install via skills CLI
-npx skills add <your-github>/earnings-tracker
-
-# Or clone manually
-git clone https://github.com/<your-github>/earnings-tracker.git
-cd earnings-tracker
-
-# Install optional dependencies (for Yahoo Finance)
-npm install yahoo-finance2
+```
+ FMP ─────┐
+ Yahoo ───┼─▶ pipeline/refresh.js ─┐
+ SEC ─────┘   pipeline/backfill-sec.js
+                                   ▼
+ data/*.json ──(curadoria, ao subir)──▶  SQLite (WAL)  data/cache/earnings.db
+ (empresas, overrides,                    tabelas: companies, quarters, snapshots, ...
+  segmentos, notícias)                    views:   v_company · v_quarter · v_ttm · v_latest
+                                          (tudo em bilhões de USD, margens e variações prontas)
+                                                   │
+        ┌──────────────┬──────────────┬────────────┼───────────────┬───────────────────┐
+        ▼              ▼              ▼            ▼               ▼                   ▼
+    server.js     pipeline/       pipeline/    ontology/      pipeline/            mcp/
+    + public/     ask.js          quality.js   earnings.yaml  safe-sql.js     ┌──────┴───────┐
+    (dashboard)   (pergunta em    (19 regras)  (dicionário    (SQL seguro     traditional  code-exec
+                  linguagem                     de dados)      compartilhado)  10 tools     2 tools +
+                  natural)                                                                   sandbox
 ```
 
-### Quick Start
+Princípio central: **as views `v_*` são a única interface de leitura**. A ontologia descreve as views, o `ask` e os MCPs só enxergam as views, e o autorizador do SQLite garante isso em vez de pedir por favor no prompt.
+
+## Componentes
+
+### 1. Coleta e armazenamento (`dashboard/pipeline/`)
+
+- **`refresh.js`**: coleta periódica (padrão a cada 12 h) de FMP e Yahoo Finance, com conversão para USD e aplicação de ajustes manuais do release da empresa (`data/overrides.json`).
+- **`backfill-sec.js`**: histórico de ~5 anos pelo SEC EDGAR (XBRL). Reconstrói trimestres a partir de valores acumulados, calcula o Q4 (ano − 9 meses) e filtra marcações incorretas.
+- **`db.js`**: SQLite embutido do Node (`node:sqlite`), modo WAL, migrações por `PRAGMA user_version`, views em USD.
+- Curadoria versionada em `dashboard/data/*.json`, espelhada no banco a cada subida.
+
+### 2. Dashboard web (`dashboard/server.js`, `dashboard/public/`)
+
+Servidor Node sem framework, front-end em JavaScript puro com d3 para o gráfico de tendência. Rotas: `/earnings.json`, `/meta.json`, `/news.json`, `/health`, `/api/history/:symbol`, `/api/ask`. Português/inglês, tema claro/escuro.
+
+### 3. Ontologia (`dashboard/ontology/`)
+
+`earnings.yaml` descreve convenções (unidades, datas fiscais, câmbio), fontes, entidades e colunas, 17 métricas (com sinônimos PT/EN), regras de interpretação e de SQL, anomalias conhecidas e 9 perguntas de exemplo com SQL. `check.js` falha se a ontologia ficar velha: exemplos que quebram, colunas inexistentes **ou colunas das views sem descrição**. Ver [ontology/README.md](dashboard/ontology/README.md).
+
+### 4. Perguntas em linguagem natural (`pipeline/ask.js`)
+
+Opcional, desligado por padrão. O modelo (API do Claude) recebe a ontologia, escreve SQL sobre as views, e a resposta mostra as consultas usadas para conferência.
+
+### 5. SQL seguro (`pipeline/safe-sql.js`)
+
+Compartilhado por `ask` e pelos MCPs. Quatro barreiras: só `SELECT`/`WITH` de uma instrução; banco aberto somente leitura; autorizador do SQLite que só permite as views `v_*` (nega CTE recursiva, `PRAGMA`, `ATTACH`); execução em processo filho com limite de 5 s (SIGKILL) e no máximo 200 linhas.
+
+### 6. Controle de qualidade (`pipeline/quality.js`)
+
+`npm run quality` roda 19 regras (erro/aviso) sobre o banco. Saída em texto ou `--json`; `--strict` falha também nos avisos, para uso em CI.
+
+### 7. Servidores MCP (`dashboard/mcp/`)
+
+Dois servidores com as **mesmas dez capacidades** (listar empresas, snapshot, ranking, histórico, TTM, próximas divulgações, ontologia, qualidade, SQL livre), gerados do mesmo registro (`lib/tools.js`), para que a comparação meça a *forma* de expor e não o *que* se expõe.
+
+| | Tradicional | Code execution |
+|---|---|---|
+| Ferramentas anunciadas | 10 | 2 (`search_tools`, `execute_code`) |
+| Quem encadeia as chamadas | O modelo, uma por turno | O código que o modelo escreve, num turno |
+| Dados intermediários | No contexto do modelo | No sandbox |
+| Isolamento | Banco somente leitura | Sandbox: `node --permission` + namespaces Linux (sem rede, sem ver outros processos) + limites de memória, tempo e saída |
+
+O segundo segue o padrão de [Code execution with MCP](https://www.anthropic.com/research/code-execution-with-mcp): ferramentas como módulos importáveis, descoberta progressiva e filtragem dos dados dentro do sandbox. Uma bateria de **40 ataques** ao sandbox e ao SQL (0 em aberto) acompanha o projeto.
+
+### 8. Benchmark (`dashboard/mcp/bench/`)
+
+Um LLM real (Qwen3.6-35B-A3B quantizado, rodando num `llama-server` local) dirige cada servidor em 10 tarefas, com verdade calculada por SQL independente e corretor automático, em três configurações. Resumo:
+
+| Configuração | Acertos (trad. × code-exec) | Tokens de entrada | Quem foi melhor |
+|---|---|---:|---|
+| Com `run_sql` | 18/20 × 16/20 | 8,4 mil × 16,9 mil | Tradicional (custo, passos, tempo) |
+| Sem `run_sql` | 12/20 × 17/20 | 40,3 mil × 11,8 mil | Code exec (em tudo) |
+| Com `run_sql` + raciocínio | 18/20 × 16/20 | 7,3 mil × 14,3 mil | Tradicional (custo e passos) |
+
+Leitura honesta: code execution compensa quando o servidor tradicional teria de fazer laços turno a turno; uma ferramenta de SQL livre captura quase todo esse benefício sem precisar de sandbox. As diferenças de acertos não são estatisticamente significativas (amostra pequena, um modelo local). Método, limites e recomendação em [mcp/docs/benchmark.md](dashboard/mcp/docs/benchmark.md).
+
+### 9. CLI legado (`scripts/`, `SKILL.md`)
+
+Herdado do projeto original: um calendário de divulgações no terminal para mercados EUA, Hong Kong e A-shares, empacotado como skill de agente. Funciona de forma independente do dashboard (`node scripts/index.js preview`) e usa `.config/watchlist.json`.
+
+## Stack
+
+| Camada | Tecnologia |
+|---|---|
+| Runtime | Node.js ≥ 22.13 (sem framework, sem build) |
+| Banco | SQLite via `node:sqlite` (WAL, views, `setAuthorizer`) |
+| Fontes de dados | Financial Modeling Prep, Yahoo Finance (`yahoo-finance2`), SEC EDGAR (XBRL) |
+| Front-end | HTML/CSS/JS puro, d3 |
+| IA | API do Claude (`@anthropic-ai/sdk`) para perguntas em linguagem natural |
+| Agentes | MCP (`@modelcontextprotocol/sdk`, stdio) com zod |
+| Isolamento | `node --permission`, namespaces Linux (`unshare`) |
+| Testes | Ontologia (`check.js`), qualidade dos dados, 40 ataques de segurança, benchmark com LLM local (`llama-server`) |
+
+## Clonar e rodar localmente
+
+Requisitos: **Node.js ≥ 22.13** e git. Linux para o isolamento completo do sandbox do MCP `code-exec` (sem `unshare`, ele cai para um modo mais fraco).
 
 ```bash
-# 1. View available data sources
-node scripts/index.js data-source list
-
-# 2. Test current data source
-node scripts/index.js data-source test
-
-# 3. Get earnings preview (using mock data by default)
-node scripts/index.js preview
-
-# 4. Switch to real data source (after configuring API key)
-node scripts/index.js data-source switch fmp
+git clone https://github.com/fbrandalise/tech-tracker.git
+cd tech-tracker/dashboard
+npm install
+npm start                      # http://localhost:3000
 ```
 
-### Configure Real Data Source
+Ao subir, o servidor cria o banco em `dashboard/data/cache/earnings.db` e, cinco segundos depois, faz a primeira coleta. A página mostra os dados da última coleta concluída.
 
-#### Option 1: Financial Modeling Prep (Recommended)
+Para ter o **histórico de ~5 anos** das empresas dos EUA (as APIs gratuitas trazem só 5 trimestres), rode uma vez:
 
-1. Register at https://financialmodelingprep.com/developer
-2. Get your free API key (250 calls/day)
-3. Edit `.config/watchlist.json`:
+```bash
+npm run backfill               # opções: -- --symbols NVDA,MSFT --years 6 --dry-run
+npm run quality                # confere os dados carregados
+```
+
+### Configuração (opcional)
+
+Crie `dashboard/.env` (fora do git) ou use variáveis de ambiente:
+
+| Variável | Padrão | Para quê |
+|---|---|---|
+| `PORT` | `3000` | Porta do servidor |
+| `REFRESH_HOURS` | `12` | Intervalo da coleta automática; `0` desliga |
+| `FMP_API_KEY` | vazio | Chave do [Financial Modeling Prep](https://financialmodelingprep.com/developer) (plano gratuito basta). Sem ela, só Yahoo |
+| `SEC_USER_AGENT` | genérico | Identificação (nome e contato) enviada ao SEC no backfill, como a política deles pede |
+| `ENABLE_ASK` + `ANTHROPIC_API_KEY` | desligado | Liga a caixa "Pergunte aos dados" na aba Explorar |
+
+> O servidor escuta em `0.0.0.0` e não tem autenticação nem HTTPS. Use em rede confiável ou atrás de um proxy. Com `ENABLE_ASK=1`, quem alcança a porta gasta a sua chave de API.
+
+### Comandos
+
+| Comando (em `dashboard/`) | O que faz |
+|---|---|
+| `npm start` | Servidor + atualização automática |
+| `npm run refresh` | Uma coleta, sem subir o servidor |
+| `npm run backfill` | Carga histórica pelo SEC |
+| `npm run quality` | Regras de qualidade dos dados |
+| `npm run ask -- "pergunta" --sql` | Pergunta em linguagem natural pelo terminal |
+| `node ontology/check.js` | Confere a ontologia contra o banco |
+| `node mcp/bench/security.js` | 40 ataques aos servidores MCP |
+
+### Usar os servidores MCP com um agente
+
+Depois da primeira coleta (precisam do banco), registre-os no Claude Code com um `.mcp.json` na raiz do repositório:
 
 ```json
 {
-  "dataSource": {
-    "provider": "financialModelingPrep",
-    "options": {
-      "financialModelingPrep": {
-        "enabled": true,
-        "apiKey": "YOUR_ACTUAL_API_KEY_HERE"
-      }
-    }
+  "mcpServers": {
+    "earnings-traditional": { "command": "node", "args": ["dashboard/mcp/traditional/server.js"] },
+    "earnings-code-exec":   { "command": "node", "args": ["dashboard/mcp/code-exec/server.js"] }
   }
 }
 ```
 
-4. Switch to FMP:
-```bash
-node scripts/index.js data-source switch fmp
-```
+Para repetir o benchmark é preciso um `llama-server` (ou outra API compatível com OpenAI) em `http://127.0.0.1:8080`; ver [mcp/README.md](dashboard/mcp/README.md).
 
-#### Option 2: Yahoo Finance (Free, No API Key)
+## Documentação
 
-```bash
-# Install dependency
-npm install yahoo-finance2
+| Documento | Conteúdo |
+|---|---|
+| [dashboard/README.md](dashboard/README.md) | Operação do dashboard: comandos, configuração, segurança |
+| [dashboard/ontology/README.md](dashboard/ontology/README.md) | Modelo de dados, fontes, convenções, casos de uso, manutenção |
+| [dashboard/mcp/README.md](dashboard/mcp/README.md) | Como rodar e testar os servidores MCP |
+| [dashboard/mcp/docs/design.md](dashboard/mcp/docs/design.md) | Arquitetura dos MCPs, camadas de isolamento, riscos residuais |
+| [dashboard/mcp/docs/benchmark.md](dashboard/mcp/docs/benchmark.md) | Comparação tradicional × code-exec |
+| [dashboard/mcp/docs/implementation-log.md](dashboard/mcp/docs/implementation-log.md) | Diário da implementação: decisões, falhas e correções |
 
-# Switch to Yahoo Finance
-node scripts/index.js data-source switch yahooFinance
-```
+## Limitações conhecidas
 
-### Usage Examples
+- Hong Kong tem poucos pontos de histórico: o Yahoo só fornece receita e lucro dos trimestres de junho.
+- O lucro operacional diverge entre SEC (GAAP) e Yahoo (ajustado) em algumas empresas; sempre informe a fonte ao citá-lo.
+- Trimestres vindos do SEC não têm EPS (o XBRL não é ajustado por desdobramentos).
+- O sandbox do `code-exec` não é barreira contra um kernel vulnerável; para dados sensíveis, rode num contêiner (riscos residuais em [design.md](dashboard/mcp/docs/design.md)).
+- O benchmark vale para um modelo local quantizado e uma base pequena.
+- Os dados não são recomendação de investimento.
 
-**Get next week's earnings calendar:**
-```bash
-node scripts/index.js preview
-```
+## Licença
 
-**Filter by market:**
-```bash
-node scripts/index.js preview us
-```
-
-**Filter by sector:**
-```bash
-node scripts/index.js preview us tech
-node scripts/index.js sector tech
-```
-
-**Query specific company:**
-```bash
-node scripts/index.js query NVDA
-node scripts/index.js query 00700.HK
-node scripts/index.js query 600519 cn
-```
-
-**Generate earnings summary:**
-```bash
-node scripts/index.js summary NVDA
-```
-
-**Manage data sources:**
-```bash
-node scripts/index.js data-source list
-node scripts/index.js data-source switch fmp
-node scripts/index.js data-source test
-node scripts/index.js data-source current
-```
-
-### Supported Markets & Sectors
-
-See full documentation in [SKILL.md](SKILL.md)
-
-### Troubleshooting
-
-| Problem | Solution |
-|---------|----------|
-| "API Key not configured" | Get free API key from FMP or switch to mock/yahooFinance |
-| "Data source connection failed" | Check internet connection and API key validity |
-| "Stock not found" | Check symbol format (HK: .HK suffix, CN: 6 digits) |
-
----
-
-<a name="中文"></a>
-## 中文
-
-### 这是什么？
-
-AI财报追踪器是一个智能工具，自动监控美股、港股、A股三大市场的财报发布，支持按行业板块筛选和多数据源配置。
-
-### 功能特性
-
-- 🌍 **三大市场**：美股 🇺🇸 | 港股 🇭🇰 | A股 🇨🇳
-- 🏷️ **板块筛选**：科技、金融、消费、医疗等9大行业
-- 🤖 **AI摘要**：自动生成结构化财报报告
-- 📊 **多数据源**：支持模拟数据、FMP、Alpha Vantage、Yahoo Finance等
-- 📱 **消息推送**：飞书/钉钉移动端直达
-- 💱 **多货币**：USD / HKD / CNY，自动处理时区
-
-### 数据源对比
-
-| 提供商 | 需要API Key | 免费额度 | 数据质量 | 推荐度 |
-|--------|------------|----------|----------|--------|
-| **模拟数据** | ❌ 不需要 | 无限制 | ⭐⭐ | 演示/测试 |
-| **FMP** | ✅ 需要 | 250次/天 | ⭐⭐⭐⭐⭐ | **强烈推荐** |
-| **Alpha Vantage** | ✅ 需要 | 500次/天 | ⭐⭐⭐⭐ | 良好 |
-| **Yahoo Finance** | ❌ 不需要 | 无限制 | ⭐⭐⭐ | 免费但不稳定 |
-| **Polygon** | ✅ 需要 | 5次/分钟 | ⭐⭐⭐⭐⭐ | 专业级 |
-| **Web Search** | ❌ 不需要 | 无限制 | ⭐⭐ | 备选方案 |
-
-### 前置条件
-
-- [ ] 已安装 Node.js 18+ (`node --version`)
-- [ ] OpenClaw 或兼容的 Agent 框架
-- [ ] （可选）真实数据源的 API Key
-
-### 安装
-
-```bash
-# 通过 skills CLI 安装
-npx skills add <your-github>/earnings-tracker
-
-# 或手动克隆
-git clone https://github.com/<your-github>/earnings-tracker.git
-cd earnings-tracker
-
-# 安装可选依赖（用于 Yahoo Finance）
-npm install yahoo-finance2
-```
-
-### 快速开始
-
-```bash
-# 1. 查看可用的数据源
-node scripts/index.js data-source list
-
-# 2. 测试当前数据源
-node scripts/index.js data-source test
-
-# 3. 获取财报预览（默认使用模拟数据）
-node scripts/index.js preview
-
-# 4. 切换到真实数据源（配置 API Key 后）
-node scripts/index.js data-source switch fmp
-```
-
-### 配置真实数据源
-
-#### 方案一：Financial Modeling Prep（推荐）
-
-1. 访问 https://financialmodelingprep.com/developer 注册
-2. 获取免费 API Key（250次/天）
-3. 编辑 `.config/watchlist.json`：
-
-```json
-{
-  "dataSource": {
-    "provider": "financialModelingPrep",
-    "options": {
-      "financialModelingPrep": {
-        "enabled": true,
-        "apiKey": "你的实际API密钥"
-      }
-    }
-  }
-}
-```
-
-4. 切换到 FMP：
-```bash
-node scripts/index.js data-source switch fmp
-```
-
-#### 方案二：Yahoo Finance（免费，无需 API Key）
-
-```bash
-# 安装依赖
-npm install yahoo-finance2
-
-# 切换到 Yahoo Finance
-node scripts/index.js data-source switch yahooFinance
-```
-
-### 使用示例
-
-**获取下周财报日历：**
-```bash
-node scripts/index.js preview
-```
-
-**按市场筛选：**
-```bash
-node scripts/index.js preview us
-```
-
-**按板块筛选：**
-```bash
-node scripts/index.js preview us tech
-node scripts/index.js sector tech
-```
-
-**查询特定公司：**
-```bash
-node scripts/index.js query NVDA
-node scripts/index.js query 00700.HK
-node scripts/index.js query 600519 cn
-```
-
-**生成财报摘要：**
-```bash
-node scripts/index.js summary NVDA
-```
-
-**管理数据源：**
-```bash
-node scripts/index.js data-source list      # 列出数据源
-node scripts/index.js data-source switch fmp # 切换数据源
-node scripts/index.js data-source test      # 测试连接
-node scripts/index.js data-source current   # 查看当前
-```
-
-### 故障排除
-
-| 问题 | 解决方法 |
-|------|----------|
-| "API Key 未配置" | 从 FMP 获取免费 API Key，或切换到 mock/yahooFinance |
-| "数据源连接失败" | 检查网络连接和 API Key 有效性 |
-| "找不到股票" | 检查代码格式（港股加.HK后缀，A股6位数字） |
-
----
-
-## License
-
-MIT License - see [LICENSE](LICENSE) file
-
-## Credits
-
-- Built for [OpenClaw](https://openclaw.ai/) agent framework
-- Inspired by the AI Earnings Tracker use case from [awesome-openclaw-usecases](https://github.com/hesamsheikh/awesome-openclaw-usecases)
+MIT. Ver [LICENSE](LICENSE).
