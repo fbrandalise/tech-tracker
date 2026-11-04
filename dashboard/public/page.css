@@ -99,7 +99,8 @@
   .lx .dt-tg:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 1px; }
   .lx tr.detail td { padding: 0; background: var(--color-bg); white-space: normal; }
   .lx .dt { position: sticky; left: 0; width: min(100%, 72rem); max-width: calc(100vw - 3rem); box-sizing: border-box; padding: var(--cds-pad-lg); }
-  .lx .dt-grps { display: grid; grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); gap: var(--cds-gap-lg, 20px); }
+  .lx .dt-grps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 29rem), 1fr)); gap: var(--cds-gap-lg, 20px); }
+  .lx .dt-grp { min-width: 0; }
   .lx .dt-grp h3 { margin: 0 0 6px; font-size: var(--cds-font-size-caption); font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); }
   .lx .dt-row { display: grid; grid-template-columns: minmax(8rem, 1.6fr) 6.5rem 4.5rem 4.5rem minmax(3rem, 1fr); gap: 8px; align-items: center; padding: 3px 0; border-bottom: 1px solid var(--color-border-line); }
   .lx .dt-row.sub .dt-n { padding-left: 14px; color: var(--color-fg-muted); }
